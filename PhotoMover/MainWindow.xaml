@@ -51,6 +51,7 @@
 
 			<Grid.RowDefinitions>
 				<RowDefinition Height="auto" />
+				<RowDefinition Height="auto" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="auto" />
 			</Grid.RowDefinitions>
@@ -82,11 +83,10 @@
 			</Border>
 
 			<!--Main Content-->
-			<Grid Name="GridMainContent" Grid.Row="1">
+			<Grid Name="GridMainContent" Grid.Row="1" Margin="5">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="auto" />
 					<RowDefinition Height="auto" />
-					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="auto" />
@@ -101,12 +101,23 @@
 				<Label Grid.Row="1" Grid.Column="0" Content="Import Configuration:" Style="{StaticResource  CommonTextLabel}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource CommonTextBox}" />
 				<Button Grid.Row="1" Grid.Column="2" Content="..." Margin="5" Padding="5,1" />
+			</Grid>
 
-				<DataGrid Grid.Row="2" Grid.ColumnSpan="3" CellStyle="{StaticResource FileListCell}" x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" CanUserReorderColumns="False" />
+			<Grid Grid.Row="2" Margin="5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="auto" />
+				</Grid.ColumnDefinitions>
+
+				<DataGrid Margin="5" CellStyle="{StaticResource FileListCell}" x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" CanUserReorderColumns="False" />
+				<StackPanel Grid.Column="1">
+					<Button Grid.Column="1" Content="Analyze" Style="{StaticResource CommonButton}" />
+					<Button Grid.Column="1" Grid.Row="1" Content="Copy" Style="{StaticResource CommonButton}" />
+				</StackPanel>
 			</Grid>
 
 			<!--Status Bar-->
-			<Grid Grid.Row="2" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+			<Grid Grid.Row="3" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 				<Border BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" BorderThickness="0,1,0,0">
 					<TextBlock Text="Status" Background="{Binding EncodingBackground}" Margin="5,2,0,2" Padding="2,0" />
 				</Border>
