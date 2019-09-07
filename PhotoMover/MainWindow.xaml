@@ -1,5 +1,133 @@
-﻿<Window x:Class="PhotoMover.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:PhotoMover" mc:Ignorable="d" Title="MainWindow" Height="450" Width="800" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
+﻿<Window x:Class="PhotoMover.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:PhotoMover" mc:Ignorable="d" Title="MainWindow" Height="450" Width="800" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
+
+	<Window.Resources>
+
+		<ContextMenu x:Key="ContextMenuFileItem">
+			<MenuItem Header="Open Containing Folder" Command="local:Commands.OpenContainingFolder" />
+			<MenuItem Header="Copy Path to Clipboard" Command="local:Commands.CopyPathToClipboard" />
+		</ContextMenu>
+
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+		<local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+		<local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
+	</Window.Resources>
+
+	<Window.CommandBindings>
+		<CommandBinding Command="local:Commands.CancelCompare" />
+	</Window.CommandBindings>
+
 	<Grid>
+		<Grid IsEnabled="{Binding Path=GuiFrozen, Converter={StaticResource InverseBooleanConverter}}">
+			<Grid.CommandBindings>
+				<!--<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
+				<CommandBinding Command="local:Commands.ExperimentalCompare" Executed="CommandCompare_Executed" />
+				<CommandBinding Command="local:Commands.SaveLeftFile" Executed="CommandSaveLeftFile_Executed" CanExecute="CommandSaveLeftFile_CanExecute" />
+				<CommandBinding Command="local:Commands.SaveRightFile" Executed="CommandSaveRightFile_Executed" CanExecute="CommandSaveRightFile_CanExecute" />
+				<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
+				<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
+				<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
+				<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.CurrentDiff" Executed="CommandCurrentDiff_Executed" CanExecute="CommandCurrentDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.LastDiff" Executed="CommandLastDiff_Executed" CanExecute="CommandLastDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.NextFile" Executed="CommandNextFile_Executed" CanExecute="CommandNextFile_CanExecute" />
+				<CommandBinding Command="local:Commands.PreviousFile" Executed="CommandPreviousFile_Executed" CanExecute="CommandPreviousFile_CanExecute" />
+				<CommandBinding Command="local:Commands.CopyLeftDiff" Executed="CommandCopyLeftDiff_Executed" CanExecute="CommandCopyLeftDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.CopyRightDiff" Executed="CommandCopyRightDiff_Executed" CanExecute="CommandCopyRightDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
+				<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
+				<CommandBinding Command="local:Commands.BrowseLeft" Executed="CommandBrowseLeft_Executed" />
+				<CommandBinding Command="local:Commands.BrowseRight" Executed="CommandBrowseRight_Executed" />
+				<CommandBinding Command="local:Commands.Options" Executed="CommnadOptions_Executed" />
+				<CommandBinding Command="local:Commands.Find" Executed="CommandFind_Executed" />
+				<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
+				<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute_1" />
+				<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
+				<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
+				<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />-->
+			</Grid.CommandBindings>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="auto" />
+			</Grid.RowDefinitions>
+
+			<!--Menu-->
+			<Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+				<Grid x:Name="GridMenu">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<Menu Grid.Row="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
+						<MenuItem Header="File">
+							<MenuItem Header="Exit" Command="local:Commands.Exit" />
+						</MenuItem>
+						<MenuItem Header="Edit">
+							<MenuItem Header="Find" Command="local:Commands.Find" />
+							<MenuItem Header="Find Next" Command="local:Commands.FindNext" />
+							<MenuItem Header="Find Previous" Command="local:Commands.FindPrevious" />
+						</MenuItem>
+						<MenuItem Header="Tools">
+							<MenuItem Header="Options" Command="local:Commands.Options" />
+						</MenuItem>
+						<MenuItem Header="Help">
+							<MenuItem Header="About" Command="local:Commands.About" />
+						</MenuItem>
+					</Menu>
+				</Grid>
+			</Border>
+
+			<!--Main Content-->
+			<Grid Name="GridMainContent" Grid.Row="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="auto" />
+					<RowDefinition Height="auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="auto" />
+				</Grid.ColumnDefinitions>
+
+				<Label Grid.Row="0" Grid.Column="0" Content="Source Folder:" Style="{StaticResource CommonTextLabel}" />
+				<TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource CommonTextBox}" />
+				<Button Grid.Row="0" Grid.Column="2" Content="..." Margin="5" Padding="5,1" />
+
+				<Label Grid.Row="1" Grid.Column="0" Content="Import Configuration:" Style="{StaticResource  CommonTextLabel}" />
+				<TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource CommonTextBox}" />
+				<Button Grid.Row="1" Grid.Column="2" Content="..." Margin="5" Padding="5,1" />
+
+				<DataGrid Grid.Row="2" Grid.ColumnSpan="3" CellStyle="{StaticResource FileListCell}" x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" CanUserReorderColumns="False" />
+			</Grid>
+
+			<!--Status Bar-->
+			<Grid Grid.Row="2" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+				<Border BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" BorderThickness="0,1,0,0">
+					<TextBlock Text="Status" Background="{Binding EncodingBackground}" Margin="5,2,0,2" Padding="2,0" />
+				</Border>
+			</Grid>
+		</Grid>
+
+		<!--Progress-->
+		<!--<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
+			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
+				<Border.Effect>
+					<DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity=".3" />
+				</Border.Effect>
+				<StackPanel Margin="5">
+					<Label Content="Comparing..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
+					<StackPanel Orientation="Horizontal">
+						<ProgressBar x:Name="ProgressBarCompare" Value="40" Width="300" Margin="5" />
+						<Button x:Name="ButtonCancelCompare" Content="Cancel" Command="local:Commands.CancelCompare" Style="{StaticResource CommonButton}" HorizontalAlignment="Right" />
+					</StackPanel>
+				</StackPanel>
+			</Border>
+		</Grid>-->
 
 	</Grid>
 </Window>
