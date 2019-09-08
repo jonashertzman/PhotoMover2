@@ -5,11 +5,19 @@ namespace PhotoMover
 	public partial class MainWindow : Window
 	{
 
+		#region Members
+
+		MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
+
+		#endregion
+
 		#region Constructor
 
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			DataContext = ViewModel;
 		}
 
 		#endregion
