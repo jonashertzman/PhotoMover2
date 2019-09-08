@@ -91,16 +91,34 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="auto" />
 					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="auto" />
 				</Grid.ColumnDefinitions>
 
 				<Label Grid.Row="0" Grid.Column="0" Content="Source Folder:" Style="{StaticResource CommonTextLabel}" />
-				<TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource CommonTextBox}" />
-				<Button Grid.Row="0" Grid.Column="2" Content="..." Margin="5" Padding="5,1" />
+				<Border Grid.Column="1" Margin="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Import Configuration:" Style="{StaticResource  CommonTextLabel}" />
-				<TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource CommonTextBox}" />
-				<Button Grid.Row="1" Grid.Column="2" Content="..." Margin="5" Padding="5,1" />
+						<TextBox Grid.Column="0" Padding="2" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+						<Button Grid.Column="1" Content="..." Width="20" BorderThickness="0" />
+					</Grid>
+				</Border>
+
+				<Label Grid.Row="1" Grid.Column="0" Content="Import Configuration:" Style="{StaticResource CommonTextLabel}" />
+				<Border Grid.Column="1" Grid.Row="1" Margin="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<TextBox Grid.Column="0" Padding="2" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+						<Button Grid.Column="1" Content="..." Width="20" BorderThickness="0" />
+					</Grid>
+				</Border>
+
 			</Grid>
 
 			<Grid Grid.Row="2" Margin="5">
@@ -115,14 +133,14 @@
 					<Button Grid.Column="1" Grid.Row="1" Content="Copy" Style="{StaticResource CommonButton}" />
 				</StackPanel>
 			</Grid>
+		</Grid>
 
-			<!--Status Bar-->
-			<Grid Grid.Row="3" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+		<!--Status Bar-->
+		<!--<Grid Grid.Row="3" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 				<Border BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" BorderThickness="0,1,0,0">
 					<TextBlock Text="Status" Background="{Binding EncodingBackground}" Margin="5,2,0,2" Padding="2,0" />
 				</Border>
-			</Grid>
-		</Grid>
+			</Grid>-->
 
 		<!--Progress-->
 		<!--<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
