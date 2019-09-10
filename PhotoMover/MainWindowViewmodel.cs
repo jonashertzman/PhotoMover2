@@ -1,14 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Text;
 
 namespace PhotoMover
 {
 	public class MainWindowViewModel : INotifyPropertyChanged
 	{
-
-		#region Members
-
-
-		#endregion
 
 		#region Constructor
 
@@ -28,6 +25,45 @@ namespace PhotoMover
 			set { guiFrozen = value; OnPropertyChanged(nameof(GuiFrozen)); }
 		}
 
+		string importPath = "";
+		public string ImportPath
+		{
+			get { return importPath; }
+			set { importPath = value; OnPropertyChanged(nameof(ImportPath)); }
+		}
+
+		ObservableCollection<ImportConfiguration> importConfigurations = new ObservableCollection<ImportConfiguration>();
+		public ObservableCollection<ImportConfiguration> ImportConfigurations
+		{
+			get { return importConfigurations; }
+			set { importConfigurations = value; OnPropertyChanged(nameof(ImportConfigurations)); }
+		}
+
+		public string ImportConfigurationsLabel
+		{
+			get
+			{
+				StringBuilder s = new StringBuilder();
+
+				foreach (ImportConfiguration c in ImportConfigurations)
+				{
+					if (s.Length > 0)
+					{
+						s.Append("  |  ");
+					}
+					s.Append($"{c.Files} -> {c.DestinationFormat}");
+				}
+
+				return s.ToString();
+			}
+		}
+
+		ObservableCollection<ImportFile> importFiles = new ObservableCollection<ImportFile>();
+		public ObservableCollection<ImportFile> ImportFiles
+		{
+			get { return importFiles; }
+			set { importFiles = value; OnPropertyChanged(nameof(ImportFiles)); }
+		}
 		#endregion
 
 		#region INotifyPropertyChanged

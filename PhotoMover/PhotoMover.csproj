@@ -69,6 +69,8 @@
     </Compile>
     <Compile Include="Commands.cs" />
     <Compile Include="Converters.cs" />
+    <Compile Include="ImportConfiguration.cs" />
+    <Compile Include="ImportFile.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

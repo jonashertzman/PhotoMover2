@@ -39,6 +39,11 @@ namespace PhotoMover
 
 		}
 
+		private void ButtonAnalyze_Click(object sender, RoutedEventArgs e)
+		{
+			ViewModel.ImportFiles.Add(new ImportFile() { SourcePath = "A", DestinationPath = "B", Status = "C" });
+		}
+
 		#endregion
 
 	}
