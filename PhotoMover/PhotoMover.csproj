@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Graphics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -68,6 +72,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands.cs" />
+    <Compile Include="ConfigurationWindow.xaml.cs">
+      <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters.cs" />
     <Compile Include="ImportConfiguration.cs" />
     <Compile Include="ImportFile.cs" />

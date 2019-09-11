@@ -1,0 +1,49 @@
+﻿<Window x:Class="PhotoMover.ConfigurationWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:PhotoMover" mc:Ignorable="d" Title="ConfigurationWindow" Height="400" Width="750" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="auto" />
+		</Grid.ColumnDefinitions>
+		<Grid Margin="5">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="auto" />
+			</Grid.RowDefinitions>
+
+			<DataGrid Grid.Row="0" Margin="5,5,5,0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
+				<DataGrid.Columns>
+					<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Files" Width="1*" />
+					<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Import Destination" Width="2*" />
+					<DataGridTemplateColumn CellStyle="{StaticResource DataGridCellAttributes}">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Button BorderThickness="0">...</Button>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+
+			<Label Grid.Row="1" Content="Multiple filenames can be separated by spaces. Import destination can contain placeholders for file dates." Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey} }" Style="{StaticResource CommonTextLabel}" Margin="5,0,5,5" />
+			<DataGrid Grid.Row="2" Margin="5,5,5,0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
+				<DataGrid.Columns>
+					<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Library Root Directories" Width="*" />
+					<DataGridTemplateColumn CellStyle="{StaticResource DataGridCellAttributes}">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Button BorderThickness="0">...</Button>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+			<Label Grid.Row="3" Content="All files in these directories will be checked for duplicates while importing." Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey} }" Style="{StaticResource CommonTextLabel}" Margin="5,0,5,5" />
+		</Grid>
+		<StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
+			<Button Content="OK" Style="{StaticResource CommonButton}" />
+			<Button Content="Cancel" Style="{StaticResource CommonButton}" />
+		</StackPanel>
+	</Grid>
+</Window>
