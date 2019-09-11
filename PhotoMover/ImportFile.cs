@@ -16,6 +16,13 @@ namespace PhotoMover
 
 		#region Properties
 
+		bool selected = true;
+		public bool Selected
+		{
+			get { return selected; }
+			set { selected = value; OnPropertyChanged(nameof(Selected)); }
+		}
+
 		string sourcePath;
 		public string SourcePath
 		{

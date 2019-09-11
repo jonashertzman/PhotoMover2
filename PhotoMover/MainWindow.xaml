@@ -138,11 +138,13 @@
 					<Button x:Name="ButtonAnalyze" Content="Analyze" Style="{StaticResource CommonButton}" Click="ButtonAnalyze_Click" />
 					<Button Grid.Row="1" Content="Copy" Style="{StaticResource CommonButton}" />
 				</StackPanel>
-				<DataGrid Grid.Row="1" Grid.ColumnSpan="3" Margin="5" CellStyle="{StaticResource FileListCell}" ItemsSource="{Binding ImportFiles}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" CanUserReorderColumns="False">
+
+				<DataGrid Grid.Row="1" Grid.ColumnSpan="3" Margin="5" ItemsSource="{Binding ImportFiles}" CellStyle="{StaticResource FileListCell}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" CanUserReorderColumns="False">
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding SourcePath}" CellStyle="{StaticResource EditableDataGridCell}" Header="Source File" CanUserResize="False" Width="auto" />
-						<DataGridTextColumn Binding="{Binding DestinationPath}" CellStyle="{StaticResource EditableDataGridCell}" Header="File Destination" CanUserResize="False" Width="auto" />
-						<DataGridTextColumn Binding="{Binding Status}" CellStyle="{StaticResource EditableDataGridCell}" Header="Status" CanUserResize="False" Width="auto" />
+						<DataGridCheckBoxColumn Binding="{Binding Selected, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource CheckBoxColumn}" />
+						<DataGridTextColumn Binding="{Binding SourcePath}" Header="Source File" CanUserResize="False" Width="auto" />
+						<DataGridTextColumn Binding="{Binding DestinationPath}" Header="File Destination" CanUserResize="False" Width="auto" />
+						<DataGridTextColumn Binding="{Binding Status}" Header="Status" CanUserResize="False" Width="auto" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</Grid>

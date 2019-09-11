@@ -97,6 +97,43 @@
 		</Style.Triggers>
 	</Style>
 
+	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}">
+		<Style.Triggers>
+			<Trigger Property="DataGridCell.IsSelected" Value="True">
+				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="BorderBrush" Value="#CCDAFF" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="Foreground" Value="Black" />
+			</Trigger>
+			<Trigger Property="DataGridCell.IsFocused" Value="False">
+				<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
+				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
+			</Trigger>
+			<Trigger Property="DataGridCell.IsFocused" Value="True">
+				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="BorderBrush" Value="#CCDAFF" />
+				<Setter Property="BorderThickness" Value="1" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style x:Key="CheckBoxColumn" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellAttributes}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type DataGridCell}">
+					<Grid Background="{TemplateBinding Background}">
+						<ContentPresenter VerticalAlignment="Center" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="IsEditing" Value="True" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
 	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}">
 		<Setter Property="Foreground" Value="Black" />
 		<Setter Property="BorderBrush" Value="White" />
