@@ -12,7 +12,7 @@ namespace PhotoMover
 
 		#region Members
 
-		private const string SETTINGS_DIRECTORY = "PhotoM;over2";
+		private const string SETTINGS_DIRECTORY = "PhotoMover2";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
 
 		private static SettingsData Settings = new SettingsData();
