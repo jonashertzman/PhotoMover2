@@ -1,0 +1,92 @@
+﻿<Window x:Class="PhotoMover.BrowseFolderWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:PhotoMover" mc:Ignorable="d" Title="Select Target" Height="350" Width="450" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ContentRendered="Window_ContentRendered">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0">
+			<StackPanel.Background>
+				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+					<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
+					<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
+				</LinearGradientBrush>
+			</StackPanel.Background>
+			<StackPanel Orientation="Horizontal" Margin="5">
+				<Button x:Name="ButtonDesktop" Style="{StaticResource ToolbarButton}" ToolTip="Desktop" Click="ButtonDesktop_Click">
+					<StackPanel Orientation="Horizontal">
+						<ContentPresenter ContentTemplate="{StaticResource DesktopIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</StackPanel>
+				</Button>
+				<Button x:Name="ButtonDocuments" Style="{StaticResource ToolbarButton}" ToolTip="Documents" Click="ButtonDocuments_Click">
+					<StackPanel Orientation="Horizontal">
+						<ContentPresenter ContentTemplate="{StaticResource DocumentsIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</StackPanel>
+				</Button>
+				<!--<Button x:Name="ButtonDownloads" Style="{StaticResource ToolbarButton}" ToolTip="Downloads" Click="ButtonDownloads_Click">
+					<StackPanel Orientation="Horizontal">
+						<ContentPresenter ContentTemplate="{StaticResource DownloadsIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</StackPanel>
+				</Button>-->
+			</StackPanel>
+		</StackPanel>
+
+		<TreeView x:Name="FolderTree" Grid.Row="1" Grid.ColumnSpan="4" Margin="10,0,10,0" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" TreeViewItem.Expanded="TreeViewItem_Expanded" SelectedItemChanged="FolderTree_SelectedItemChanged">
+			<TreeView.Resources>
+				<Style TargetType="{x:Type TreeViewItem}">
+					<!-- Style for the selected item -->
+					<Setter Property="BorderThickness" Value="1" />
+					<Setter Property="HeaderTemplate">
+						<Setter.Value>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal" Margin="0">
+									<ContentPresenter ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Tag, Converter={x:Static local:HeaderToImageConverter.Instance}}" Style="{StaticResource CommonButtonIcon}" />
+									<TextBlock Text="{Binding}" Margin="5,0" VerticalAlignment="Center" />
+								</StackPanel>
+							</DataTemplate>
+						</Setter.Value>
+					</Setter>
+					<Style.Triggers>
+						<!-- Selected and has focus -->
+						<Trigger Property="IsSelected" Value="True">
+							<Setter Property="BorderBrush" Value="#99D1FF" />
+						</Trigger>
+
+						<!-- Selected but does not have the focus -->
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="IsSelected" Value="True" />
+								<Condition Property="IsSelectionActive" Value="False" />
+							</MultiTrigger.Conditions>
+							<Setter Property="BorderBrush" Value="#D9D9D9" />
+						</MultiTrigger>
+					</Style.Triggers>
+
+					<Style.Resources>
+						<Style TargetType="Border">
+							<Setter Property="CornerRadius" Value="2" />
+						</Style>
+					</Style.Resources>
+				</Style>
+
+				<!-- Brushes for the selected item -->
+				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFCBE8F6" />
+				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+				<SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+			</TreeView.Resources>
+		</TreeView>
+
+		<Grid Grid.Row="2" Margin="5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<Button x:Name="ButtonOk" Grid.Column="1" Content="OK" Style="{StaticResource CommonButton}" Click="ButtonOk_Click" IsDefault="True" />
+			<Button Grid.Column="2" Content="Cancel" Style="{StaticResource CommonButton}" IsCancel="True" />
+		</Grid>
+
+	</Grid>
+</Window>
