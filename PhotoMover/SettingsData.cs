@@ -5,7 +5,9 @@ namespace PhotoMover
 {
 	public class SettingsData
 	{
-		public ObservableCollection<ImportConfiguration> IgnoredDirectories { get; set; } = new ObservableCollection<ImportConfiguration>();
+		public ObservableCollection<ImportConfiguration> ImportConfigurations { get; set; } = new ObservableCollection<ImportConfiguration>();
+
+		public ObservableCollection<LibraryRoot> LibraryRootDirectories { get; set; } = new ObservableCollection<LibraryRoot>();
 
 		public double PositionLeft { get; set; }
 		public double PositionTop { get; set; }

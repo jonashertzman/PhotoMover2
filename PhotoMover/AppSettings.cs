@@ -21,10 +21,16 @@ namespace PhotoMover
 
 		#region Properies
 
-		public static ObservableCollection<ImportConfiguration> IgnoredDirectories
+		public static ObservableCollection<ImportConfiguration> ImportConfigurations
 		{
-			get { return Settings.IgnoredDirectories; }
-			set { Settings.IgnoredDirectories = value; }
+			get { return Settings.ImportConfigurations; }
+			set { Settings.ImportConfigurations = value; }
+		}
+
+		public static ObservableCollection<LibraryRoot> LibraryRootDirectories
+		{
+			get { return Settings.LibraryRootDirectories; }
+			set { Settings.LibraryRootDirectories = value; }
 		}
 
 		public static double PositionLeft

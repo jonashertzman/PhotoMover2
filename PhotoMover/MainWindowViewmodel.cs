@@ -32,11 +32,16 @@ namespace PhotoMover
 			set { importPath = value; OnPropertyChanged(nameof(ImportPath)); }
 		}
 
-		ObservableCollection<ImportConfiguration> importConfigurations = new ObservableCollection<ImportConfiguration>();
 		public ObservableCollection<ImportConfiguration> ImportConfigurations
 		{
-			get { return importConfigurations; }
-			set { importConfigurations = value; OnPropertyChanged(nameof(ImportConfigurations)); }
+			get { return AppSettings.ImportConfigurations; }
+			set { AppSettings.ImportConfigurations = value; OnPropertyChanged(nameof(ImportConfigurations)); }
+		}
+
+		public ObservableCollection<LibraryRoot> LibraryRootDirectories
+		{
+			get { return AppSettings.LibraryRootDirectories; }
+			set { AppSettings.LibraryRootDirectories = value; OnPropertyChanged(nameof(LibraryRootDirectories)); }
 		}
 
 		public string ImportConfigurationsLabel

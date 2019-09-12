@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="LibraryRoot.cs" />
     <Compile Include="SettingsData.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="BrowseFolderWindow.xaml">

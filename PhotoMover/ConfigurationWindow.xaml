@@ -1,4 +1,4 @@
-﻿<Window x:Class="PhotoMover.ConfigurationWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:PhotoMover" mc:Ignorable="d" Title="ConfigurationWindow" Height="400" Width="750" WindowStartupLocation="CenterOwner" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+﻿<Window x:Class="PhotoMover.ConfigurationWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:PhotoMover" mc:Ignorable="d" Title="ConfigurationWindow" Height="400" Width="750" WindowStartupLocation="CenterOwner" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ShowInTaskbar="False">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
@@ -12,10 +12,10 @@
 				<RowDefinition Height="auto" />
 			</Grid.RowDefinitions>
 
-			<DataGrid Grid.Row="0" Margin="5,5,5,0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
+			<DataGrid Grid.Row="0" Margin="5,5,5,0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ImportConfigurations, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 				<DataGrid.Columns>
-					<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Files" Width="1*" />
-					<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Import Destination" Width="2*" />
+					<DataGridTextColumn Binding="{Binding Files, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Files" Width="1*" />
+					<DataGridTextColumn Binding="{Binding DestinationFormat, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Import Destination" Width="2*" />
 					<DataGridTemplateColumn CellStyle="{StaticResource DataGridCellAttributes}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
@@ -27,7 +27,7 @@
 			</DataGrid>
 
 			<Label Grid.Row="1" Content="Multiple filenames can be separated by spaces. Import destination can contain placeholders for file dates." Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey} }" Style="{StaticResource CommonTextLabel}" Margin="5,0,5,5" />
-			<DataGrid Grid.Row="2" Margin="5,5,5,0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
+			<DataGrid Grid.Row="2" Margin="5,5,5,0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding LibraryRootDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 				<DataGrid.Columns>
 					<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Library Root Directories" Width="*" />
 					<DataGridTemplateColumn CellStyle="{StaticResource DataGridCellAttributes}">
@@ -42,8 +42,8 @@
 			<Label Grid.Row="3" Content="All files in these directories will be checked for duplicates while importing." Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey} }" Style="{StaticResource CommonTextLabel}" Margin="5,0,5,5" />
 		</Grid>
 		<StackPanel Grid.Column="1" Margin="5" Orientation="Vertical">
-			<Button Content="OK" Style="{StaticResource CommonButton}" />
-			<Button Content="Cancel" Style="{StaticResource CommonButton}" />
+			<Button Content="OK" Style="{StaticResource CommonButton}" IsDefault="True" Click="Button_Click" />
+			<Button Content="Cancel" Style="{StaticResource CommonButton}" IsCancel="True" />
 		</StackPanel>
 	</Grid>
 </Window>
