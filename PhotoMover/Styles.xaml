@@ -157,8 +157,9 @@
 		<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
 		<Setter Property="RowHeaderWidth" Value="0" />
 		<Setter Property="CanUserResizeRows" Value="False" />
-		<Setter Property="GridLinesVisibility" Value="Horizontal" />
+		<Setter Property="GridLinesVisibility" Value="All" />
 		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
+		<Setter Property="VerticalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
 		<Setter Property="SelectionMode" Value="Single" />
 	</Style>
 

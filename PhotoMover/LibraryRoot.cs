@@ -12,15 +12,20 @@ namespace PhotoMover
 
 		}
 
+		public LibraryRoot(string newPath)
+		{
+			Path = newPath;
+		}
+
 		#endregion
 
 		#region Properties
 
-		string text;
-		public string Text
+		string path;
+		public string Path
 		{
-			get { return text; }
-			set { text = value; OnPropertyChanged(nameof(Text)); }
+			get { return path; }
+			set { path = value; OnPropertyChanged(nameof(Path)); }
 		}
 
 		#endregion
