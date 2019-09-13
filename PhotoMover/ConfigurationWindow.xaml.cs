@@ -48,5 +48,9 @@ namespace PhotoMover
 
 		#endregion
 
+		private void ButtonHelp_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBox.Show("Supported date formats:\n\nyyyy\tYear (2017)\nMM\tMonth number (01)\nMMM\tShort month name (Jan)\nMMMM\tLong month name (January)\ndd\tDay (01)", "Help");
+		}
 	}
 }
