@@ -18,6 +18,31 @@ namespace PhotoMover
 
 		#endregion
 
+		#region Methods
+
+		private void RemoveEmptyConfigurations()
+		{
+			MainWindowViewModel ViewModel = DataContext as MainWindowViewModel;
+
+			for (int i = ViewModel.ImportConfigurations.Count - 1; i >= 0; i--)
+			{
+				if (string.IsNullOrEmpty(ViewModel.ImportConfigurations[i].Files))
+				{
+					ViewModel.ImportConfigurations.RemoveAt(i);
+				}
+			}
+
+			for (int i = ViewModel.LibraryRootDirectories.Count - 1; i >= 0; i--)
+			{
+				if (string.IsNullOrEmpty(ViewModel.LibraryRootDirectories[i].Path))
+				{
+					ViewModel.LibraryRootDirectories.RemoveAt(i);
+				}
+			}
+		}
+
+		#endregion
+
 		#region Events
 
 		private void ButtonBrowseLibrary_Click(object sender, RoutedEventArgs e)
@@ -31,7 +56,7 @@ namespace PhotoMover
 			{
 				if (t == null)
 				{
-					var ViewModel = DataContext as MainWindowViewModel;
+					MainWindowViewModel ViewModel = DataContext as MainWindowViewModel;
 					ViewModel.LibraryRootDirectories.Add(new LibraryRoot(browseFolderWindow.SelectedPath));
 				}
 				else
@@ -43,14 +68,17 @@ namespace PhotoMover
 
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)
 		{
+			RemoveEmptyConfigurations();
+
 			DialogResult = true;
+		}
+
+		private void ButtonHelp_Click(object sender, RoutedEventArgs e)
+		{
+			HelpPopup.IsOpen = true;
 		}
 
 		#endregion
 
-		private void ButtonHelp_Click(object sender, RoutedEventArgs e)
-		{
-			MessageBox.Show("Supported date formats:\n\nyyyy\tYear (2017)\nMM\tMonth number (01)\nMMM\tShort month name (Jan)\nMMMM\tLong month name (January)\ndd\tDay (01)", "Help");
-		}
 	}
 }
