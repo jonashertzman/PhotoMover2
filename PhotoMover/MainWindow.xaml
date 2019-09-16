@@ -4,7 +4,6 @@
 
 		<ContextMenu x:Key="ContextMenuFileItem">
 			<MenuItem Header="Open Containing Folder" Command="local:Commands.OpenContainingFolder" />
-			<MenuItem Header="Copy Path to Clipboard" Command="local:Commands.CopyPathToClipboard" />
 		</ContextMenu>
 
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -14,39 +13,15 @@
 	</Window.Resources>
 
 	<Window.CommandBindings>
-		<CommandBinding Command="local:Commands.CancelCompare" />
+		<CommandBinding Command="local:Commands.CancelWork" />
 	</Window.CommandBindings>
 	<Grid>
 
 		<Grid IsEnabled="{Binding Path=GuiFrozen, Converter={StaticResource InverseBooleanConverter}}">
 			<Grid.CommandBindings>
-				<!--<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
-				<CommandBinding Command="local:Commands.ExperimentalCompare" Executed="CommandCompare_Executed" />
-				<CommandBinding Command="local:Commands.SaveLeftFile" Executed="CommandSaveLeftFile_Executed" CanExecute="CommandSaveLeftFile_CanExecute" />
-				<CommandBinding Command="local:Commands.SaveRightFile" Executed="CommandSaveRightFile_Executed" CanExecute="CommandSaveRightFile_CanExecute" />
-				<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
-				<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
-				<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
-				<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
-				<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
-				<CommandBinding Command="local:Commands.CurrentDiff" Executed="CommandCurrentDiff_Executed" CanExecute="CommandCurrentDiff_CanExecute" />
-				<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
-				<CommandBinding Command="local:Commands.LastDiff" Executed="CommandLastDiff_Executed" CanExecute="CommandLastDiff_CanExecute" />
-				<CommandBinding Command="local:Commands.NextFile" Executed="CommandNextFile_Executed" CanExecute="CommandNextFile_CanExecute" />
-				<CommandBinding Command="local:Commands.PreviousFile" Executed="CommandPreviousFile_Executed" CanExecute="CommandPreviousFile_CanExecute" />
-				<CommandBinding Command="local:Commands.CopyLeftDiff" Executed="CommandCopyLeftDiff_Executed" CanExecute="CommandCopyLeftDiff_CanExecute" />
-				<CommandBinding Command="local:Commands.CopyRightDiff" Executed="CommandCopyRightDiff_Executed" CanExecute="CommandCopyRightDiff_CanExecute" />
 				<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
 				<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
-				<CommandBinding Command="local:Commands.BrowseLeft" Executed="CommandBrowseLeft_Executed" />
-				<CommandBinding Command="local:Commands.BrowseRight" Executed="CommandBrowseRight_Executed" />
-				<CommandBinding Command="local:Commands.Options" Executed="CommnadOptions_Executed" />
-				<CommandBinding Command="local:Commands.Find" Executed="CommandFind_Executed" />
-				<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
-				<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute_1" />
-				<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
 				<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
-				<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />-->
 			</Grid.CommandBindings>
 
 			<Grid.RowDefinitions>
@@ -66,14 +41,6 @@
 					<Menu Grid.Row="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
 						<MenuItem Header="File">
 							<MenuItem Header="Exit" Command="local:Commands.Exit" />
-						</MenuItem>
-						<MenuItem Header="Edit">
-							<MenuItem Header="Find" Command="local:Commands.Find" />
-							<MenuItem Header="Find Next" Command="local:Commands.FindNext" />
-							<MenuItem Header="Find Previous" Command="local:Commands.FindPrevious" />
-						</MenuItem>
-						<MenuItem Header="Tools">
-							<MenuItem Header="Options" Command="local:Commands.Options" />
 						</MenuItem>
 						<MenuItem Header="Help">
 							<MenuItem Header="About" Command="local:Commands.About" />
@@ -135,7 +102,7 @@
 				</Grid.RowDefinitions>
 
 				<StackPanel Grid.Column="1" Orientation="Horizontal">
-					<Button x:Name="ButtonAnalyze" Content="Analyze" Style="{StaticResource CommonButton}" Click="ButtonAnalyze_Click" />
+					<Button x:Name="ButtonFindFiles" Content="Find Files" Style="{StaticResource CommonButton}" Click="ButtonFindFiles_Click" />
 					<Button x:Name="ButtonCopy" Content="Copy" Style="{StaticResource CommonButton}" Click="ButtonCopy_Click" />
 				</StackPanel>
 
@@ -152,7 +119,7 @@
 		</Grid>
 
 		<!--Progress Panel-->
-		<!--<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
+		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
 			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
 				<Border.Effect>
 					<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
@@ -160,12 +127,12 @@
 				<StackPanel Margin="5">
 					<Label Content="Working..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
 					<StackPanel Orientation="Horizontal">
-						<ProgressBar x:Name="ProgressBarCompare" Value="40" Width="300" Margin="5" />
-						<Button x:Name="ButtonCancelCompare" Content="Cancel" Command="local:Commands.CancelCompare" Style="{StaticResource CommonButton}" HorizontalAlignment="Right" />
+						<ProgressBar x:Name="ProgressBarWork" Value="40" Width="300" Margin="5" />
+						<Button x:Name="ButtonCancelWork" Content="Cancel" Command="local:Commands.CancelWork" Style="{StaticResource CommonButton}" HorizontalAlignment="Right" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
-		</Grid>-->
+		</Grid>
 
 	</Grid>
 </Window>
