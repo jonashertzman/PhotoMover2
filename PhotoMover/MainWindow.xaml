@@ -13,7 +13,7 @@
 	</Window.Resources>
 
 	<Window.CommandBindings>
-		<CommandBinding Command="local:Commands.CancelWork" />
+		<CommandBinding Command="local:Commands.CancelWork" Executed="CommandCancelWork_Executed" />
 	</Window.CommandBindings>
 	<Grid>
 
@@ -120,18 +120,22 @@
 
 		<!--Progress Panel-->
 		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
-			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
+			<!--Workaround to not fuckup the cleartype rendering of the progress panel-->
+			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Border.Effect>
 					<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
 				</Border.Effect>
+			</Border>
+			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
 				<StackPanel Margin="5">
-					<Label Content="Working..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
+					<Label Name="ProgressLabel" Content="Working..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
 					<StackPanel Orientation="Horizontal">
-						<ProgressBar x:Name="ProgressBarWork" Value="40" Width="300" Margin="5" />
+						<ProgressBar x:Name="ProgressBarWork" Value="40" Width="300" Margin="5" BorderBrush="{x:Static SystemColors.ControlDarkBrush}" />
 						<Button x:Name="ButtonCancelWork" Content="Cancel" Command="local:Commands.CancelWork" Style="{StaticResource CommonButton}" HorizontalAlignment="Right" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
+
 		</Grid>
 
 	</Grid>

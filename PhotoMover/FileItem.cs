@@ -1,15 +1,28 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace PhotoMover
 {
-	public class ImportFile : INotifyPropertyChanged
+	public class FileItem : INotifyPropertyChanged
 	{
-
 		#region Constructor
 
-		public ImportFile()
+		public FileItem(string path, WIN32_FIND_DATA findData)
 		{
+			sourcePath = path;
 
+			Name = findData.cFileName;
+			Size = (long)Combine(findData.nFileSizeHigh, findData.nFileSizeLow);
+			Date = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime));
+		}
+
+		#endregion
+
+		#region Overrides
+
+		public override string ToString()
+		{
+			return $"{SourcePath}";
 		}
 
 		#endregion
@@ -42,6 +55,21 @@ namespace PhotoMover
 		{
 			get { return status; }
 			set { status = value; OnPropertyChanged(nameof(Status)); }
+		}
+
+		public string Name { get; }
+
+		public long Size { get; }
+
+		public DateTime Date { get; }
+
+		#endregion
+
+		#region Methods
+
+		private ulong Combine(uint highValue, uint lowValue)
+		{
+			return (ulong)highValue << 32 | lowValue;
 		}
 
 		#endregion

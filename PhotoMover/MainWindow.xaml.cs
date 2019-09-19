@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -108,13 +109,15 @@ namespace PhotoMover
 		{
 			if (Directory.Exists(ViewModel.ImportPath))
 			{
+				ViewModel.ImportFiles.Clear();
+
 				ViewModel.GuiFrozen = true;
 
 				ProgressBarWork.Value = 0;
 
 				Debug.Print("------ ButtonFindFiles_Click");
-				BackgroundWork.progressHandler = new Progress<int>(FindFilesStatusUpdate);
-				Task.Run(() => BackgroundWork.FindFiles()).ContinueWith(AnalyzeFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+				BackgroundWork.progressHandler = new Progress<Tuple<int, string, List<FileItem>>>(FindFilesStatusUpdate);
+				Task.Run(() => BackgroundWork.FindFiles(ViewModel.ImportPath)).ContinueWith(FindFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
 			}
 			else
 			{
@@ -122,17 +125,25 @@ namespace PhotoMover
 			}
 		}
 
-		private void FindFilesStatusUpdate(int progress)
+		private void FindFilesStatusUpdate(Tuple<int, string, List<FileItem>> progress)
 		{
 			Debug.Print("------ FindFilesStatusUpdate");
-			ProgressBarWork.Value = progress;
+			ProgressBarWork.Value = progress.Item1;
+			ProgressLabel.Content = progress.Item2;
+
+			for (int i = ViewModel.ImportFiles.Count; i < progress.Item3.Count; i++)
+			{
+				Debug.Print(progress.Item3[i].ToString());
+
+				ViewModel.ImportFiles.Add(progress.Item3[i]);
+			}
+
 		}
 
-		private void AnalyzeFinnished(Task task)
+		private void FindFilesFinnished(Task task)
 		{
-			Debug.Print("------ CompareFilesFinnished");
+			Debug.Print("------ FindFilesFinnished");
 			ViewModel.GuiFrozen = false;
-
 		}
 
 		private void ButtonCopy_Click(object sender, RoutedEventArgs e)
@@ -161,6 +172,11 @@ namespace PhotoMover
 		private void CommandOpenContainingFolder_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
 
+		}
+
+		private void CommandCancelWork_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			Debug.Print("------ CommandCancelWork_Executed");
 		}
 
 		#endregion

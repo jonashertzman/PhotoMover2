@@ -63,8 +63,8 @@ namespace PhotoMover
 			}
 		}
 
-		ObservableCollection<ImportFile> importFiles = new ObservableCollection<ImportFile>();
-		public ObservableCollection<ImportFile> ImportFiles
+		ObservableCollection<FileItem> importFiles = new ObservableCollection<FileItem>();
+		public ObservableCollection<FileItem> ImportFiles
 		{
 			get { return importFiles; }
 			set { importFiles = value; OnPropertyChanged(nameof(ImportFiles)); }

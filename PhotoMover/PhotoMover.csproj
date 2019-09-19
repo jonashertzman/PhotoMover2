@@ -61,9 +61,11 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="BackgroundWork.cs" />
+    <Compile Include="FileItem.cs" />
     <Compile Include="LibraryRoot.cs" />
     <Compile Include="SettingsData.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="WinApi.cs" />
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -97,7 +99,6 @@
     </Compile>
     <Compile Include="Converters.cs" />
     <Compile Include="ImportConfiguration.cs" />
-    <Compile Include="ImportFile.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
