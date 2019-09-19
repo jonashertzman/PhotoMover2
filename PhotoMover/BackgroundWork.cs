@@ -20,25 +20,39 @@ namespace PhotoMover
 
 		#region Methods
 
-		public static void FindFiles(string importPath)
+		public static void FindFiles(string importPath, List<string> libraryRootDirectories)
 		{
 			int progress = 0;
 
+			List<FileItem> existingFiles = new List<FileItem>();
+
+			foreach (string s in libraryRootDirectories)
+			{
+				foreach (FileItem f in GetFilesInDirectory(s))
+				{
+					existingFiles.Add(f);
+				}
+			}
+
 			importResults = new List<FileItem>();
 
-			List<FileItem> items = new List<FileItem>();
-			SearchDirectory(importPath, items);
-
-			foreach (FileItem f in items)
+			foreach (FileItem f in GetFilesInDirectory(importPath))
 			{
 				Thread.Sleep(300);
 				importResults.Add(f);
-
 				ReportProgress(progress, "Files found...");
-
 			}
 
 			ReportProgress(progress, "Files found...", true);
+		}
+
+		private static List<FileItem> GetFilesInDirectory(string path)
+		{
+			List<FileItem> items = new List<FileItem>();
+
+			SearchDirectory(path, items);
+
+			return items;
 		}
 
 		private static void SearchDirectory(string path, List<FileItem> items)

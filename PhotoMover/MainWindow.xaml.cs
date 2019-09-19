@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
@@ -117,7 +118,7 @@ namespace PhotoMover
 
 				Debug.Print("------ ButtonFindFiles_Click");
 				BackgroundWork.progressHandler = new Progress<Tuple<int, string, List<FileItem>>>(FindFilesStatusUpdate);
-				Task.Run(() => BackgroundWork.FindFiles(ViewModel.ImportPath)).ContinueWith(FindFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+				Task.Run(() => BackgroundWork.FindFiles(ViewModel.ImportPath, ViewModel.LibraryRootDirectories.Select(x => x.Path).ToList())).ContinueWith(FindFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
 			}
 			else
 			{
