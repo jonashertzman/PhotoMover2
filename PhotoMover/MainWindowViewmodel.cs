@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace PhotoMover
@@ -17,6 +20,30 @@ namespace PhotoMover
 		#endregion
 
 		#region Properties
+
+		public string Title
+		{
+			get { return "Photo Mover"; }
+		}
+
+		public string Version
+		{
+			get { return "2 - Alpha 1"; }
+		}
+
+		public string BuildNumber
+		{
+			get
+			{
+				DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
+				return $"{buildDate.ToString("yy")}{buildDate.DayOfYear}";
+			}
+		}
+
+		public string FullName
+		{
+			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
+		}
 
 		bool guiFrozen = false;
 		public bool GuiFrozen

@@ -6,10 +6,10 @@
 		</Grid.ColumnDefinitions>
 
 		<StackPanel Grid.Column="0" Margin="5">
-			<Label Grid.Row="0" Content="Photo Mover 2 - Alpha 1" Style="{StaticResource  CommonTextLabel}" />
-			<Label Grid.Row="1" Content="Author: Jonas Hertzman" Style="{StaticResource  CommonTextLabel}" />
-			<Label Grid.Row="2" Content="License: GNU General Public License v3" Style="{StaticResource  CommonTextLabel}" />
-			<Label Grid.Row="3" Style="{StaticResource  CommonTextLabel}">
+			<Label Content="{Binding FullName, FallbackValue = 'Photo Mover X.X  (Build 19123)' }" Style="{StaticResource CommonTextLabel}" />
+			<Label Content="Author: Jonas Hertzman" Style="{StaticResource CommonTextLabel}" />
+			<Label Content="License: GNU General Public License v3" Style="{StaticResource CommonTextLabel}" />
+			<Label Style="{StaticResource  CommonTextLabel}">
 				<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/PhotoMover2">Source Code</Hyperlink>
 			</Label>
 
