@@ -108,10 +108,10 @@
 
 				<DataGrid Grid.Row="1" Grid.ColumnSpan="3" Margin="5" ItemsSource="{Binding ImportFiles}" CellStyle="{StaticResource FileListCell}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" CanUserReorderColumns="False">
 					<DataGrid.Columns>
-						<DataGridCheckBoxColumn Binding="{Binding Selected, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource CheckBoxColumn}" />
-						<DataGridTextColumn Binding="{Binding SourcePath}" Header="Source File" CanUserResize="False" Width="auto" />
-						<DataGridTextColumn Binding="{Binding DestinationPath}" Header="File Destination" CanUserResize="False" Width="auto" />
-						<DataGridTextColumn Binding="{Binding Status}" Header="Status" CanUserResize="False" Width="auto" />
+						<DataGridCheckBoxColumn Binding="{Binding Selected, UpdateSourceTrigger=PropertyChanged}" CanUserResize="False" CellStyle="{StaticResource CheckBoxColumn}" />
+						<DataGridTextColumn Binding="{Binding SourcePath}" Header="Source File" />
+						<DataGridTextColumn Binding="{Binding DestinationPath}" Header="File Destination" />
+						<DataGridTextColumn Binding="{Binding Status}" Header="Status" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</Grid>
@@ -119,7 +119,7 @@
 		</Grid>
 
 		<!--Progress Panel-->
-		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
+		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue='Hidden'}" Cursor="Wait">
 			<!--Workaround to not fuckup the cleartype rendering of the progress panel-->
 			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Border.Effect>

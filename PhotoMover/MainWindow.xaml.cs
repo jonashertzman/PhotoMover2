@@ -128,17 +128,14 @@ namespace PhotoMover
 
 		private void FindFilesStatusUpdate(Tuple<int, string, List<FileItem>> progress)
 		{
-			Debug.Print("------ FindFilesStatusUpdate");
+			Debug.Print($"------- {progress.Item2}");
 			ProgressBarWork.Value = progress.Item1;
 			ProgressLabel.Content = progress.Item2;
 
 			for (int i = ViewModel.ImportFiles.Count; i < progress.Item3.Count; i++)
 			{
-				Debug.Print(progress.Item3[i].ToString());
-
 				ViewModel.ImportFiles.Add(progress.Item3[i]);
 			}
-
 		}
 
 		private void FindFilesFinnished(Task task)

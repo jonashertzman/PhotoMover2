@@ -22,28 +22,30 @@ namespace PhotoMover
 
 		public static void FindFiles(string importPath, List<string> libraryRootDirectories)
 		{
-			int progress = 0;
+			int progress = -1;
+			int counter = 0;
 
-			List<FileItem> existingFiles = new List<FileItem>();
+			Dictionary<long, List<FileItem>> existingFiles = new Dictionary<long, List<FileItem>>();
 
-			foreach (string s in libraryRootDirectories)
+			foreach (string libraryRoot in libraryRootDirectories)
 			{
-				foreach (FileItem f in GetFilesInDirectory(s))
+				foreach (FileItem fileItem in GetFilesInDirectory(libraryRoot))
 				{
-					existingFiles.Add(f);
+					ReportProgress(progress, $"Scanning library... {counter++} files found...");
+					AddToCollection(fileItem, existingFiles);
 				}
 			}
 
 			importResults = new List<FileItem>();
+			counter = 0;
 
 			foreach (FileItem f in GetFilesInDirectory(importPath))
 			{
-				Thread.Sleep(300);
 				importResults.Add(f);
-				ReportProgress(progress, "Files found...");
+				ReportProgress(progress, $"Analyzing import... {counter++} files found...");
 			}
 
-			ReportProgress(progress, "Files found...", true);
+			ReportProgress(progress, $"Analyzing import... {counter} files found...", true);
 		}
 
 		private static List<FileItem> GetFilesInDirectory(string path)
@@ -87,12 +89,31 @@ namespace PhotoMover
 			}
 
 			WinApi.FindClose(findHandle);
+		}
 
+		private static void AddToCollection(FileItem newFile, Dictionary<long, List<FileItem>> collection)
+		{
+			if (!collection.ContainsKey(newFile.Size))
+			{
+				collection.Add(newFile.Size, new List<FileItem>());
+			}
+			else
+			{
+				foreach (FileItem existingFile in collection[newFile.Size])
+				{
+					if (existingFile.SourcePath.Equals(newFile.SourcePath, StringComparison.InvariantCultureIgnoreCase))
+					{
+						return;
+					}
+				}
+			}
+
+			collection[newFile.Size].Add(newFile);
 		}
 
 		private static void ReportProgress(int progress, string status, bool finalUpdate = false)
 		{
-			if (finalUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 1000)
+			if (finalUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 100)
 			{
 				progressHandler.Report(new Tuple<int, string, List<FileItem>>(progress, status, importResults));
 
