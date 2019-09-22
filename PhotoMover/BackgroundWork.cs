@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace PhotoMover
@@ -13,26 +14,30 @@ namespace PhotoMover
 		public static IProgress<Tuple<int, string, List<FileItem>>> progressHandler;
 
 		static bool abortPosted = false;
-		static List<FileItem> importResults = new List<FileItem>();
 		static DateTime lastStatusUpdateTime = DateTime.UtcNow;
+
+		static List<FileItem> importResults = new List<FileItem>();
+		static Dictionary<long, List<FileItem>> libraryFiles = new Dictionary<long, List<FileItem>>();
 
 		#endregion
 
 		#region Methods
 
-		public static void FindFiles(string importPath, List<string> libraryRootDirectories)
+		public static void FindFiles(string importPath)
 		{
 			int progress = -1;
 			int counter = 0;
 
-			Dictionary<long, List<FileItem>> existingFiles = new Dictionary<long, List<FileItem>>();
+			libraryFiles = new Dictionary<long, List<FileItem>>();
 
-			foreach (string libraryRoot in libraryRootDirectories)
+			ReportProgress(progress, $"Scanning library...", true);
+
+			foreach (string libraryRoot in AppSettings.LibraryRootDirectories.Select(x => x.Path))
 			{
 				foreach (FileItem fileItem in GetFilesInDirectory(libraryRoot))
 				{
 					ReportProgress(progress, $"Scanning library... {counter++} files found...");
-					AddToCollection(fileItem, existingFiles);
+					AddToCollection(fileItem, libraryFiles);
 				}
 			}
 
@@ -41,11 +46,29 @@ namespace PhotoMover
 
 			foreach (FileItem f in GetFilesInDirectory(importPath))
 			{
+				ImportFile(f);
+
 				importResults.Add(f);
 				ReportProgress(progress, $"Analyzing import... {counter++} files found...");
 			}
 
 			ReportProgress(progress, $"Analyzing import... {counter} files found...", true);
+		}
+
+		private static void ImportFile(FileItem f)
+		{
+
+			foreach (ImportConfiguration configuration in AppSettings.ImportConfigurations)
+			{
+				foreach (string file in configuration.Files.Split(' '))
+				{
+					if (WildcardCompare(f.Name, file, true))
+					{
+						f.DestinationPath = Path.Combine(configuration.GetDestinationFolder(f.DateTaken), f.Name);
+						f.Selected = true;
+					}
+				}
+			}
 		}
 
 		private static List<FileItem> GetFilesInDirectory(string path)
@@ -111,15 +134,91 @@ namespace PhotoMover
 			collection[newFile.Size].Add(newFile);
 		}
 
-		private static void ReportProgress(int progress, string status, bool finalUpdate = false)
+		private static void ReportProgress(int progress, string status, bool foreceUpdate = false)
 		{
-			if (finalUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 100)
+			if (foreceUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 50)
 			{
 				progressHandler.Report(new Tuple<int, string, List<FileItem>>(progress, status, importResults));
 
 				lastStatusUpdateTime = DateTime.UtcNow;
 			}
 		}
+
+		private static bool WildcardCompare(string compare, string wildString, bool ignoreCase)
+		{
+			if (ignoreCase)
+			{
+				wildString = wildString.ToUpper();
+				compare = compare.ToUpper();
+			}
+
+			int wildStringLength = wildString.Length;
+			int CompareLength = compare.Length;
+
+			int wildMatched = wildStringLength;
+			int compareBase = CompareLength;
+
+			int wildPosition = 0;
+			int comparePosition = 0;
+
+			// Match until first wildcard '*'
+			while (comparePosition < CompareLength && (wildPosition >= wildStringLength || wildString[wildPosition] != '*'))
+			{
+				if (wildPosition >= wildStringLength || (wildString[wildPosition] != compare[comparePosition] && wildString[wildPosition] != '?'))
+				{
+					return false;
+				}
+
+				wildPosition++;
+				comparePosition++;
+			}
+
+			// Process wildcard
+			while (comparePosition < CompareLength)
+			{
+				if (wildPosition < wildStringLength)
+				{
+					if (wildString[wildPosition] == '*')
+					{
+						wildPosition++;
+
+						if (wildPosition == wildStringLength)
+						{
+							return true;
+						}
+
+						wildMatched = wildPosition;
+						compareBase = comparePosition + 1;
+
+						continue;
+					}
+
+					if (wildString[wildPosition] == compare[comparePosition] || wildString[wildPosition] == '?')
+					{
+						wildPosition++;
+						comparePosition++;
+
+						continue;
+					}
+				}
+
+				wildPosition = wildMatched;
+				comparePosition = compareBase++;
+			}
+
+			while (wildPosition < wildStringLength && wildString[wildPosition] == '*')
+			{
+				wildPosition++;
+			}
+
+			if (wildPosition < wildStringLength)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
 
 		#endregion
 

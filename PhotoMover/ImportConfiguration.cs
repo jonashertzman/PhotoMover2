@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace PhotoMover
 {
@@ -28,6 +29,32 @@ namespace PhotoMover
 		{
 			get { return destinationFormat; }
 			set { destinationFormat = value; OnPropertyChanged(nameof(DestinationFormat)); }
+		}
+
+		#endregion
+
+		#region Methods
+
+		public string GetDestinationFolder(DateTime date)
+		{
+			string formatedString = destinationFormat;
+
+			formatedString = ReplaceDatePattern(formatedString, date, "yyyy");
+			formatedString = ReplaceDatePattern(formatedString, date, "MMMM");
+			formatedString = ReplaceDatePattern(formatedString, date, "MMM");
+			formatedString = ReplaceDatePattern(formatedString, date, "MM");
+			formatedString = ReplaceDatePattern(formatedString, date, "dd");
+
+			return formatedString;
+		}
+
+		private string ReplaceDatePattern(string formatedString, DateTime date, string formatPattern)
+		{
+			while (formatedString.Contains(formatPattern))
+			{
+				formatedString = formatedString.Replace(formatPattern, string.Format("{0:" + formatPattern + "}", date));
+			}
+			return formatedString;
 		}
 
 		#endregion

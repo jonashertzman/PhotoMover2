@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MetadataExtractor;
+using MetadataExtractor.Formats.Exif;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace PhotoMover
@@ -13,7 +16,7 @@ namespace PhotoMover
 
 			Name = findData.cFileName;
 			Size = (long)Combine(findData.nFileSizeHigh, findData.nFileSizeLow);
-			Date = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime));
+			FileDate = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime));
 		}
 
 		#endregion
@@ -29,7 +32,7 @@ namespace PhotoMover
 
 		#region Properties
 
-		bool selected = true;
+		bool selected = false;
 		public bool Selected
 		{
 			get { return selected; }
@@ -61,11 +64,52 @@ namespace PhotoMover
 
 		public long Size { get; }
 
-		public DateTime Date { get; }
+		public DateTime FileDate { get; }
+
+		DateTime dateTaken = DateTime.MinValue;
+		public DateTime DateTaken
+		{
+			get
+			{
+				if (dateTaken == DateTime.MinValue)
+				{
+					dateTaken = GetDateTaken();
+				}
+				return dateTaken;
+			}
+		}
 
 		#endregion
 
 		#region Methods
+
+		private DateTime GetDateTaken()
+		{
+			try
+			{
+				DateTime date = new DateTime();
+				IEnumerable<MetadataExtractor.Directory> directories = ImageMetadataReader.ReadMetadata(SourcePath);
+
+				foreach (MetadataExtractor.Directory directory in directories)
+				{
+					if (directory.TryGetDateTime(ExifDirectoryBase.TagDateTimeOriginal, out date))
+					{
+						return date;
+					}
+				}
+
+				foreach (MetadataExtractor.Directory directory in directories)
+				{
+					if (directory.TryGetDateTime(ExifDirectoryBase.TagDateTime, out date))
+					{
+						return date;
+					}
+				}
+			}
+			catch (Exception) { }
+
+			return FileDate;
+		}
 
 		private ulong Combine(uint highValue, uint lowValue)
 		{
