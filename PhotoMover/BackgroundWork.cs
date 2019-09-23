@@ -17,6 +17,7 @@ namespace PhotoMover
 
 		static List<FileItem> importResults = new List<FileItem>();
 		static Dictionary<long, List<FileItem>> libraryFiles = new Dictionary<long, List<FileItem>>();
+		static Dictionary<long, List<FileItem>> importedFiles = new Dictionary<long, List<FileItem>>();
 
 		#endregion
 
@@ -27,23 +28,11 @@ namespace PhotoMover
 			abortPosted = false;
 			int counter = 0;
 
-			importResults = new List<FileItem>();
-			libraryFiles = new Dictionary<long, List<FileItem>>();
+			importResults.Clear();
+			libraryFiles.Clear();
+			importedFiles.Clear();
 
-			ReportProgress(0, $"Scanning library...", true);
-
-			foreach (string libraryRoot in AppSettings.LibraryRootDirectories.Select(x => x.Path))
-			{
-				foreach (FileItem fileItem in GetFilesInDirectory(libraryRoot, out int itemCount))
-				{
-					if (abortPosted) return;
-
-					ReportProgress((float)counter / itemCount, $"Scanning library... {counter++} files found...");
-					AddToCollection(fileItem, libraryFiles);
-				}
-			}
-
-			counter = 0;
+			ReadLibraries();
 
 			ReportProgress(0, $"Analyzing import...", true);
 
@@ -53,7 +42,15 @@ namespace PhotoMover
 
 				if (CheckImport(importFile))
 				{
-					importFile.Selected = !CheckDuplicate(importFile);
+					if (CheckDuplicate(importFile))
+					{
+						importFile.Selected = false;
+					}
+					else
+					{
+						importFile.Selected = true;
+						AddToCollection(importFile, importedFiles);
+					}
 				}
 				else
 				{
@@ -67,6 +64,24 @@ namespace PhotoMover
 			}
 
 			ReportProgress(1, $"Analyzing import... {counter} files found...", true);
+		}
+
+		private static void ReadLibraries()
+		{
+			int counter = 0;
+
+			ReportProgress(0, $"Scanning library...", true);
+
+			foreach (string libraryRoot in AppSettings.LibraryRootDirectories.Select(x => x.Path))
+			{
+				foreach (FileItem fileItem in GetFilesInDirectory(libraryRoot, out int itemCount))
+				{
+					if (abortPosted) return;
+
+					ReportProgress((float)counter / itemCount, $"Scanning library... {counter++} files found...");
+					AddToCollection(fileItem, libraryFiles);
+				}
+			}
 		}
 
 		private static bool CheckDuplicate(FileItem importFile)
@@ -83,12 +98,15 @@ namespace PhotoMover
 				}
 			}
 
-			foreach (FileItem previousFile in importResults)
+			if (importedFiles.ContainsKey(importFile.Size))
 			{
-				if (previousFile.Checksum == importFile.Checksum)
+				foreach (FileItem file in importedFiles[importFile.Size])
 				{
-					importFile.Status = $"Duplicate, file already imported from {previousFile.SourcePath}";
-					return true;
+					if (file.Checksum == importFile.Checksum)
+					{
+						importFile.Status = $"Duplicate, file already imported from {file.SourcePath}";
+						return true;
+					}
 				}
 			}
 
