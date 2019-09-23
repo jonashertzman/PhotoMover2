@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace PhotoMover
 {
@@ -28,6 +27,7 @@ namespace PhotoMover
 			int progress = -1;
 			int counter = 0;
 
+			importResults = new List<FileItem>();
 			libraryFiles = new Dictionary<long, List<FileItem>>();
 
 			ReportProgress(progress, $"Scanning library...", true);
@@ -41,34 +41,71 @@ namespace PhotoMover
 				}
 			}
 
-			importResults = new List<FileItem>();
 			counter = 0;
 
-			foreach (FileItem f in GetFilesInDirectory(importPath))
-			{
-				ImportFile(f);
+			ReportProgress(progress, $"Analyzing import...", true);
 
-				importResults.Add(f);
+			foreach (FileItem importFile in GetFilesInDirectory(importPath))
+			{
+				if (CheckImport(importFile))
+				{
+					importFile.Selected = !CheckDuplicate(importFile);
+				}
+				else
+				{
+					importFile.Selected = false;
+					importFile.Status = "Ignored";
+				}
+
+				importResults.Add(importFile);
+
 				ReportProgress(progress, $"Analyzing import... {counter++} files found...");
 			}
 
 			ReportProgress(progress, $"Analyzing import... {counter} files found...", true);
 		}
 
-		private static void ImportFile(FileItem f)
+		private static bool CheckDuplicate(FileItem importFile)
 		{
+			if (libraryFiles.ContainsKey(importFile.Size))
+			{
+				foreach (FileItem libraryFile in libraryFiles[importFile.Size])
+				{
+					if (libraryFile.Checksum == importFile.Checksum)
+					{
+						importFile.Status = $"Duplicate, file already exists at {libraryFile.SourcePath}";
+						return true;
+					}
+				}
+			}
 
+			foreach (FileItem previousFile in importResults)
+			{
+				if (previousFile.Checksum == importFile.Checksum)
+				{
+					importFile.Status = $"Duplicate, file already imported from {previousFile.SourcePath}";
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private static bool CheckImport(FileItem importFile)
+		{
 			foreach (ImportConfiguration configuration in AppSettings.ImportConfigurations)
 			{
 				foreach (string file in configuration.Files.Split(' '))
 				{
-					if (WildcardCompare(f.Name, file, true))
+					if (WildcardCompare(importFile.Name, file, true))
 					{
-						f.DestinationPath = Path.Combine(configuration.GetDestinationFolder(f.DateTaken), f.Name);
-						f.Selected = true;
+						importFile.DestinationPath = Path.Combine(configuration.GetDestinationFolder(importFile.DateTaken), importFile.Name);
+						return true;
 					}
 				}
 			}
+
+			return false;
 		}
 
 		private static List<FileItem> GetFilesInDirectory(string path)

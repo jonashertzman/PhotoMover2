@@ -110,7 +110,7 @@
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Selected, UpdateSourceTrigger=PropertyChanged}" CanUserResize="False" CellStyle="{StaticResource CheckBoxColumn}" />
 						<DataGridTextColumn Binding="{Binding SourcePath}" Header="Source File" />
-						<DataGridTextColumn Binding="{Binding DestinationPath}" Header="File Destination" />
+						<DataGridTextColumn Binding="{Binding DestinationPath}" Header="Import Destination" />
 						<DataGridTextColumn Binding="{Binding Status}" Header="Status" />
 					</DataGrid.Columns>
 				</DataGrid>

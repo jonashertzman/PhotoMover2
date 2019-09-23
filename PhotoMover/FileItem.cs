@@ -3,6 +3,9 @@ using MetadataExtractor.Formats.Exif;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace PhotoMover
 {
@@ -79,6 +82,19 @@ namespace PhotoMover
 			}
 		}
 
+		private string checksum = "";
+		public string Checksum
+		{
+			get
+			{
+				if (checksum == "")
+				{
+					checksum = GetChecksum();
+				}
+				return checksum;
+			}
+		}
+
 		#endregion
 
 		#region Methods
@@ -114,6 +130,24 @@ namespace PhotoMover
 		private ulong Combine(uint highValue, uint lowValue)
 		{
 			return (ulong)highValue << 32 | lowValue;
+		}
+
+		private string GetChecksum()
+		{
+			StringBuilder s = new StringBuilder();
+
+			using (MD5 md5 = MD5.Create())
+			{
+				using (FileStream stream = File.OpenRead(SourcePath))
+				{
+					foreach (byte b in md5.ComputeHash(stream))
+					{
+						s.Append(b.ToString("x2"));
+					}
+				}
+			}
+
+			return s.ToString();
 		}
 
 		#endregion
