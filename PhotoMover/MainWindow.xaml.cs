@@ -116,7 +116,7 @@ namespace PhotoMover
 				ProgressBarWork.Value = 0;
 
 				Debug.Print("------ ButtonFindFiles_Click");
-				BackgroundWork.progressHandler = new Progress<Tuple<int, string, List<FileItem>>>(FindFilesStatusUpdate);
+				BackgroundWork.progressHandler = new Progress<Tuple<float, string, List<FileItem>>>(FindFilesStatusUpdate);
 				Task.Run(() => BackgroundWork.FindFiles(ViewModel.ImportPath)).ContinueWith(FindFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
 			}
 			else
@@ -125,10 +125,10 @@ namespace PhotoMover
 			}
 		}
 
-		private void FindFilesStatusUpdate(Tuple<int, string, List<FileItem>> progress)
+		private void FindFilesStatusUpdate(Tuple<float, string, List<FileItem>> progress)
 		{
-			Debug.Print($"------- {progress.Item2}");
-			ProgressBarWork.Value = progress.Item1;
+			Debug.Print($"------- {progress.Item2}  {progress.Item1}");
+			ProgressBarWork.Value = progress.Item1 * 100;
 			ProgressLabel.Content = progress.Item2;
 
 			for (int i = ViewModel.ImportFiles.Count; i < progress.Item3.Count; i++)
@@ -174,6 +174,7 @@ namespace PhotoMover
 		private void CommandCancelWork_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			Debug.Print("------ CommandCancelWork_Executed");
+			BackgroundWork.Cancel();
 		}
 
 		#endregion

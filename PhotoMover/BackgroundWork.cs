@@ -10,7 +10,7 @@ namespace PhotoMover
 
 		#region Members
 
-		public static IProgress<Tuple<int, string, List<FileItem>>> progressHandler;
+		public static IProgress<Tuple<float, string, List<FileItem>>> progressHandler;
 
 		static bool abortPosted = false;
 		static DateTime lastStatusUpdateTime = DateTime.UtcNow;
@@ -24,29 +24,33 @@ namespace PhotoMover
 
 		public static void FindFiles(string importPath)
 		{
-			int progress = -1;
+			abortPosted = false;
 			int counter = 0;
 
 			importResults = new List<FileItem>();
 			libraryFiles = new Dictionary<long, List<FileItem>>();
 
-			ReportProgress(progress, $"Scanning library...", true);
+			ReportProgress(0, $"Scanning library...", true);
 
 			foreach (string libraryRoot in AppSettings.LibraryRootDirectories.Select(x => x.Path))
 			{
-				foreach (FileItem fileItem in GetFilesInDirectory(libraryRoot))
+				foreach (FileItem fileItem in GetFilesInDirectory(libraryRoot, out int itemCount))
 				{
-					ReportProgress(progress, $"Scanning library... {counter++} files found...");
+					if (abortPosted) return;
+
+					ReportProgress((float)counter / itemCount, $"Scanning library... {counter++} files found...");
 					AddToCollection(fileItem, libraryFiles);
 				}
 			}
 
 			counter = 0;
 
-			ReportProgress(progress, $"Analyzing import...", true);
+			ReportProgress(0, $"Analyzing import...", true);
 
-			foreach (FileItem importFile in GetFilesInDirectory(importPath))
+			foreach (FileItem importFile in GetFilesInDirectory(importPath, out int itemCount))
 			{
+				if (abortPosted) return;
+
 				if (CheckImport(importFile))
 				{
 					importFile.Selected = !CheckDuplicate(importFile);
@@ -59,10 +63,10 @@ namespace PhotoMover
 
 				importResults.Add(importFile);
 
-				ReportProgress(progress, $"Analyzing import... {counter++} files found...");
+				ReportProgress((float)counter / itemCount, $"Analyzing import... {counter++} files found...");
 			}
 
-			ReportProgress(progress, $"Analyzing import... {counter} files found...", true);
+			ReportProgress(1, $"Analyzing import... {counter} files found...", true);
 		}
 
 		private static bool CheckDuplicate(FileItem importFile)
@@ -108,12 +112,12 @@ namespace PhotoMover
 			return false;
 		}
 
-		private static List<FileItem> GetFilesInDirectory(string path)
+		private static List<FileItem> GetFilesInDirectory(string path, out int itemCount)
 		{
 			List<FileItem> items = new List<FileItem>();
 
 			SearchDirectory(path, items);
-
+			itemCount = items.Count;
 			return items;
 		}
 
@@ -171,14 +175,19 @@ namespace PhotoMover
 			collection[newFile.Size].Add(newFile);
 		}
 
-		private static void ReportProgress(int progress, string status, bool foreceUpdate = false)
+		private static void ReportProgress(float progress, string status, bool foreceUpdate = false)
 		{
 			if (foreceUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 50)
 			{
-				progressHandler.Report(new Tuple<int, string, List<FileItem>>(progress, status, importResults));
+				progressHandler.Report(new Tuple<float, string, List<FileItem>>(progress, status, importResults));
 
 				lastStatusUpdateTime = DateTime.UtcNow;
 			}
+		}
+
+		public static void Cancel()
+		{
+			abortPosted = true;
 		}
 
 		private static bool WildcardCompare(string compare, string wildString, bool ignoreCase)
