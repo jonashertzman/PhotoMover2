@@ -40,7 +40,7 @@ namespace PhotoMover
 			}
 		}
 
-		public string FullName
+		public string FullApplicationName
 		{
 			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
 		}

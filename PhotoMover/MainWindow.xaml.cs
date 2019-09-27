@@ -115,9 +115,8 @@ namespace PhotoMover
 
 				ProgressBarWork.Value = 0;
 
-				Debug.Print("------ ButtonFindFiles_Click");
-				BackgroundWork.progressHandler = new Progress<Tuple<float, string, List<FileItem>>>(FindFilesStatusUpdate);
-				Task.Run(() => BackgroundWork.FindFiles(ViewModel.ImportPath)).ContinueWith(FindFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+				BackgroundAnalyzeImport.progressHandler = new Progress<Tuple<float, string, List<FileItem>>>(FindFilesStatusUpdate);
+				Task.Run(() => BackgroundAnalyzeImport.FindFiles(ViewModel.ImportPath)).ContinueWith(TaskDone, TaskScheduler.FromCurrentSynchronizationContext());
 			}
 			else
 			{
@@ -127,7 +126,6 @@ namespace PhotoMover
 
 		private void FindFilesStatusUpdate(Tuple<float, string, List<FileItem>> progress)
 		{
-			Debug.Print($"------- {progress.Item2}  {progress.Item1}");
 			ProgressBarWork.Value = progress.Item1 * 100;
 			ProgressLabel.Content = progress.Item2;
 
@@ -137,15 +135,41 @@ namespace PhotoMover
 			}
 		}
 
-		private void FindFilesFinnished(Task task)
+		private void TaskDone(Task task)
 		{
-			Debug.Print("------ FindFilesFinnished");
 			ViewModel.GuiFrozen = false;
 		}
 
 		private void ButtonCopy_Click(object sender, RoutedEventArgs e)
 		{
+			List<FileItem> filesToCopy = new List<FileItem>();
 
+			foreach (FileItem f in ViewModel.ImportFiles)
+			{
+				if (f.Selected)
+				{
+					filesToCopy.Add(f);
+				}
+			}
+
+			if (filesToCopy.Count == 0)
+			{
+				MessageBox.Show("No files selected for import.", "Error");
+				return;
+			}
+
+			ViewModel.GuiFrozen = true;
+
+			ProgressBarWork.Value = 0;
+
+			BackgroundPerformImport.progressHandler = new Progress<Tuple<float, string>>(CopyFilesStatusUpdate);
+			Task.Run(() => BackgroundPerformImport.CopyFiles(filesToCopy)).ContinueWith(TaskDone, TaskScheduler.FromCurrentSynchronizationContext());
+		}
+
+		private void CopyFilesStatusUpdate(Tuple<float, string> progress)
+		{
+			ProgressBarWork.Value = progress.Item1 * 100;
+			ProgressLabel.Content = progress.Item2;
 		}
 
 		#region Commands
@@ -173,8 +197,8 @@ namespace PhotoMover
 
 		private void CommandCancelWork_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			Debug.Print("------ CommandCancelWork_Executed");
-			BackgroundWork.Cancel();
+			BackgroundAnalyzeImport.Cancel();
+			BackgroundPerformImport.Cancel();
 		}
 
 		#endregion

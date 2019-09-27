@@ -6,7 +6,7 @@
 		</Grid.ColumnDefinitions>
 
 		<StackPanel Grid.Column="0" Margin="5">
-			<Label Content="{Binding FullName, FallbackValue = 'Photo Mover X.X  (Build 19123)' }" Style="{StaticResource CommonTextLabel}" />
+			<Label Content="{Binding FullApplicationName, FallbackValue = 'Photo Mover X.X  (Build 19123)' }" Style="{StaticResource CommonTextLabel}" />
 			<Label Content="Author: Jonas Hertzman" Style="{StaticResource CommonTextLabel}" />
 			<Label Content="License: GNU General Public License v3" Style="{StaticResource CommonTextLabel}" />
 			<Label Style="{StaticResource  CommonTextLabel}">
