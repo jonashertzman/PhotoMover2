@@ -172,6 +172,13 @@ namespace PhotoMover
 			ProgressLabel.Content = progress.Item2;
 		}
 
+		private void ShowInExplorer(string sourcePath)
+		{
+			string args = $"/Select, {sourcePath}";
+			ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+			Process.Start(pfi);
+		}
+
 		#region Commands
 
 		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -185,14 +192,24 @@ namespace PhotoMover
 			aboutWindow.ShowDialog();
 		}
 
-		private void CommandOpenContainingFolder_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		private void CommandOpenSourceFolder_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-
+			e.CanExecute = DataGridImportFiles.SelectedItem != null && ((FileItem)DataGridImportFiles.SelectedItem).SourcePath != "";
 		}
 
-		private void CommandOpenContainingFolder_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		private void CommandOpenSourceFolder_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
+			ShowInExplorer(((FileItem)DataGridImportFiles.SelectedItem).SourcePath);
+		}
 
+		private void CommandOpenDestinationFolder_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = DataGridImportFiles.SelectedItem != null && ((FileItem)DataGridImportFiles.SelectedItem).DestinationPath != "";
+		}
+
+		private void CommandOpenDestinationFolder_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			ShowInExplorer(((FileItem)DataGridImportFiles.SelectedItem).DestinationPath);
 		}
 
 		private void CommandCancelWork_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)

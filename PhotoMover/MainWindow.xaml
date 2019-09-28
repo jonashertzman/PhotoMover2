@@ -3,7 +3,8 @@
 	<Window.Resources>
 
 		<ContextMenu x:Key="ContextMenuFileItem">
-			<MenuItem Header="Open Containing Folder" Command="local:Commands.OpenContainingFolder" />
+			<MenuItem Header="Open Source Folder" Command="local:Commands.OpenSourceFolder" />
+			<MenuItem Header="Open Destination Folder" Command="local:Commands.OpenDestinationFolder" />
 		</ContextMenu>
 
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -21,7 +22,8 @@
 			<Grid.CommandBindings>
 				<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
 				<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
-				<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
+				<CommandBinding Command="local:Commands.OpenSourceFolder" Executed="CommandOpenSourceFolder_Executed" CanExecute="CommandOpenSourceFolder_CanExecute" />
+				<CommandBinding Command="local:Commands.OpenDestinationFolder" Executed="CommandOpenDestinationFolder_Executed" CanExecute="CommandOpenDestinationFolder_CanExecute" />
 			</Grid.CommandBindings>
 
 			<Grid.RowDefinitions>
@@ -106,7 +108,7 @@
 					<Button x:Name="ButtonCopy" Content="Copy" Style="{StaticResource CommonButton}" Click="ButtonCopy_Click" />
 				</StackPanel>
 
-				<DataGrid Grid.Row="1" Grid.ColumnSpan="3" Margin="5" ItemsSource="{Binding ImportFiles}" CellStyle="{StaticResource FileListCell}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" CanUserReorderColumns="False">
+				<DataGrid x:Name="DataGridImportFiles" Grid.Row="1" Grid.ColumnSpan="3" Margin="5" ItemsSource="{Binding ImportFiles}" CellStyle="{StaticResource FileListCell}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" CanUserReorderColumns="False">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Selected, UpdateSourceTrigger=PropertyChanged}" CanUserResize="False" CellStyle="{StaticResource CheckBoxColumn}" />
 						<DataGridTextColumn Binding="{Binding SourcePath}" Header="Source File" />

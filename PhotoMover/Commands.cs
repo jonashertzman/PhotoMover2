@@ -21,7 +21,8 @@ namespace PhotoMover
 			}
 		);
 
-		public static readonly RoutedUICommand OpenContainingFolder = new RoutedUICommand("Open Containing Folder", "OpenContainingFolder", typeof(Commands));
+		public static readonly RoutedUICommand OpenSourceFolder = new RoutedUICommand("Open Source Folder", "OpenSourceFolder", typeof(Commands));
+		public static readonly RoutedUICommand OpenDestinationFolder = new RoutedUICommand("Open Destination Folder", "OpenDestinationFolder", typeof(Commands));
 
 	}
 }
