@@ -174,9 +174,16 @@ namespace PhotoMover
 
 		private void ShowInExplorer(string sourcePath)
 		{
-			string args = $"/Select, {sourcePath}";
-			ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
-			Process.Start(pfi);
+			if (File.Exists(sourcePath))
+			{
+				string args = $"/Select, {sourcePath}";
+				ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+				Process.Start(pfi);
+			}
+			else
+			{
+				Process.Start(Path.GetDirectoryName(sourcePath));
+			}
 		}
 
 		#region Commands
@@ -204,7 +211,9 @@ namespace PhotoMover
 
 		private void CommandOpenDestinationFolder_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = DataGridImportFiles.SelectedItem != null && ((FileItem)DataGridImportFiles.SelectedItem).DestinationPath != "";
+			FileItem selectedItem = DataGridImportFiles.SelectedItem as FileItem;
+
+			e.CanExecute = selectedItem != null && Directory.Exists(Path.GetDirectoryName(selectedItem.DestinationPath));
 		}
 
 		private void CommandOpenDestinationFolder_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
