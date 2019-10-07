@@ -45,6 +45,8 @@ namespace PhotoMover
 
 				if (CheckImport(importFile))
 				{
+					ReadLibrary(Path.GetDirectoryName(importFile.DestinationPath));
+
 					if (CheckDuplicate(importFile))
 					{
 						importFile.Selected = false;
@@ -52,6 +54,8 @@ namespace PhotoMover
 					else
 					{
 						importFile.Selected = true;
+						FixNameConflict(importFile);
+						importPaths.Add(importFile.DestinationPath.ToUpperInvariant());
 						AddToCollection(importFile, importedFiles);
 					}
 				}
@@ -69,23 +73,42 @@ namespace PhotoMover
 			ReportProgress(1, $"Analyzing import... {fileCount} files found...", true);
 		}
 
+		private static void FixNameConflict(FileItem importFile)
+		{
+			int counter = 2;
+			string newPath = importFile.DestinationPath;
+
+			while (importPaths.Contains(newPath.ToUpperInvariant()))
+			{
+				newPath = Path.Combine(Path.GetDirectoryName(importFile.DestinationPath), $"{Path.GetFileNameWithoutExtension(importFile.Name)} ({counter++}){Path.GetExtension(importFile.Name)}");
+				importFile.Status = "Name conflict, file renamed";
+			}
+			importFile.DestinationPath = newPath;
+		}
+
 		private static void ReadLibraries()
 		{
-			int counter = 0;
-
 			ReportProgress(0, $"Scanning library...", true);
 
 			foreach (string libraryRoot in AppSettings.LibraryRootDirectories.Select(x => x.Path))
 			{
-				foreach (FileItem fileItem in GetFilesInDirectory(libraryRoot, out int itemCount))
-				{
-					if (abortPosted) return;
+				ReadLibrary(libraryRoot, true);
+			}
+		}
 
-					ReportProgress((float)counter / itemCount, $"Scanning library... {counter++} files found...");
-					AddToCollection(fileItem, libraryFiles);
+		private static void ReadLibrary(string libraryRoot, bool updateProgress = false)
+		{
+			int counter = 0;
 
-					importPaths.Add(fileItem.SourcePath.ToUpperInvariant());
-				}
+			foreach (FileItem fileItem in GetFilesInDirectory(libraryRoot, out int itemCount))
+			{
+				if (abortPosted) return;
+
+				ReportProgress((float)counter / itemCount, $"Scanning library... {counter++} files found...");
+
+				AddToCollection(fileItem, libraryFiles);
+
+				importPaths.Add(fileItem.SourcePath.ToUpperInvariant());
 			}
 		}
 
@@ -120,8 +143,6 @@ namespace PhotoMover
 
 		private static bool CheckImport(FileItem importFile)
 		{
-			string newPath;
-
 			foreach (ImportConfiguration configuration in AppSettings.ImportConfigurations)
 			{
 				foreach (string file in configuration.Files.Split(' '))
@@ -129,17 +150,9 @@ namespace PhotoMover
 					if (WildcardCompare(importFile.Name, file, true))
 					{
 						string destinationFolder = configuration.GetDestinationFolder(importFile.DateTaken);
-						newPath = Path.Combine(destinationFolder, importFile.Name);
 
-						int counter = 2;
-						while (importPaths.Contains(newPath.ToUpperInvariant()))
-						{
-							newPath = Path.Combine(destinationFolder, $"{Path.GetFileNameWithoutExtension(importFile.Name)} ({counter++}){Path.GetExtension(importFile.Name)}");
-							importFile.Status = "Name conflict, file renamed";
-						}
+						importFile.DestinationPath = Path.Combine(destinationFolder, importFile.Name);
 
-						importFile.DestinationPath = newPath;
-						importPaths.Add(newPath.ToUpperInvariant());
 						return true;
 					}
 				}

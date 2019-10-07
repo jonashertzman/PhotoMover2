@@ -3,6 +3,7 @@ using MetadataExtractor.Formats.Exif;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -28,7 +29,7 @@ namespace PhotoMover
 
 		public override string ToString()
 		{
-			return $"{SourcePath}";
+			return $"{SourcePath} -> {DestinationPath}";
 		}
 
 		#endregion
@@ -134,6 +135,8 @@ namespace PhotoMover
 
 		private string GetChecksum()
 		{
+			Debug.Print($"Slow checksum calculation on {sourcePath}");
+
 			StringBuilder s = new StringBuilder();
 
 			using (MD5 md5 = MD5.Create())
