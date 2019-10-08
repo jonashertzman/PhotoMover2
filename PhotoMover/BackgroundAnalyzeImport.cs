@@ -104,7 +104,10 @@ namespace PhotoMover
 			{
 				if (abortPosted) return;
 
-				ReportProgress((float)counter / itemCount, $"Scanning library... {counter++} files found...");
+				if (updateProgress)
+				{
+					ReportProgress((float)counter / itemCount, $"Scanning library... {counter++} files found...");
+				}
 
 				AddToCollection(fileItem, libraryFiles);
 
