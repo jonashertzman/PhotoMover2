@@ -51,6 +51,7 @@ namespace PhotoMover
 			this.Top = AppSettings.PositionTop;
 			this.Width = AppSettings.Width;
 			this.Height = AppSettings.Height;
+			this.WindowState = AppSettings.WindowState;
 		}
 
 		#endregion
@@ -91,6 +92,7 @@ namespace PhotoMover
 		private void ButtonEditConfiguration_Click(object sender, RoutedEventArgs e)
 		{
 			var oldImportConfigurations = new ObservableCollection<ImportConfiguration>(ViewModel.ImportConfigurations);
+			var oldLibraryRootDirectories = new ObservableCollection<LibraryRoot>(ViewModel.LibraryRootDirectories);
 
 			ConfigurationWindow configurationWindow = new ConfigurationWindow() { Owner = this, DataContext = ViewModel };
 			configurationWindow.ShowDialog();
@@ -102,6 +104,7 @@ namespace PhotoMover
 			else
 			{
 				ViewModel.ImportConfigurations = new ObservableCollection<ImportConfiguration>(oldImportConfigurations);
+				ViewModel.LibraryRootDirectories = new ObservableCollection<LibraryRoot>(oldLibraryRootDirectories);
 			}
 		}
 
