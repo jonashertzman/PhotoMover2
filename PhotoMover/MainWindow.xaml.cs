@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -17,6 +18,9 @@ namespace PhotoMover
 
 		MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
 
+		readonly string regPath = @"Folder\shell\photomover";
+		readonly string shellexecutePath = $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"";
+
 		#endregion
 
 		#region Constructor
@@ -26,6 +30,14 @@ namespace PhotoMover
 			InitializeComponent();
 
 			DataContext = ViewModel;
+
+			if (ViewModel.IsAdministrator)
+			{
+				ViewModel.ShellExtentionsInstalled = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellexecutePath;
+			}
+
+			AddShellExtention.Checked += AddShellExtention_Checked;
+			AddShellExtention.Unchecked += AddShellExtention_Unchecked;
 		}
 
 		#endregion
@@ -52,6 +64,20 @@ namespace PhotoMover
 			this.Width = AppSettings.Width;
 			this.Height = AppSettings.Height;
 			this.WindowState = AppSettings.WindowState;
+		}
+
+		private void ShowInExplorer(string sourcePath)
+		{
+			if (File.Exists(sourcePath))
+			{
+				string args = $"/Select, {sourcePath}";
+				ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+				Process.Start(pfi);
+			}
+			else
+			{
+				Process.Start(Path.GetDirectoryName(sourcePath));
+			}
 		}
 
 		#endregion
@@ -175,18 +201,21 @@ namespace PhotoMover
 			ProgressLabel.Content = progress.Item2;
 		}
 
-		private void ShowInExplorer(string sourcePath)
+		private void AddShellExtention_Checked(object sender, RoutedEventArgs e)
 		{
-			if (File.Exists(sourcePath))
+			using (RegistryKey key = Registry.ClassesRoot.CreateSubKey(regPath))
 			{
-				string args = $"/Select, {sourcePath}";
-				ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
-				Process.Start(pfi);
+				key.SetValue(null, "Import With Photo Mover");
 			}
-			else
+			using (RegistryKey key = Registry.ClassesRoot.CreateSubKey(regPath + "\\command"))
 			{
-				Process.Start(Path.GetDirectoryName(sourcePath));
+				key.SetValue(null, shellexecutePath);
 			}
+		}
+
+		private void AddShellExtention_Unchecked(object sender, RoutedEventArgs e)
+		{
+			Registry.ClassesRoot.DeleteSubKeyTree(regPath);
 		}
 
 		#region Commands

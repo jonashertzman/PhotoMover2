@@ -42,7 +42,10 @@
 					</Grid.ColumnDefinitions>
 					<Menu Grid.Row="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
 						<MenuItem Header="File">
-							<MenuItem Header="Exit" Command="local:Commands.Exit" />
+							<MenuItem Name="AddShellExtensionsMenuItem" Header="Exit" Command="local:Commands.Exit" />
+						</MenuItem>
+						<MenuItem Header="Tools">
+							<MenuItem Name="AddShellExtention" Header="Add Shell Extention" IsEnabled="{Binding IsAdministrator}" IsCheckable="True" IsChecked="{Binding ShellExtentionsInstalled}" />
 						</MenuItem>
 						<MenuItem Header="Help">
 							<MenuItem Header="About" Command="local:Commands.About" />

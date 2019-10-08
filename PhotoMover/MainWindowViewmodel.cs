@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
+using System.Security.Principal;
 using System.Text;
 
 namespace PhotoMover
@@ -43,6 +44,24 @@ namespace PhotoMover
 		public string FullApplicationName
 		{
 			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
+		}
+
+		public bool IsAdministrator
+		{
+			get
+			{
+				WindowsIdentity wi = WindowsIdentity.GetCurrent();
+				WindowsPrincipal wp = new WindowsPrincipal(wi);
+
+				return wp.IsInRole(WindowsBuiltInRole.Administrator);
+			}
+		}
+
+		private bool shellExtentionsInstalled;
+		public bool ShellExtentionsInstalled
+		{
+			get { return shellExtentionsInstalled; }
+			set { shellExtentionsInstalled = value; OnPropertyChanged(nameof(ShellExtentionsInstalled)); }
 		}
 
 		bool guiFrozen = false;
@@ -96,6 +115,7 @@ namespace PhotoMover
 			get { return importFiles; }
 			set { importFiles = value; OnPropertyChanged(nameof(ImportFiles)); }
 		}
+
 		#endregion
 
 		#region INotifyPropertyChanged
