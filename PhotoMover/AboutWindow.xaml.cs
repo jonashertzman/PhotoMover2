@@ -1,13 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 
 namespace PhotoMover
 {
-	/// <summary>
-	/// Interaction logic for AboutWindow.xaml
-	/// </summary>
 	public partial class AboutWindow : Window
 	{
+
 		public AboutWindow()
 		{
 			InitializeComponent();
@@ -16,6 +15,16 @@ namespace PhotoMover
 		private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
 			Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+			e.Handled = true;
+		}
+
+		private void Feedback_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+		{
+			MainWindowViewModel viewModel = DataContext as MainWindowViewModel;
+
+			string mailto = Uri.EscapeUriString($"mailto:jonashertzmansoftware@gmail.com?Subject={viewModel.FullApplicationName}&Body=Hello");
+
+			Process.Start(new ProcessStartInfo(mailto));
 			e.Handled = true;
 		}
 
