@@ -68,6 +68,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="BackgroundAnalyzeImport.cs" />
     <Compile Include="BackgroundPerformImport.cs" />
+    <Compile Include="DateFormat.cs" />
     <Compile Include="FileItem.cs" />
     <Compile Include="LibraryRoot.cs" />
     <Compile Include="SettingsData.cs" />

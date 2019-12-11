@@ -19,7 +19,22 @@ namespace PhotoMover
 
 		#endregion
 
+		#region Constructor
+
+		static AppSettings()
+		{
+			DateFormats.Add(new DateFormat("yyyy", "Year"));
+			DateFormats.Add(new DateFormat("MMMM", "Month number"));
+			DateFormats.Add(new DateFormat("MMM", "Short month name"));
+			DateFormats.Add(new DateFormat("MM", "Long month name"));
+			DateFormats.Add(new DateFormat("dd", "Day"));
+		}
+
+		#endregion
+
 		#region Properies
+
+		public static ObservableCollection<DateFormat> DateFormats = new ObservableCollection<DateFormat>();
 
 		public static ObservableCollection<ImportConfiguration> ImportConfigurations
 		{

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace PhotoMover
@@ -39,21 +40,14 @@ namespace PhotoMover
 		{
 			string formatedString = destinationFormat;
 
-			formatedString = ReplaceDatePattern(formatedString, date, "yyyy");
-			formatedString = ReplaceDatePattern(formatedString, date, "MMMM");
-			formatedString = ReplaceDatePattern(formatedString, date, "MMM");
-			formatedString = ReplaceDatePattern(formatedString, date, "MM");
-			formatedString = ReplaceDatePattern(formatedString, date, "dd");
-
-			return formatedString;
-		}
-
-		private string ReplaceDatePattern(string formatedString, DateTime date, string formatPattern)
-		{
-			while (formatedString.Contains(formatPattern))
+			foreach (DateFormat dateFormat in AppSettings.DateFormats)
 			{
-				formatedString = formatedString.Replace(formatPattern, string.Format("{0:" + formatPattern + "}", date));
+				while (formatedString.Contains(dateFormat.PlaceHolder))
+				{
+					formatedString = formatedString.Replace(dateFormat.PlaceHolder, string.Format("{0:" + dateFormat.Format + "}", date));
+				}
 			}
+
 			return formatedString;
 		}
 
