@@ -50,42 +50,47 @@
 		</StackPanel>
 
 		<Popup Name="HelpPopup" Placement="Center" StaysOpen="False" AllowsTransparency="True">
-			<Border Margin="10" Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
-				<Border.Effect>
-					<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
-				</Border.Effect>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="auto" />
-						<ColumnDefinition Width="auto" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-						<RowDefinition />
-					</Grid.RowDefinitions>
+			<Grid RenderOptions.ClearTypeHint="Enabled">
+				<!-- Workaround to not fuckup the cleartype rendering -->
+				<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+					<Border.Effect>
+						<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
+					</Border.Effect>
+				</Border>
+				<Border Margin="10" Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" />
+							<ColumnDefinition Width="auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+							<RowDefinition />
+						</Grid.RowDefinitions>
 
-					<Label Grid.Row="0" Grid.ColumnSpan="2" Content="Supported date formats:" Style="{StaticResource CommonTextLabel}" FontWeight="Bold" />
-					<Label Grid.Row="1" Grid.Column="0" Content="yyyy" Style="{StaticResource CommonTextLabel}" />
-					<Label Grid.Row="1" Grid.Column="1" Content="Year (2019)" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="0" Grid.ColumnSpan="2" Content="Supported date formats:" Style="{StaticResource CommonTextLabel}" FontWeight="Bold" />
+						<Label Grid.Row="1" Grid.Column="0" Content="yyyy" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="1" Grid.Column="1" Content="Year (2019)" Style="{StaticResource CommonTextLabel}" />
 
-					<Label Grid.Row="2" Grid.Column="0" Content="MM" Style="{StaticResource CommonTextLabel}" />
-					<Label Grid.Row="2" Grid.Column="1" Content="Month number (01)" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="2" Grid.Column="0" Content="MM" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="2" Grid.Column="1" Content="Month number (01)" Style="{StaticResource CommonTextLabel}" />
 
-					<Label Grid.Row="3" Grid.Column="0" Content="MMM" Style="{StaticResource CommonTextLabel}" />
-					<Label Grid.Row="3" Grid.Column="1" Content="Short month name (Jan)" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="3" Grid.Column="0" Content="MMM" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="3" Grid.Column="1" Content="Short month name (Jan)" Style="{StaticResource CommonTextLabel}" />
 
-					<Label Grid.Row="4" Grid.Column="0" Content="MMMM" Style="{StaticResource CommonTextLabel}" />
-					<Label Grid.Row="4" Grid.Column="1" Content="Long month name (January)" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="4" Grid.Column="0" Content="MMMM" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="4" Grid.Column="1" Content="Long month name (January)" Style="{StaticResource CommonTextLabel}" />
 
-					<Label Grid.Row="5" Grid.Column="0" Content="dd" Style="{StaticResource CommonTextLabel}" />
-					<Label Grid.Row="5" Grid.Column="1" Content="Day (01)" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="5" Grid.Column="0" Content="dd" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="5" Grid.Column="1" Content="Day (01)" Style="{StaticResource CommonTextLabel}" />
 
-				</Grid>
-			</Border>
+					</Grid>
+				</Border>
+			</Grid>
 		</Popup>
 
 	</Grid>
