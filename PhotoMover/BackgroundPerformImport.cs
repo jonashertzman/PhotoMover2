@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Windows;
 
 namespace PhotoMover
@@ -24,9 +25,13 @@ namespace PhotoMover
 			abortPosted = false;
 			int fileCount = 0;
 
+			ReportProgress(0, $"Importing files...", true);
+
 			foreach (FileItem importFile in importFiles)
 			{
 				if (abortPosted) return;
+
+				//Thread.Sleep(300);
 
 				try
 				{
@@ -42,10 +47,10 @@ namespace PhotoMover
 				catch (Exception e)
 				{
 					importFile.Status = "Copy failed. " + e.Message;
-					MessageBox.Show(e.Message, "Error");
+					MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 
-				ReportProgress((float)fileCount++ / importFiles.Count, $"Copying files...");
+				ReportProgress((float)fileCount++ / importFiles.Count, $"Importing files... {fileCount} files processed...");
 			}
 		}
 

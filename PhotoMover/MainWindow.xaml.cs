@@ -149,7 +149,7 @@ namespace PhotoMover
 			}
 			else
 			{
-				MessageBox.Show("Import folder does not exist.", "Error");
+				MessageBox.Show("Import folder does not exist.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
@@ -167,6 +167,7 @@ namespace PhotoMover
 		private void TaskDone(Task task)
 		{
 			ViewModel.GuiFrozen = false;
+			ProgressLabel.Content = "";
 		}
 
 		private void ButtonCopy_Click(object sender, RoutedEventArgs e)
@@ -183,7 +184,7 @@ namespace PhotoMover
 
 			if (filesToCopy.Count == 0)
 			{
-				MessageBox.Show("No files selected for import.", "Error");
+				MessageBox.Show("No files selected for import.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 

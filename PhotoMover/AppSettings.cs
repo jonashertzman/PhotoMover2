@@ -82,7 +82,7 @@ namespace PhotoMover
 					}
 					catch (Exception e)
 					{
-						MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
+						MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					}
 				}
 			}
@@ -114,7 +114,7 @@ namespace PhotoMover
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message);
+				MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 

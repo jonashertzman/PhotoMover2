@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace PhotoMover
 {
@@ -42,6 +43,8 @@ namespace PhotoMover
 			foreach (FileItem importFile in GetFilesInDirectory(importPath, out int itemCount))
 			{
 				if (abortPosted) return;
+
+				//Thread.Sleep(300);
 
 				if (CheckImport(importFile))
 				{
