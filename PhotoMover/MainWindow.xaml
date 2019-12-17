@@ -86,7 +86,7 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox Grid.Column="0" Text="{Binding ImportConfigurationsLabel, Mode=OneTime}" Padding="2" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" IsEnabled="False" />
+						<TextBox Grid.Column="0" Text="{Binding ImportConfigurationsLabel, Mode=OneWay}" Padding="2" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" IsEnabled="False" />
 						<Button Grid.Column="1" Name="ButtonEditConfiguration" Content="..." Width="20" BorderThickness="0" Click="ButtonEditConfiguration_Click" />
 					</Grid>
 				</Border>

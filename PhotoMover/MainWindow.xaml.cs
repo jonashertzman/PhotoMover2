@@ -132,6 +132,8 @@ namespace PhotoMover
 				ViewModel.ImportConfigurations = new ObservableCollection<ImportConfiguration>(oldImportConfigurations);
 				ViewModel.LibraryRootDirectories = new ObservableCollection<LibraryRoot>(oldLibraryRootDirectories);
 			}
+
+			ViewModel.Refresh();
 		}
 
 		private void ButtonFindFiles_Click(object sender, RoutedEventArgs e)

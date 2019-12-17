@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:PhotoMover">
 
 	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
+	<SolidColorBrush x:Key="InvalidCellBrush" Color="#FFFFD2C8" />
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
 		<Setter Property="Margin" Value="20,0,0,0" />
@@ -67,17 +68,20 @@
 	</Style>
 
 	<Style x:Key="EditableDataGrid" TargetType="DataGrid">
+		<Setter Property="CanUserReorderColumns" Value="False" />
+		<Setter Property="CanUserResizeColumns" Value="False" />
 		<Setter Property="AutoGenerateColumns" Value="False" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 		<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
 		<Setter Property="RowHeaderWidth" Value="0" />
 		<Setter Property="CanUserResizeRows" Value="False" />
-		<Setter Property="GridLinesVisibility" Value="Horizontal" />
+		<Setter Property="GridLinesVisibility" Value="All" />
 		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
+		<Setter Property="VerticalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
 		<Setter Property="SelectionMode" Value="Single" />
 	</Style>
 
-	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}">
+	<Style x:Key="EditableDataGridCell" TargetType="DataGridCell">
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
 				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
@@ -86,7 +90,7 @@
 				<Setter Property="Foreground" Value="Black" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
+				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="True">
@@ -97,27 +101,7 @@
 		</Style.Triggers>
 	</Style>
 
-	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}">
-		<Style.Triggers>
-			<Trigger Property="DataGridCell.IsSelected" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="Foreground" Value="Black" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
-
-	<Style x:Key="CheckBoxColumn" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellAttributes}">
+	<Style x:Key="CheckBoxColumn" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource EditableDataGridCell}">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -147,20 +131,6 @@
 				<Setter Property="BorderBrush" Value="{StaticResource HighLightCellBrush}" />
 			</Trigger>
 		</Style.Triggers>
-	</Style>
-
-	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}">
-		<Setter Property="CanUserReorderColumns" Value="False" />
-		<Setter Property="CanUserResizeColumns" Value="False" />
-		<Setter Property="AutoGenerateColumns" Value="False" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
-		<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-		<Setter Property="RowHeaderWidth" Value="0" />
-		<Setter Property="CanUserResizeRows" Value="False" />
-		<Setter Property="GridLinesVisibility" Value="All" />
-		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
-		<Setter Property="VerticalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
-		<Setter Property="SelectionMode" Value="Single" />
 	</Style>
 
 </ResourceDictionary>

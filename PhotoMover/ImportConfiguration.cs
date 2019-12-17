@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 
 namespace PhotoMover
 {
@@ -22,14 +23,31 @@ namespace PhotoMover
 		public string Files
 		{
 			get { return files; }
-			set { files = value; OnPropertyChanged(nameof(Files)); }
+			set { files = value; OnPropertyChanged(nameof(Files)); OnPropertyChanged(nameof(Valid)); }
 		}
 
 		string destinationFormat = "";
 		public string DestinationFormat
 		{
 			get { return destinationFormat; }
-			set { destinationFormat = value; OnPropertyChanged(nameof(DestinationFormat)); }
+			set { destinationFormat = value; OnPropertyChanged(nameof(DestinationFormat)); OnPropertyChanged(nameof(Valid)); }
+		}
+
+		public bool Valid
+		{
+			get
+			{
+				try
+				{
+					new DirectoryInfo(GetDestinationFolder(DateTime.Now));
+				}
+				catch
+				{
+					return false;
+				}
+
+				return true;
+			}
 		}
 
 		#endregion

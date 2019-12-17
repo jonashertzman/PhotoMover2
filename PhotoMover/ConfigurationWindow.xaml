@@ -12,11 +12,11 @@
 				<RowDefinition Height="auto" />
 			</Grid.RowDefinitions>
 
-			<DataGrid Grid.Row="0" Margin="5,5,5,0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ImportConfigurations, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
+			<DataGrid Grid.Row="0" Margin="5,5,5,0" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding ImportConfigurations, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 				<DataGrid.Columns>
-					<DataGridTextColumn Binding="{Binding Files, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Files" Width="1*" />
-					<DataGridTextColumn Binding="{Binding DestinationFormat, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Import Destination" Width="2*" />
-					<DataGridTemplateColumn CellStyle="{StaticResource DataGridCellAttributes}">
+					<DataGridTextColumn Binding="{Binding Files, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource EditableDataGridCell}" Header="Files" Width="1*" />
+					<DataGridTextColumn Binding="{Binding DestinationFormat, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource EditableDataGridCell}" Header="Import Destination" Width="2*" />
+					<DataGridTemplateColumn CellStyle="{StaticResource EditableDataGridCell}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<Button BorderThickness="0">...</Button>
@@ -27,10 +27,10 @@
 			</DataGrid>
 			<Label Grid.Row="1" Content="Multiple filenames can be separated by spaces. Import destination can contain placeholders for file dates." Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey} }" Style="{StaticResource CommonTextLabel}" Margin="5,0,5,5" />
 
-			<DataGrid Grid.Row="2" Margin="5,5,5,0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding LibraryRootDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
+			<DataGrid Grid.Row="2" Margin="5,5,5,0" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding LibraryRootDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 				<DataGrid.Columns>
-					<DataGridTextColumn Binding="{Binding Path, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Library Root Directories" Width="*" />
-					<DataGridTemplateColumn CellStyle="{StaticResource DataGridCellAttributes}">
+					<DataGridTextColumn Binding="{Binding Path, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource EditableDataGridCell}" Header="Library Root Directories" Width="*" />
+					<DataGridTemplateColumn CellStyle="{StaticResource EditableDataGridCell}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<Button x:Name="ButtonBrowseLibrary" BorderThickness="0" Click="ButtonBrowseLibrary_Click">...</Button>
@@ -73,19 +73,19 @@
 						</Grid.RowDefinitions>
 
 						<Label Grid.Row="0" Grid.ColumnSpan="2" Content="Supported date formats:" Style="{StaticResource CommonTextLabel}" FontWeight="Bold" />
-						<Label Grid.Row="1" Grid.Column="0" Content="yyyy" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="1" Grid.Column="0" Content="&lt;year&gt;" Style="{StaticResource CommonTextLabel}" />
 						<Label Grid.Row="1" Grid.Column="1" Content="Year (2019)" Style="{StaticResource CommonTextLabel}" />
 
-						<Label Grid.Row="2" Grid.Column="0" Content="MM" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="2" Grid.Column="0" Content="&lt;month&gt;" Style="{StaticResource CommonTextLabel}" />
 						<Label Grid.Row="2" Grid.Column="1" Content="Month number (01)" Style="{StaticResource CommonTextLabel}" />
 
-						<Label Grid.Row="3" Grid.Column="0" Content="MMM" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="3" Grid.Column="0" Content="&lt;month2&gt;" Style="{StaticResource CommonTextLabel}" />
 						<Label Grid.Row="3" Grid.Column="1" Content="Short month name (Jan)" Style="{StaticResource CommonTextLabel}" />
 
-						<Label Grid.Row="4" Grid.Column="0" Content="MMMM" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="4" Grid.Column="0" Content="&lt;month3&gt;" Style="{StaticResource CommonTextLabel}" />
 						<Label Grid.Row="4" Grid.Column="1" Content="Long month name (January)" Style="{StaticResource CommonTextLabel}" />
 
-						<Label Grid.Row="5" Grid.Column="0" Content="dd" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="5" Grid.Column="0" Content="&lt;day&gt;" Style="{StaticResource CommonTextLabel}" />
 						<Label Grid.Row="5" Grid.Column="1" Content="Day (01)" Style="{StaticResource CommonTextLabel}" />
 
 					</Grid>

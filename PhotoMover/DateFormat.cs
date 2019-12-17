@@ -1,12 +1,15 @@
-﻿namespace PhotoMover
+﻿using System;
+
+namespace PhotoMover
 {
 	public class DateFormat
 	{
 
 		#region Constructor
 
-		public DateFormat(string format, string description)
+		public DateFormat(string placeHolder, string format, string description)
 		{
+			PlaceHolder = $"<{placeHolder}>";
 			Format = format;
 			Description = description;
 		}
@@ -19,11 +22,13 @@
 
 		public string Description { get; private set; }
 
-		public string PlaceHolder
+		public string PlaceHolder { get; private set; }
+
+		public string Example
 		{
 			get
 			{
-				return $"<{Format}>";
+				return string.Format("{0:" + Format + "}", DateTime.Now);
 			}
 		}
 

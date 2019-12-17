@@ -87,7 +87,7 @@ namespace PhotoMover
 		public ObservableCollection<LibraryRoot> LibraryRootDirectories
 		{
 			get { return AppSettings.LibraryRootDirectories; }
-			set { AppSettings.LibraryRootDirectories = value; OnPropertyChanged(nameof(LibraryRootDirectories)); }
+			set { AppSettings.LibraryRootDirectories = value; OnPropertyChanged(nameof(LibraryRootDirectories));  }
 		}
 
 		public string ImportConfigurationsLabel
@@ -117,6 +117,11 @@ namespace PhotoMover
 		}
 
 		#endregion
+
+		public void Refresh()
+		{
+			OnPropertyChanged(nameof(ImportConfigurationsLabel));
+		}
 
 		#region INotifyPropertyChanged
 

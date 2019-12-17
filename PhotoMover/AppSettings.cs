@@ -23,11 +23,11 @@ namespace PhotoMover
 
 		static AppSettings()
 		{
-			DateFormats.Add(new DateFormat("yyyy", "Year"));
-			DateFormats.Add(new DateFormat("MMMM", "Month number"));
-			DateFormats.Add(new DateFormat("MMM", "Short month name"));
-			DateFormats.Add(new DateFormat("MM", "Long month name"));
-			DateFormats.Add(new DateFormat("dd", "Day"));
+			DateFormats.Add(new DateFormat("year", "yyyy", "Year"));
+			DateFormats.Add(new DateFormat("month", "MM", "Month number"));
+			DateFormats.Add(new DateFormat("month2", "MMM", "Short month name"));
+			DateFormats.Add(new DateFormat("month3", "MMMM", "Long month name"));
+			DateFormats.Add(new DateFormat("day", "dd", "Day"));
 		}
 
 		#endregion
