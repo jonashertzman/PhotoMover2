@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 
 namespace PhotoMover
 {
@@ -149,19 +150,26 @@ namespace PhotoMover
 
 		private static bool CheckImport(FileItem importFile)
 		{
-			foreach (ImportConfiguration configuration in AppSettings.ImportConfigurations)
+			try
 			{
-				foreach (string file in configuration.Files.Split(' '))
+				foreach (ImportConfiguration configuration in AppSettings.ImportConfigurations)
 				{
-					if (WildcardCompare(importFile.Name, file, true))
+					foreach (string file in configuration.Files.Split(' '))
 					{
-						string destinationFolder = configuration.GetDestinationFolder(importFile.DateTaken);
+						if (WildcardCompare(importFile.Name, file, true))
+						{
+							string destinationFolder = configuration.GetDestinationFolder(importFile.DateTaken);
 
-						importFile.DestinationPath = Path.Combine(destinationFolder, importFile.Name);
+							importFile.DestinationPath = Path.Combine(destinationFolder, importFile.Name);
 
-						return true;
+							return true;
+						}
 					}
 				}
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 			return false;

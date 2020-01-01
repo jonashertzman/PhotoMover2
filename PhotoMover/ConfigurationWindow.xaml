@@ -19,7 +19,7 @@
 					<DataGridTemplateColumn CellStyle="{StaticResource EditableDataGridCell}">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<Button BorderThickness="0">...</Button>
+								<Button x:Name="ButtonInsertPlaceholder" BorderThickness="0" Click="ButtonInsertPlaceholder_Click">...</Button>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
@@ -59,34 +59,33 @@
 				</Border>
 				<Border Margin="10" Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
 					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="auto" />
-							<ColumnDefinition Width="auto" />
-						</Grid.ColumnDefinitions>
+
 						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
 							<RowDefinition />
 							<RowDefinition />
 						</Grid.RowDefinitions>
 
-						<Label Grid.Row="0" Grid.ColumnSpan="2" Content="Supported date formats:" Style="{StaticResource CommonTextLabel}" FontWeight="Bold" />
-						<Label Grid.Row="1" Grid.Column="0" Content="&lt;year&gt;" Style="{StaticResource CommonTextLabel}" />
-						<Label Grid.Row="1" Grid.Column="1" Content="Year (2019)" Style="{StaticResource CommonTextLabel}" />
+						<Label Grid.Row="0" Grid.ColumnSpan="2" Content="Supported date formats" Style="{StaticResource CommonTextLabel}" FontWeight="Bold" />
 
-						<Label Grid.Row="2" Grid.Column="0" Content="&lt;month&gt;" Style="{StaticResource CommonTextLabel}" />
-						<Label Grid.Row="2" Grid.Column="1" Content="Month number (01)" Style="{StaticResource CommonTextLabel}" />
+						<ItemsControl Grid.Row="1" ItemsSource="{Binding DateFormats}" Grid.IsSharedSizeScope="True">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition SharedSizeGroup="ColumnOne" Width="Auto" />
+											<ColumnDefinition SharedSizeGroup="ColumnTwo" Width="Auto" />
+											<ColumnDefinition SharedSizeGroup="ColumnThree" Width="Auto" />
+											<ColumnDefinition SharedSizeGroup="ColumnFour" Width="Auto" />
+										</Grid.ColumnDefinitions>
 
-						<Label Grid.Row="3" Grid.Column="0" Content="&lt;month2&gt;" Style="{StaticResource CommonTextLabel}" />
-						<Label Grid.Row="3" Grid.Column="1" Content="Short month name (Jan)" Style="{StaticResource CommonTextLabel}" />
-
-						<Label Grid.Row="4" Grid.Column="0" Content="&lt;month3&gt;" Style="{StaticResource CommonTextLabel}" />
-						<Label Grid.Row="4" Grid.Column="1" Content="Long month name (January)" Style="{StaticResource CommonTextLabel}" />
-
-						<Label Grid.Row="5" Grid.Column="0" Content="&lt;day&gt;" Style="{StaticResource CommonTextLabel}" />
-						<Label Grid.Row="5" Grid.Column="1" Content="Day (01)" Style="{StaticResource CommonTextLabel}" />
+										<TextBlock Grid.Column="0" Text="{Binding PlaceHolder}" Style="{StaticResource CommonTextblock}" />
+										<TextBlock Grid.Column="1" Text="{Binding Description}" Style="{StaticResource CommonTextblock}" />
+										<TextBlock Grid.Column="2" Text="{Binding Example}" Style="{StaticResource CommonTextblock}" />
+										<Button ToolTip="Append" Grid.Column="3" Content="&#x2386;" BorderThickness="0" Margin="5" VerticalAlignment="Center" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Click="ButtonAppendPlaceholder_Click" />
+									</Grid>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
 
 					</Grid>
 				</Border>

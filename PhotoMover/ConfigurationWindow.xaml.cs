@@ -9,6 +9,12 @@ namespace PhotoMover
 	public partial class ConfigurationWindow : Window
 	{
 
+		#region Members
+
+		ImportConfiguration selectedConfiguration = null;
+
+		#endregion
+
 		#region Constructor
 
 		public ConfigurationWindow()
@@ -66,6 +72,13 @@ namespace PhotoMover
 			}
 		}
 
+		private void ButtonInsertPlaceholder_Click(object sender, RoutedEventArgs e)
+		{
+			selectedConfiguration = (sender as Button).DataContext as ImportConfiguration;
+
+			HelpPopup.IsOpen = true;
+		}
+
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)
 		{
 			RemoveEmptyConfigurations();
@@ -75,7 +88,18 @@ namespace PhotoMover
 
 		private void ButtonHelp_Click(object sender, RoutedEventArgs e)
 		{
+			selectedConfiguration = null;
+
 			HelpPopup.IsOpen = true;
+		}
+
+		private void ButtonAppendPlaceholder_Click(object sender, RoutedEventArgs e)
+		{
+			if (selectedConfiguration != null)
+			{
+				DateFormat dataFormat = (e.Source as Button).DataContext as DateFormat;
+				selectedConfiguration.DestinationFormat += dataFormat.PlaceHolder;
+			}
 		}
 
 		#endregion

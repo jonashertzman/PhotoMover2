@@ -25,8 +25,8 @@ namespace PhotoMover
 		{
 			DateFormats.Add(new DateFormat("year", "yyyy", "Year"));
 			DateFormats.Add(new DateFormat("month", "MM", "Month number"));
-			DateFormats.Add(new DateFormat("month2", "MMM", "Short month name"));
-			DateFormats.Add(new DateFormat("month3", "MMMM", "Long month name"));
+			DateFormats.Add(new DateFormat("short_month", "MMM", "Short month name"));
+			DateFormats.Add(new DateFormat("long_month", "MMMM", "Long month name"));
 			DateFormats.Add(new DateFormat("day", "dd", "Day"));
 		}
 
