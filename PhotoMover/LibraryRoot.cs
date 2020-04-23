@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using MetadataExtractor;
+using System.ComponentModel;
 
 namespace PhotoMover
 {
@@ -25,7 +26,15 @@ namespace PhotoMover
 		public string Path
 		{
 			get { return path; }
-			set { path = value; OnPropertyChanged(nameof(Path)); }
+			set { path = value; OnPropertyChanged(nameof(Path)); OnPropertyChanged(nameof(Valid)); }
+		}
+
+		public bool Valid
+		{
+			get
+			{
+				return System.IO.Directory.Exists(path);
+			}
 		}
 
 		#endregion

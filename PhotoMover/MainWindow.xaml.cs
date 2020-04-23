@@ -117,8 +117,17 @@ namespace PhotoMover
 
 		private void ButtonEditConfiguration_Click(object sender, RoutedEventArgs e)
 		{
-			var oldImportConfigurations = new ObservableCollection<ImportConfiguration>(ViewModel.ImportConfigurations);
-			var oldLibraryRootDirectories = new ObservableCollection<LibraryRoot>(ViewModel.LibraryRootDirectories);
+			var oldImportConfigurations = new ObservableCollection<ImportConfiguration>();
+			foreach (ImportConfiguration i in ViewModel.ImportConfigurations)
+			{
+				oldImportConfigurations.Add(new ImportConfiguration() { DestinationFormat = i.DestinationFormat, Files = i.Files });
+			}
+
+			var oldLibraryRootDirectories = new ObservableCollection<LibraryRoot>();
+			foreach (LibraryRoot l in ViewModel.LibraryRootDirectories)
+			{
+				oldLibraryRootDirectories.Add(new LibraryRoot(l.Path));
+			}
 
 			ConfigurationWindow configurationWindow = new ConfigurationWindow() { Owner = this, DataContext = ViewModel };
 			configurationWindow.ShowDialog();

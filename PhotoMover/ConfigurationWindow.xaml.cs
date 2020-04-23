@@ -26,15 +26,19 @@ namespace PhotoMover
 
 		#region Methods
 
-		private void RemoveEmptyConfigurations()
+		private bool ConfigurationValid()
 		{
 			MainWindowViewModel ViewModel = DataContext as MainWindowViewModel;
 
 			for (int i = ViewModel.ImportConfigurations.Count - 1; i >= 0; i--)
 			{
-				if (string.IsNullOrEmpty(ViewModel.ImportConfigurations[i].Files))
+				if (string.IsNullOrEmpty(ViewModel.ImportConfigurations[i].Files) && string.IsNullOrEmpty(ViewModel.ImportConfigurations[i].DestinationFormat))
 				{
 					ViewModel.ImportConfigurations.RemoveAt(i);
+				}
+				else if (!ViewModel.ImportConfigurations[i].Valid)
+				{
+					return false;
 				}
 			}
 
@@ -44,7 +48,13 @@ namespace PhotoMover
 				{
 					ViewModel.LibraryRootDirectories.RemoveAt(i);
 				}
+				else if (!ViewModel.LibraryRootDirectories[i].Valid)
+				{
+					return false;
+				}
 			}
+
+			return true;
 		}
 
 		#endregion
@@ -81,9 +91,11 @@ namespace PhotoMover
 
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)
 		{
-			RemoveEmptyConfigurations();
-
-			DialogResult = true;
+			if (ConfigurationValid())
+			{
+				DialogResult = true;
+				Close();
+			}
 		}
 
 		private void ButtonHelp_Click(object sender, RoutedEventArgs e)

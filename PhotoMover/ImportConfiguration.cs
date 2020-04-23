@@ -37,16 +37,11 @@ namespace PhotoMover
 		{
 			get
 			{
-				try
-				{
-					new DirectoryInfo(GetDestinationFolder(DateTime.Now));
-				}
-				catch
+				if (string.IsNullOrEmpty(files) || string.IsNullOrEmpty(destinationFormat))
 				{
 					return false;
 				}
-
-				return true;
+				return DestinationIsValid();
 			}
 		}
 
@@ -67,6 +62,20 @@ namespace PhotoMover
 			}
 
 			return formatedString;
+		}
+
+		private bool DestinationIsValid()
+		{
+			try
+			{
+				new DirectoryInfo(GetDestinationFolder(DateTime.Now));
+			}
+			catch
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		#endregion
