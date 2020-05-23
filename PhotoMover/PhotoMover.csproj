@@ -144,5 +144,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UpdateVersion\UpdateVersion.csproj">
+      <Project>{f0e4b3b5-18d7-4474-b684-d34d2dcddf69}</Project>
+      <Name>UpdateVersion</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+ "C:\Program Files\7-Zip\7z" a ..\..\..\docs\download\$(TargetName).zip "$(TargetPath)" ..\..\..\LICENSE
+ UpdateVersion
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -1,10 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace PhotoMover
 {
 	public class SettingsData
 	{
+
+		public string Id { get; set; } = Guid.NewGuid().ToString();
+
+		public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
+
 		public ObservableCollection<ImportConfiguration> ImportConfigurations { get; set; } = new ObservableCollection<ImportConfiguration>();
 
 		public ObservableCollection<LibraryRoot> LibraryRootDirectories { get; set; } = new ObservableCollection<LibraryRoot>();

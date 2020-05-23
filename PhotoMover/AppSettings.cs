@@ -15,6 +15,8 @@ namespace PhotoMover
 		private const string SETTINGS_DIRECTORY = "PhotoMover2";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
 
+		public const string HOMEPAGE = @"https://github.com/jonashertzman/PhotoMover2";
+
 		private static SettingsData Settings = new SettingsData();
 
 		#endregion
@@ -33,6 +35,17 @@ namespace PhotoMover
 		#endregion
 
 		#region Properies
+
+		public static string Id
+		{
+			get { return Settings.Id; }
+		}
+
+		public static DateTime LastUpdateTime
+		{
+			get { return Settings.LastUpdateTime; }
+			set { Settings.LastUpdateTime = value; }
+		}
 
 		public static ObservableCollection<DateFormat> DateFormats = new ObservableCollection<DateFormat>();
 

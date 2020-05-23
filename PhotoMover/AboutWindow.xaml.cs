@@ -14,7 +14,7 @@ namespace PhotoMover
 
 		private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
-			Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+			Process.Start(new ProcessStartInfo(AppSettings.HOMEPAGE));
 			e.Handled = true;
 		}
 

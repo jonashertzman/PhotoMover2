@@ -29,7 +29,7 @@ namespace PhotoMover
 
 		public string Version
 		{
-			get { return "2 - Alpha 1"; }
+			get { return "2 - Beta 1"; }
 		}
 
 		public string BuildNumber
@@ -44,6 +44,13 @@ namespace PhotoMover
 		public string FullApplicationName
 		{
 			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
+		}
+
+		bool newBuildAvailable = false;
+		public bool NewBuildAvailable
+		{
+			get { return newBuildAvailable; }
+			set { newBuildAvailable = value; OnPropertyChanged(nameof(NewBuildAvailable)); }
 		}
 
 		public bool IsAdministrator

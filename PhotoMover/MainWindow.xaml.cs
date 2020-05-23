@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
@@ -80,6 +81,48 @@ namespace PhotoMover
 			}
 		}
 
+		private void CheckForUpdate(bool forceUpdateCheck = false)
+		{
+			if (AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forceUpdateCheck)
+			{
+				Task.Run(() =>
+				{
+					try
+					{
+						Debug.Print("Checking for new version...");
+
+						WebClient webClient = new WebClient();
+						string result = webClient.DownloadString("https://jonashertzman.github.io/PhotoMover2/download/version.txt");
+
+						Debug.Print($"Latest version found: {result}");
+
+						return result;
+					}
+					catch (Exception exception)
+					{
+						Debug.Print($"Version check failed: {exception.Message}");
+					}
+
+					return null;
+
+				}).ContinueWith(ProcessUpdate, TaskScheduler.FromCurrentSynchronizationContext());
+
+				AppSettings.LastUpdateTime = DateTime.Now;
+			}
+		}
+
+		private void ProcessUpdate(Task<string> task)
+		{
+			if (task.Result != null)
+			{
+				try
+				{
+					ViewModel.NewBuildAvailable = int.Parse(task.Result) > int.Parse(ViewModel.BuildNumber);
+				}
+				catch (Exception) { }
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -89,6 +132,7 @@ namespace PhotoMover
 			FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
 			LoadSettings();
+			CheckForUpdate();
 		}
 
 		private void Window_ContentRendered(object sender, System.EventArgs e)
@@ -230,6 +274,12 @@ namespace PhotoMover
 			Registry.ClassesRoot.DeleteSubKeyTree(regPath);
 		}
 
+		private void Hyperlink_OpenHomepage(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+		{
+			Process.Start(new ProcessStartInfo(AppSettings.HOMEPAGE));
+			e.Handled = true;
+		}
+
 		#region Commands
 
 		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -239,6 +289,8 @@ namespace PhotoMover
 
 		private void CommandAbout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
+			CheckForUpdate(true);
+
 			AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
 			aboutWindow.ShowDialog();
 		}
