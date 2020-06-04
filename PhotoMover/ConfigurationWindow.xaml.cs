@@ -17,6 +17,8 @@ namespace PhotoMover
 		public ConfigurationWindow()
 		{
 			InitializeComponent();
+
+			Utils.HideMinimizeAndMaximizeButtons(this);
 		}
 
 		#endregion
