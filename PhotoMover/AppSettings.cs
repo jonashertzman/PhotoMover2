@@ -13,15 +13,14 @@ namespace PhotoMover
 		#region Members
 
 		private const string SETTINGS_DIRECTORY = "PhotoMover2";
-#if DEBUG
-		private const string SETTINGS_FILE_NAME = "DebugSettings.xml";
-#else
+		private const string DEBUG_SETTINGS_FILE_NAME = "DebugSettings.xml";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
-#endif
 
 		public const string HOMEPAGE = @"https://github.com/jonashertzman/PhotoMover2";
 
 		private static SettingsData Settings = new SettingsData();
+
+		private static readonly bool debugBuild = false;
 
 		#endregion
 
@@ -29,6 +28,11 @@ namespace PhotoMover
 
 		static AppSettings()
 		{
+
+#if DEBUG
+			debugBuild = true;
+#endif
+
 			DateFormats.Add(new DateFormat("year", "yyyy", "Year"));
 			DateFormats.Add(new DateFormat("month", "MM", "Month number"));
 			DateFormats.Add(new DateFormat("short_month", "MMM", "Short month name"));
@@ -39,6 +43,14 @@ namespace PhotoMover
 		#endregion
 
 		#region Properies
+
+		private static string SettingsFileName
+		{
+			get
+			{
+				return debugBuild ? DEBUG_SETTINGS_FILE_NAME : SETTINGS_FILE_NAME;
+			}
+		}
 
 		public static string Id
 		{
@@ -101,7 +113,7 @@ namespace PhotoMover
 
 		internal static void ReadSettingsFromDisk()
 		{
-			string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SETTINGS_FILE_NAME);
+			string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SettingsFileName);
 			DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
 
 			if (File.Exists(settingsPath))
@@ -139,7 +151,7 @@ namespace PhotoMover
 					Directory.CreateDirectory(settingsPath);
 				}
 
-				using (var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SETTINGS_FILE_NAME), xmlWriterSettings))
+				using (var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SettingsFileName), xmlWriterSettings))
 				{
 					xmlSerializer.WriteObject(xmlWriter, Settings);
 				}
