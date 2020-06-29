@@ -13,7 +13,11 @@ namespace PhotoMover
 		#region Members
 
 		private const string SETTINGS_DIRECTORY = "PhotoMover2";
+#if DEBUG
+		private const string SETTINGS_FILE_NAME = "DebugSettings.xml";
+#else
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
+#endif
 
 		public const string HOMEPAGE = @"https://github.com/jonashertzman/PhotoMover2";
 
