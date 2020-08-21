@@ -1,4 +1,4 @@
-PhotoMover2
+Photo Mover 2
 ===========
 
 Organizes photos by exif data
