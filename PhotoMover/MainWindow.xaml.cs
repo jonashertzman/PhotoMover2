@@ -307,9 +307,7 @@ namespace PhotoMover
 
 		private void CommandOpenDestinationFolder_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			FileItem selectedItem = DataGridImportFiles.SelectedItem as FileItem;
-
-			e.CanExecute = selectedItem != null && Directory.Exists(Path.GetDirectoryName(selectedItem.DestinationPath));
+			e.CanExecute = DataGridImportFiles.SelectedItem is FileItem selectedItem && Directory.Exists(Path.GetDirectoryName(selectedItem.DestinationPath));
 		}
 
 		private void CommandOpenDestinationFolder_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)

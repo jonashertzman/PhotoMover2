@@ -41,8 +41,8 @@ namespace PhotoMover
 
 		private TreeViewItem CreateTreeItem(object source)
 		{
-			TreeViewItem item = new TreeViewItem();
-			item.Tag = source;
+			TreeViewItem item = new TreeViewItem { Tag = source };
+
 			switch (source)
 			{
 				case DriveInfo drive:
