@@ -1,5 +1,4 @@
-﻿using MetadataExtractor;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace PhotoMover
 {

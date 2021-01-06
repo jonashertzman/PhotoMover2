@@ -7,9 +7,6 @@ using System.Windows.Input;
 
 namespace PhotoMover
 {
-	/// <summary>
-	/// Interaction logic for BrowseFolderWindow.xaml
-	/// </summary>
 	public partial class BrowseFolderWindow : Window
 	{
 

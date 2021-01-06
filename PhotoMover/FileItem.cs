@@ -1,12 +1,12 @@
-﻿using MetadataExtractor;
-using MetadataExtractor.Formats.Exif;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using MetadataExtractor;
+using MetadataExtractor.Formats.Exif;
 
 namespace PhotoMover
 {
@@ -141,12 +141,11 @@ namespace PhotoMover
 
 			using (MD5 md5 = MD5.Create())
 			{
-				using (FileStream stream = File.OpenRead(SourcePath))
+				using FileStream stream = File.OpenRead(SourcePath);
+
+				foreach (byte b in md5.ComputeHash(stream))
 				{
-					foreach (byte b in md5.ComputeHash(stream))
-					{
-						s.Append(b.ToString("x2"));
-					}
+					s.Append(b.ToString("x2"));
 				}
 			}
 

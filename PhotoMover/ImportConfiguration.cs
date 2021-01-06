@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 
@@ -68,7 +67,7 @@ namespace PhotoMover
 		{
 			try
 			{
-				new DirectoryInfo(GetDestinationFolder(DateTime.Now));
+				_ = new DirectoryInfo(GetDestinationFolder(DateTime.Now));
 			}
 			catch
 			{
