@@ -20,7 +20,7 @@
 				<Label Content="Build Number:  " Style="{StaticResource  CondencedTextLabel}" Margin="5,5,0,5" Padding="2,2,0,2" />
 				<Label Content="{Binding BuildNumber, FallbackValue='12345'}" Style="{StaticResource  CondencedTextLabel}" Margin="0,5,5,5" Padding="0,2,2,2" />
 				<Label Name="NewVersionLabel" Style="{StaticResource CondencedTextLabel}" Visibility="{Binding NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
-					<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff/blob/master/README.md">New Version Available</Hyperlink>
+					<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/PhotoMover2/blob/master/README.md">New Version Available</Hyperlink>
 				</Label>
 			</StackPanel>
 			<Label Content="Author:  Jonas Hertzman" Style="{StaticResource  CondencedTextLabel}" />
@@ -31,7 +31,7 @@
 				feel free to
 				<Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="x">send feedback</Hyperlink>,
 				have a look at the
-				<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff">source code</Hyperlink>,
+				<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/PhotoMover2">source code</Hyperlink>,
 				<LineBreak />
 				support me on
 				<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://www.patreon.com/jonashertzman">Patreon</Hyperlink> 

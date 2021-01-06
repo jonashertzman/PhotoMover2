@@ -16,8 +16,6 @@ namespace PhotoMover
 		private const string DEBUG_SETTINGS_FILE_NAME = "DebugSettings.xml";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
 
-		public const string HOMEPAGE = @"https://github.com/jonashertzman/PhotoMover2";
-
 		private static SettingsData Settings = new SettingsData();
 
 		private static readonly bool debugBuild = false;
