@@ -7,6 +7,7 @@ using System.Windows.Data;
 
 namespace PhotoMover
 {
+
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class InverseBooleanConverter : IValueConverter
 	{
@@ -67,4 +68,5 @@ namespace PhotoMover
 			throw new NotSupportedException("Cannot convert back");
 		}
 	}
+
 }
