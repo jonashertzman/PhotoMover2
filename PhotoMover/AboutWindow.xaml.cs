@@ -14,7 +14,7 @@ namespace PhotoMover
 
 		private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
-			Process.Start(new ProcessStartInfo(AppSettings.HOMEPAGE));
+			Process.Start(new ProcessStartInfo(e.Uri.ToString()) { UseShellExecute = true });
 			e.Handled = true;
 		}
 
@@ -24,7 +24,8 @@ namespace PhotoMover
 
 			string mailto = Uri.EscapeUriString($"mailto:jonashertzmansoftware@gmail.com?Subject={viewModel.FullApplicationName}&Body=Hello");
 
-			Process.Start(new ProcessStartInfo(mailto));
+			Process.Start(new ProcessStartInfo(mailto) { UseShellExecute = true });
+
 			e.Handled = true;
 		}
 
