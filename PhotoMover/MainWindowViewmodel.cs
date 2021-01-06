@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Security.Principal;
 using System.Text;
 
@@ -36,14 +36,9 @@ namespace PhotoMover
 		{
 			get
 			{
-				DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
+				DateTime buildDate = new FileInfo(Process.GetCurrentProcess().MainModule.FileName).LastWriteTime;
 				return $"{buildDate:yy}{buildDate.DayOfYear:D3}";
 			}
-		}
-
-		public string FullApplicationName
-		{
-			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
 		}
 
 		bool newBuildAvailable = false;
@@ -62,6 +57,16 @@ namespace PhotoMover
 
 				return wp.IsInRole(WindowsBuiltInRole.Administrator);
 			}
+		}
+
+		public string ApplicationName
+		{
+			get { return $"{Title} {Version}"; }
+		}
+
+		public string FullApplicationName
+		{
+			get { return $"{Title} {Version} (Build {BuildNumber})"; }
 		}
 
 		private bool shellExtentionsInstalled;
