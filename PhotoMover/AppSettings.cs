@@ -118,16 +118,15 @@ namespace PhotoMover
 
 			if (File.Exists(settingsPath))
 			{
-				using (var xmlReader = XmlReader.Create(settingsPath))
+				using var xmlReader = XmlReader.Create(settingsPath);
+
+				try
 				{
-					try
-					{
-						Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
-					}
-					catch (Exception e)
-					{
-						MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
+					Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 
@@ -151,10 +150,9 @@ namespace PhotoMover
 					Directory.CreateDirectory(settingsPath);
 				}
 
-				using (var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SettingsFileName), xmlWriterSettings))
-				{
-					xmlSerializer.WriteObject(xmlWriter, Settings);
-				}
+				using var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SettingsFileName), xmlWriterSettings);
+
+				xmlSerializer.WriteObject(xmlWriter, Settings);
 			}
 			catch (Exception e)
 			{
