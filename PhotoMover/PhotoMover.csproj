@@ -1,15 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <RootNamespace>PhotoMover</RootNamespace>
-    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<RootNamespace>PhotoMover</RootNamespace>
+		<ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MetadataExtractor" Version="2.4.3" />
-  </ItemGroup>
+	<Target Name="PostPublish" AfterTargets="Publish">
+		<Exec Command="&quot;C:\Program Files\7-Zip\7z&quot; a ..\docs\download\$(TargetName).zip .\bin\Publish\PhotoMover.exe ..\LICENSE" />
+		<Exec Command="..\UpdateVersion\bin\Release\net5.0\UpdateVersion" />
+	</Target>
+
+	<ItemGroup>
+		<PackageReference Include="MetadataExtractor" Version="2.4.3" />
+	</ItemGroup>
 
 </Project>
