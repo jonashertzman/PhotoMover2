@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -9,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
+using Microsoft.Win32;
 
 namespace PhotoMover
 {
@@ -20,7 +20,7 @@ namespace PhotoMover
 		MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
 
 		readonly string regPath = @"Folder\shell\photomover";
-		readonly string shellexecutePath = $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"";
+		readonly string shellexecutePath = $"\"{new FileInfo(Process.GetCurrentProcess().MainModule.FileName)}\" \"%1\"";
 
 		#endregion
 
