@@ -77,7 +77,7 @@ namespace PhotoMover
 			}
 			else
 			{
-				Process.Start(Path.GetDirectoryName(sourcePath));
+				Process.Start("Explorer.exe", Path.GetDirectoryName(sourcePath));
 			}
 		}
 
