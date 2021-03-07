@@ -6,6 +6,7 @@
 		<UseWPF>true</UseWPF>
 		<RootNamespace>PhotoMover</RootNamespace>
 		<ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 
 	<Target Name="PostPublish" AfterTargets="Publish">
