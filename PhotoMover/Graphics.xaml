@@ -108,7 +108,11 @@
 				</Rectangle>
 				<Ellipse Canvas.Left="5" Canvas.Top="1" Width="2" Height="2">
 					<Ellipse.Fill>
-						<SolidColorBrush Color="#FFFAFDBE" />
+						<RadialGradientBrush>
+							<GradientStop Color="#FFFAFDBE" Offset="0" />
+							<GradientStop Color="#FFFAFDBE" Offset="0.7" />
+							<GradientStop Color="#FFFFFA00" Offset="1" />
+						</RadialGradientBrush>
 					</Ellipse.Fill>
 				</Ellipse>
 				<Path StrokeThickness="0">
