@@ -106,7 +106,7 @@ namespace PhotoMover
 
 		#region Events
 
-		public void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
+		private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
 		{
 			Mouse.OverrideCursor = Cursors.Wait;
 

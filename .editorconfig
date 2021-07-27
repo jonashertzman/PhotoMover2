@@ -14,3 +14,6 @@ csharp_style_expression_bodied_accessors = false
 
 # IDE0066: Convert switch statement to expression
 csharp_style_prefer_switch_expression = false
+
+# IDE0058: Expression value is never used
+dotnet_diagnostic.IDE0058.severity = none
