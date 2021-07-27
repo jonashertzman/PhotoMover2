@@ -11,7 +11,7 @@ namespace PhotoMover
 	[ValueConversion(typeof(bool), typeof(bool))]
 	public class InverseBooleanConverter : IValueConverter
 	{
-		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (targetType != typeof(bool))
 				throw new InvalidOperationException("The target must be a boolean");
@@ -19,7 +19,7 @@ namespace PhotoMover
 			return !(bool)value;
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			throw new NotSupportedException();
 		}
@@ -27,15 +27,15 @@ namespace PhotoMover
 
 	public class InverseBooleanToVisibilityConverter : IValueConverter
 	{
-		private BooleanToVisibilityConverter _converter = new BooleanToVisibilityConverter();
+		private readonly BooleanToVisibilityConverter _converter = new();
 
-		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			var result = _converter.Convert(value, targetType, parameter, culture) as Visibility?;
 			return result == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			var result = _converter.ConvertBack(value, targetType, parameter, culture) as bool?;
 			return result != true;
