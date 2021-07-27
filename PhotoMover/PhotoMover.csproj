@@ -9,8 +9,7 @@
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 
-	<Target Name="PostPublish" AfterTargets="Publish">
-		<Exec Command="&quot;C:\Program Files\7-Zip\7z&quot; a ..\docs\download\$(TargetName).zip .\bin\Publish\PhotoMover.exe ..\LICENSE" />
+	<Target Name="PostPublish" AfterTargets="Publish">		
 		<Exec Command="..\UpdateVersion\bin\Release\net5.0\UpdateVersion" />
 	</Target>
 
