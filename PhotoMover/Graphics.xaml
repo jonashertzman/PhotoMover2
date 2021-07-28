@@ -2,7 +2,7 @@
 
 	<DataTemplate x:Key="ApplicationIcon">
 		<Viewbox>
-			<Canvas Width="16" Height="16">
+			<Canvas Width="160" Height="160">
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
@@ -13,11 +13,11 @@
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
-								<PathFigure StartPoint="2,9" IsClosed="True">
+								<PathFigure StartPoint="20,90" IsClosed="True">
 									<PathFigure.Segments>
-										<LineSegment Point="13,9" />
-										<LineSegment Point="13,16" />
-										<LineSegment Point="2,16" />
+										<LineSegment Point="130,90" />
+										<LineSegment Point="130,160" />
+										<LineSegment Point="20,160" />
 									</PathFigure.Segments>
 								</PathFigure>
 							</PathGeometry.Figures>
@@ -34,12 +34,12 @@
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
-								<PathFigure StartPoint="2,8.5" IsClosed="True">
+								<PathFigure StartPoint="20,85" IsClosed="True">
 									<PathFigure.Segments>
-										<LineSegment Point="5,8.5" />
-										<LineSegment Point="6,9" />
-										<LineSegment Point="5,10" />
-										<LineSegment Point="2,10" />
+										<LineSegment Point="50,85" />
+										<LineSegment Point="60,90" />
+										<LineSegment Point="50,100" />
+										<LineSegment Point="20,100" />
 									</PathFigure.Segments>
 								</PathFigure>
 							</PathGeometry.Figures>
@@ -57,14 +57,14 @@
 						<GeometryGroup>
 							<PathGeometry>
 								<PathGeometry.Figures>
-									<PathFigure StartPoint="7,3" IsClosed="True">
+									<PathFigure StartPoint="70,30" IsClosed="True">
 										<PathFigure.Segments>
-											<LineSegment Point="9,3" />
-											<LineSegment Point="9,12" />
-											<LineSegment Point="11,12" />
-											<LineSegment Point="8,15" />
-											<LineSegment Point="5,12" />
-											<LineSegment Point="7,12" />
+											<LineSegment Point="90,30" />
+											<LineSegment Point="90,120" />
+											<LineSegment Point="110,120" />
+											<LineSegment Point="80,150" />
+											<LineSegment Point="50,120" />
+											<LineSegment Point="70,120" />
 										</PathFigure.Segments>
 									</PathFigure>
 								</PathGeometry.Figures>
@@ -72,33 +72,7 @@
 						</GeometryGroup>
 					</Path.Data>
 				</Path>
-				<Path StrokeThickness="0">
-					<Path.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
-							<GradientStop Color="#FF4F4F4F" Offset="0" />
-							<GradientStop Color="#FF252525" Offset="1" />
-						</LinearGradientBrush>
-					</Path.Fill>
-					<Path.Data>
-						<GeometryGroup>
-							<PathGeometry>
-								<PathGeometry.Figures>
-									<PathFigure StartPoint="7,3" IsClosed="True">
-										<PathFigure.Segments>
-											<LineSegment Point="9,3" />
-											<LineSegment Point="9,12" />
-											<LineSegment Point="11,12" />
-											<LineSegment Point="8,15" />
-											<LineSegment Point="5,12" />
-											<LineSegment Point="7,12" />
-										</PathFigure.Segments>
-									</PathFigure>
-								</PathGeometry.Figures>
-							</PathGeometry>
-						</GeometryGroup>
-					</Path.Data>
-				</Path>
-				<Rectangle Canvas.Left="4" Canvas.Top="0" Width="8" Height="6">
+				<Rectangle Canvas.Left="40" Canvas.Top="0" Width="80" Height="60">
 					<Rectangle.Fill>
 						<LinearGradientBrush EndPoint=".8,1" StartPoint=".2,0">
 							<GradientStop Color="#FFB4E3FF" Offset="0" />
@@ -106,7 +80,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Ellipse Canvas.Left="5" Canvas.Top="1" Width="2" Height="2">
+				<Ellipse Canvas.Left="50" Canvas.Top="10" Width="20" Height="20">
 					<Ellipse.Fill>
 						<RadialGradientBrush>
 							<GradientStop Color="#FFFAFDBE" Offset="0" />
@@ -126,11 +100,11 @@
 						<GeometryGroup>
 							<PathGeometry>
 								<PathGeometry.Figures>
-									<PathFigure StartPoint="6,6" IsClosed="True">
+									<PathFigure StartPoint="60,60" IsClosed="True">
 										<PathFigure.Segments>
-											<LineSegment Point="10,2" />
-											<LineSegment Point="12,5" />
-											<LineSegment Point="12,6" />
+											<LineSegment Point="100,20" />
+											<LineSegment Point="120,50" />
+											<LineSegment Point="120,60" />
 										</PathFigure.Segments>
 									</PathFigure>
 								</PathGeometry.Figures>
@@ -149,10 +123,10 @@
 						<GeometryGroup>
 							<PathGeometry>
 								<PathGeometry.Figures>
-									<PathFigure StartPoint="4,6" IsClosed="True">
+									<PathFigure StartPoint="40,60" IsClosed="True">
 										<PathFigure.Segments>
-											<LineSegment Point="7,3" />
-											<LineSegment Point="9,6" />
+											<LineSegment Point="70,30" />
+											<LineSegment Point="90,60" />
 										</PathFigure.Segments>
 									</PathFigure>
 								</PathGeometry.Figures>
