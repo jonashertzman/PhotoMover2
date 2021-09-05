@@ -7,7 +7,9 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Media;
 using Microsoft.Win32;
 
 namespace PhotoMover
@@ -21,6 +23,9 @@ namespace PhotoMover
 
 		readonly string regPath = @"Folder\shell\photomover";
 		readonly string shellexecutePath = $"\"{new FileInfo(Process.GetCurrentProcess().MainModule.FileName)}\" \"%1\"";
+
+		// Keep a reference to the import files datagrids scroll viewer so it can be scrolled even if the GUI is frozen
+		ScrollViewer importFilesScrollViewer;
 
 		#endregion
 
@@ -123,6 +128,25 @@ namespace PhotoMover
 			}
 		}
 
+		private ScrollViewer GetScrollViewer(UIElement element)
+		{
+			if (element == null) return null;
+
+			ScrollViewer retour = null;
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element) && retour == null; i++)
+			{
+				if (VisualTreeHelper.GetChild(element, i) is ScrollViewer)
+				{
+					retour = (ScrollViewer)VisualTreeHelper.GetChild(element, i);
+				}
+				else
+				{
+					retour = GetScrollViewer(VisualTreeHelper.GetChild(element, i) as UIElement);
+				}
+			}
+			return retour;
+		}
+
 		#endregion
 
 		#region Events
@@ -141,6 +165,8 @@ namespace PhotoMover
 			{
 				ViewModel.ImportPath = Environment.GetCommandLineArgs()[1];
 			}
+
+			importFilesScrollViewer = GetScrollViewer(DataGridImportFiles);
 		}
 
 		private void Window_Closed(object sender, System.EventArgs e)
@@ -278,6 +304,13 @@ namespace PhotoMover
 		{
 			Process.Start(new ProcessStartInfo(e.Uri.ToString()) { UseShellExecute = true });
 			e.Handled = true;
+		}
+
+		private void WaitPanel_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+		{
+			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
+
+			importFilesScrollViewer.ScrollToVerticalOffset(importFilesScrollViewer.VerticalOffset - lines);
 		}
 
 		#region Commands

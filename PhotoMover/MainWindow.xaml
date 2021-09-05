@@ -132,7 +132,7 @@
 		</Grid>
 
 		<!--Progress Panel-->
-		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue='Hidden'}" Cursor="Wait">
+		<Grid x:Name="WaitPanel" Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue='Hidden'}" Cursor="Wait" MouseWheel="WaitPanel_MouseWheel">
 			<!-- Workaround to not fuckup the cleartype rendering -->
 			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Border.Effect>
