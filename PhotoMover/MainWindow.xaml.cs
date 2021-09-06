@@ -249,6 +249,7 @@ namespace PhotoMover
 		{
 			ViewModel.GuiFrozen = false;
 			ProgressLabel.Content = "";
+			ButtonFindFiles.Focus();
 		}
 
 		private void ButtonCopy_Click(object sender, RoutedEventArgs e)
