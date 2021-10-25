@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
-namespace PhotoMover
+namespace PhotoMover;
+
+public partial class App : Application
 {
-	public partial class App : Application
-	{
-	}
 }
