@@ -1,13 +1,10 @@
-﻿global using System;
-global using System.Collections.Generic;
-global using System.Diagnostics;
+﻿global using System.Diagnostics;
 
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
