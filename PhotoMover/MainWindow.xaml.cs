@@ -235,7 +235,7 @@ public partial class MainWindow : Window
 	private void FindFilesStatusUpdate(Tuple<float, string, List<FileItem>> progress)
 	{
 		ProgressBarWork.Value = progress.Item1 * 100;
-		ProgressLabel.Content = progress.Item2;
+		ProgressLabel.Text = progress.Item2;
 
 		for (int i = ViewModel.ImportFiles.Count; i < progress.Item3.Count; i++)
 		{
@@ -246,7 +246,7 @@ public partial class MainWindow : Window
 	private void TaskDone(Task task)
 	{
 		ViewModel.GuiFrozen = false;
-		ProgressLabel.Content = "";
+		ProgressLabel.Text = "";
 		ButtonFindFiles.Focus();
 	}
 
@@ -279,7 +279,7 @@ public partial class MainWindow : Window
 	private void CopyFilesStatusUpdate(Tuple<float, string> progress)
 	{
 		ProgressBarWork.Value = progress.Item1 * 100;
-		ProgressLabel.Content = progress.Item2;
+		ProgressLabel.Text = progress.Item2;
 	}
 
 	private void AddShellExtention_Checked(object sender, RoutedEventArgs e)

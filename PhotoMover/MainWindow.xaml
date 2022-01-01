@@ -141,7 +141,7 @@
 			</Border>
 			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
 				<StackPanel Margin="5">
-					<Label Name="ProgressLabel" Content="Working..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
+					<TextBlock Name="ProgressLabel" HorizontalAlignment="Center" Style="{StaticResource CommonTextblock}" />
 					<StackPanel Orientation="Horizontal">
 						<ProgressBar x:Name="ProgressBarWork" Value="40" Width="300" Margin="5" BorderBrush="{x:Static SystemColors.ControlDarkBrush}" />
 						<Button x:Name="ButtonCancelWork" Content="Cancel" Command="local:Commands.CancelWork" Style="{StaticResource CommonButton}" HorizontalAlignment="Right" />
