@@ -1,4 +1,21 @@
-﻿<Window x:Class="PhotoMover.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:PhotoMover" mc:Ignorable="d" Title="{Binding Title, FallbackValue='Photo Mover'}" Height="450" Width="800" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
+﻿<Window
+	x:Class="PhotoMover.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:PhotoMover"
+	Title="{Binding Title, FallbackValue='Photo Mover'}"
+	Width="800"
+	Height="450"
+	TextOptions.TextFormattingMode="Display"
+	UseLayoutRounding="True"
+	ResizeMode="CanResizeWithGrip"
+	Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+	Closed="Window_Closed"
+	ContentRendered="Window_ContentRendered"
+	Initialized="Window_Initialized"
+	mc:Ignorable="d">
 
 	<Window.Resources>
 
@@ -33,14 +50,14 @@
 				<RowDefinition Height="auto" />
 			</Grid.RowDefinitions>
 
-			<!--Menu-->
-			<Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+			<!--  Menu  -->
+			<Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
 				<Grid x:Name="GridMenu">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<Menu Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
+					<Menu Margin="2" VerticalAlignment="Center" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
 						<MenuItem Header="File">
 							<MenuItem Name="AddShellExtensionsMenuItem" Header="Exit" Command="local:Commands.Exit" />
 						</MenuItem>
@@ -62,7 +79,7 @@
 				</Grid>
 			</Border>
 
-			<!--Input-->
+			<!--  Input  -->
 			<Grid Name="GridMainContent" Grid.Row="1" Margin="5">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="auto" />
@@ -74,34 +91,34 @@
 				</Grid.ColumnDefinitions>
 
 				<Label Grid.Row="0" Grid.Column="0" Content="Import Folder:" Style="{StaticResource CommonTextLabel}" />
-				<Border Grid.Column="1" Margin="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True">
+				<Border Grid.Column="1" Margin="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" AllowDrop="True">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox Grid.Column="0" Text="{Binding ImportPath}" Padding="2" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-						<Button Grid.Column="1" Name="ButtonBrowseImportFolder" Content="..." Width="20" BorderThickness="0" Click="ButtonBrowseImportFolder_Click" />
+						<TextBox Grid.Column="0" Padding="2" Text="{Binding ImportPath}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+						<Button Name="ButtonBrowseImportFolder" Grid.Column="1" Width="20" Content="..." BorderThickness="0" Click="ButtonBrowseImportFolder_Click" />
 					</Grid>
 				</Border>
 
 				<Label Grid.Row="1" Grid.Column="0" Content="Import Configuration:" Style="{StaticResource CommonTextLabel}" />
-				<Border Grid.Column="1" Grid.Row="1" Margin="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True">
+				<Border Grid.Row="1" Grid.Column="1" Margin="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" AllowDrop="True">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox Grid.Column="0" Text="{Binding ImportConfigurationsLabel, Mode=OneWay}" Padding="2" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" IsEnabled="False" />
-						<Button Grid.Column="1" Name="ButtonEditConfiguration" Content="..." Width="20" BorderThickness="0" Click="ButtonEditConfiguration_Click" />
+						<TextBox Grid.Column="0" Padding="2" Text="{Binding ImportConfigurationsLabel, Mode=OneWay}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" IsEnabled="False" />
+						<Button Name="ButtonEditConfiguration" Grid.Column="1" Width="20" Content="..." BorderThickness="0" Click="ButtonEditConfiguration_Click" />
 					</Grid>
 				</Border>
 
 			</Grid>
 
-			<!--Result-->
+			<!--  Result  -->
 			<Grid Grid.Row="2" Margin="5">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
@@ -131,20 +148,20 @@
 
 		</Grid>
 
-		<!--Progress Panel-->
+		<!--  Progress Panel  -->
 		<Grid x:Name="WaitPanel" Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue='Hidden'}" Cursor="Wait" MouseWheel="WaitPanel_MouseWheel">
-			<!-- Workaround to not fuckup the cleartype rendering -->
-			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+			<!--  Workaround to not fuckup the cleartype rendering  -->
+			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
 				<Border.Effect>
 					<DropShadowEffect BlurRadius="25" ShadowDepth="0" Opacity=".35" />
 				</Border.Effect>
 			</Border>
-			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
+			<Border x:Name="ProgressPanel" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" Cursor="Arrow">
 				<StackPanel Margin="5">
 					<TextBlock Name="ProgressLabel" HorizontalAlignment="Center" Style="{StaticResource CommonTextblock}" />
 					<StackPanel Orientation="Horizontal">
-						<ProgressBar x:Name="ProgressBarWork" Value="40" Width="300" Margin="5" BorderBrush="{x:Static SystemColors.ControlDarkBrush}" />
-						<Button x:Name="ButtonCancelWork" Content="Cancel" Command="local:Commands.CancelWork" Style="{StaticResource CommonButton}" HorizontalAlignment="Right" />
+						<ProgressBar x:Name="ProgressBarWork" Width="300" Margin="5" BorderBrush="{x:Static SystemColors.ControlDarkBrush}" Value="40" />
+						<Button x:Name="ButtonCancelWork" HorizontalAlignment="Right" Content="Cancel" Command="local:Commands.CancelWork" Style="{StaticResource CommonButton}" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
