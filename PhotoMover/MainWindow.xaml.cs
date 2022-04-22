@@ -4,7 +4,7 @@ using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
@@ -84,48 +84,28 @@ public partial class MainWindow : Window
 		}
 	}
 
-	private void CheckForUpdate(bool forceUpdateCheck = false)
+	private async void CheckForNewVersion(bool forced = false)
 	{
-		if (AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forceUpdateCheck)
+		if (AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
 		{
-			Task.Run(() =>
+			try
 			{
-				try
-				{
-					Debug.Print("Checking for new version...");
+				Debug.Print("Checking for new version...");
 
-					WebClient webClient = new WebClient();
-					string result = webClient.DownloadString("https://jonashertzman.github.io/PhotoMover2/download/version.txt");
+				HttpClient httpClient = new();
+				string result = await httpClient.GetStringAsync("https://jonashertzman.github.io/PhotoMover2/download/version.txt");
 
-					Debug.Print($"Latest version found: {result}");
-
-					return result;
-				}
-				catch (Exception exception)
-				{
-					Debug.Print($"Version check failed: {exception.Message}");
-				}
-
-				return null;
-
-			}).ContinueWith(ProcessUpdate, TaskScheduler.FromCurrentSynchronizationContext());
+				Debug.Print($"Latest version found: {result}");
+				ViewModel.NewBuildAvailable = int.Parse(result) > int.Parse(ViewModel.BuildNumber);
+			}
+			catch (Exception exception)
+			{
+				Debug.Print($"Version check failed: {exception.Message}");
+			}
 
 			AppSettings.LastUpdateTime = DateTime.Now;
 		}
 	}
-
-	private void ProcessUpdate(Task<string> task)
-	{
-		if (task.Result != null)
-		{
-			try
-			{
-				ViewModel.NewBuildAvailable = int.Parse(task.Result) > int.Parse(ViewModel.BuildNumber);
-			}
-			catch (Exception) { }
-		}
-	}
-
 	private ScrollViewer GetScrollViewer(UIElement element)
 	{
 		if (element == null) return null;
@@ -154,7 +134,7 @@ public partial class MainWindow : Window
 		FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
 		LoadSettings();
-		CheckForUpdate();
+		CheckForNewVersion();
 	}
 
 	private void Window_ContentRendered(object sender, System.EventArgs e)
@@ -321,7 +301,7 @@ public partial class MainWindow : Window
 
 	private void CommandAbout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 	{
-		CheckForUpdate(true);
+		CheckForNewVersion(true);
 
 		AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
 		aboutWindow.ShowDialog();
