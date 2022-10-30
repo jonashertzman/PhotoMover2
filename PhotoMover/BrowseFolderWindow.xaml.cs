@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using MetadataExtractor;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -53,7 +54,8 @@ public partial class BrowseFolderWindow : Window
 		switch (source)
 		{
 			case DriveInfo drive:
-				item.Header = drive.Name.TrimEnd('\\');
+				string label = drive.IsReady ? $"{drive.VolumeLabel} " : "";
+				item.Header = $"{label}({drive.Name.TrimEnd('\\')})";
 				item.Items.Add("Loading...");
 				break;
 
@@ -79,7 +81,9 @@ public partial class BrowseFolderWindow : Window
 		{
 			foreach (TreeViewItem item in parent)
 			{
-				if (((string)item.Header).Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
+				string subpath = item.Tag is DriveInfo ? ((DriveInfo)item.Tag).Name.TrimEnd('\\') : (string)item.Header;
+
+				if (subpath.Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
 				{
 					item.IsExpanded = true;
 
