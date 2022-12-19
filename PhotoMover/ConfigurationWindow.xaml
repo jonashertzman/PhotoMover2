@@ -80,6 +80,7 @@
 						<Grid.RowDefinitions>
 							<RowDefinition />
 							<RowDefinition />
+							<RowDefinition />
 						</Grid.RowDefinitions>
 
 						<Label Grid.Row="0" Grid.ColumnSpan="2" Content="Supported date formats" Style="{StaticResource CommonTextLabel}" FontWeight="Bold" />
@@ -103,6 +104,13 @@
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
 						</ItemsControl>
+
+						<StackPanel Grid.Row="2">
+							<TextBlock Text="Examples:" />
+							<TextBlock Text="*.jpg -&gt; c:\photos" />
+							<TextBlock Text="*.jpg -&gt; c:\photos\&lt;year&gt;\&lt;month&gt;\&lt;day&gt;" />
+
+						</StackPanel>
 
 					</Grid>
 				</Border>

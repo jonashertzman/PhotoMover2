@@ -49,6 +49,10 @@ internal class WinApi
 	public const int GWL_STYLE = -16;
 	public const int WS_MAXIMIZEBOX = 0x10000;
 	public const int WS_MINIMIZEBOX = 0x20000;
+	public const uint ATTACH_PARENT_PROCESS = 0x0ffffffff;
+
+	[DllImport("kernel32.dll")]
+	public static extern bool AttachConsole(uint dwProcessId);
 
 	[DllImport("kernel32", CharSet = CharSet.Unicode)]
 	public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
