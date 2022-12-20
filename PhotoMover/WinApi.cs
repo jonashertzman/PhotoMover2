@@ -54,6 +54,9 @@ internal class WinApi
 	[DllImport("kernel32.dll")]
 	public static extern bool AttachConsole(uint dwProcessId);
 
+	[DllImport("kernel32.dll")]
+	public static extern bool FreeConsole();
+
 	[DllImport("kernel32", CharSet = CharSet.Unicode)]
 	public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
 
