@@ -1,11 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33209.295
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoMover", "PhotoMover\PhotoMover.csproj", "{AF005991-E836-435F-9B12-A8D6D3E91945}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8487F641-D118-407C-9D4B-318B84D2F277} = {8487F641-D118-407C-9D4B-318B84D2F277}
+		{C9246AA3-1024-4187-BB68-056F699E715A} = {C9246AA3-1024-4187-BB68-056F699E715A}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5BB6893E-E1A8-41DF-92A7-C3CC0B64DD94}"
@@ -14,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpdateVersion", "UpdateVersion\UpdateVersion.csproj", "{8487F641-D118-407C-9D4B-318B84D2F277}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoMoverConsole", "PhotoMoverConsole\PhotoMoverConsole.csproj", "{C9246AA3-1024-4187-BB68-056F699E715A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +32,10 @@ Global
 		{8487F641-D118-407C-9D4B-318B84D2F277}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8487F641-D118-407C-9D4B-318B84D2F277}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8487F641-D118-407C-9D4B-318B84D2F277}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9246AA3-1024-4187-BB68-056F699E715A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9246AA3-1024-4187-BB68-056F699E715A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9246AA3-1024-4187-BB68-056F699E715A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9246AA3-1024-4187-BB68-056F699E715A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
