@@ -15,14 +15,6 @@
 	</Target>
 
 	<ItemGroup>
-	  <ApplicationDefinition Remove="App.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Include="App.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="MetadataExtractor" Version="2.4.3" />
 	</ItemGroup>
 
