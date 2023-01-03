@@ -12,15 +12,19 @@ public partial class App : Application
 
 		if (namedArgs.ContainsKey("--no_gui"))
 		{
-			if (WinApi.AttachConsole(WinApi.ATTACH_PARENT_PROCESS))
+			if (!WinApi.AttachConsole(WinApi.ATTACH_PARENT_PROCESS))
 			{
-				Console.WriteLine(WinApi.GetConsoleWindow() != 0);
-				Console.WriteLine("funkar");
-				Console.WriteLine("funkar");
-				Console.WriteLine("funkar");
-
-				WinApi.FreeConsole();
+				// If the application is started from a shortcut, AttachConsole has no console to attach,
+				// We must create the a new console window to see the output.
+				WinApi.AllocConsole();
 			}
+			for (int i = 0; i < 10; i++)
+			{
+				Console.WriteLine(i);
+				Thread.Sleep(400);
+			}
+			WinApi.FreeConsole();
+
 			Environment.Exit(0);
 		}
 		else
@@ -29,6 +33,7 @@ public partial class App : Application
 		}
 
 	}
+
 	private static Dictionary<string, string> ParseArgs(string[] args)
 	{
 		Dictionary<string, string> namedArgs = new();

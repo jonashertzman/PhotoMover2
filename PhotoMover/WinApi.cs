@@ -55,6 +55,9 @@ internal class WinApi
 	public static extern bool AttachConsole(uint dwProcessId);
 
 	[DllImport("kernel32.dll")]
+	public static extern bool AllocConsole();
+
+	[DllImport("kernel32.dll")]
 	public static extern IntPtr GetConsoleWindow();
 
 	[DllImport("kernel32.dll")]
