@@ -23,7 +23,7 @@ public static class BackgroundAnalyzeImport
 
 	#region Methods
 
-	public static void FindFiles(string importPath)
+	public static List<FileItem> FindFiles(string importPath)
 	{
 		abortPosted = false;
 		int fileCount = 0;
@@ -39,7 +39,7 @@ public static class BackgroundAnalyzeImport
 
 		foreach (FileItem importFile in GetFilesInDirectory(importPath, out int itemCount))
 		{
-			if (abortPosted) return;
+			if (abortPosted) return importResults;
 
 			//Thread.Sleep(300);
 
@@ -71,6 +71,8 @@ public static class BackgroundAnalyzeImport
 		}
 
 		ReportProgress(1, $"Analyzing import... {fileCount} files found...", true);
+
+		return importResults;
 	}
 
 	private static void FixNameConflict(FileItem importFile)
@@ -238,7 +240,7 @@ public static class BackgroundAnalyzeImport
 	{
 		if (foreceUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 50)
 		{
-			progressHandler.Report(new Tuple<float, string, List<FileItem>>(progress, status, importResults));
+			progressHandler?.Report(new Tuple<float, string, List<FileItem>>(progress, status, importResults));
 
 			lastStatusUpdateTime = DateTime.UtcNow;
 		}

@@ -3,37 +3,48 @@ using System.Windows;
 
 namespace PhotoMover;
 
+static class Flags
+{
+	public static readonly string Help = "--help";
+	public static readonly string ShortHelp = "-h";
+	public static readonly string Console = "--console";
+	public static readonly string ShortConsole = "-c";
+	public static readonly string Delete = "--delete";
+	public static readonly string ShortDelete = "-d";
+}
+
 public partial class App : Application
 {
 
 	protected override void OnStartup(StartupEventArgs e)
 	{
-		bool showHelp = new[] { "/?", "-h", "--help" }.Contains(e.Args[0]);
+		bool showHelp = e.Args.Length > 0 && new[] { Flags.Help, Flags.ShortHelp }.Contains(e.Args[0]);
 		Dictionary<string, string> namedArgs = ParseArgs(e.Args);
 
-		if (namedArgs.ContainsKey("--no_gui") || namedArgs.ContainsKey("-h") || namedArgs.ContainsKey("--help"))
+		// If command line arguments require console mode, we open a console window instead of the default GUI.
+		if (namedArgs.ContainsKey(Flags.Help) || namedArgs.ContainsKey(Flags.ShortHelp) || namedArgs.ContainsKey(Flags.Console) || namedArgs.ContainsKey(Flags.ShortConsole))
 		{
 			bool consoleAllocated = false;
 
 			if (!WinApi.AttachConsole(WinApi.ATTACH_PARENT_PROCESS))
 			{
 				// If the application is started from a shortcut or we are debugging the application in Visual Studio,
-				// AttachConsole has no console to attach to and we must create the a new console window to see the output.
+				// AttachConsole will fail and we must create the a new console window to see the output.
 				consoleAllocated = WinApi.AllocConsole();
 			}
 
 			if (e.Args.Length > 0)
 			{
-				if (new[] { "-h", "--help" }.All(key => namedArgs.ContainsKey(key)))
+				if (new[] { Flags.Help, Flags.ShortHelp }.Any(key => namedArgs.ContainsKey(key)))
 				{
 					PrintUsage();
 				}
-
 				else
 				{
 					if (Path.Exists(e.Args[0]))
 					{
-						Import(e.Args[0]);
+						bool deleteSourceFiles = namedArgs.ContainsKey(Flags.Delete) || namedArgs.ContainsKey(Flags.ShortDelete);
+						Import(e.Args[0], deleteSourceFiles);
 					}
 					else
 					{
@@ -41,12 +52,6 @@ public partial class App : Application
 					}
 				}
 			}
-
-			//for (int i = 0; i < 10; i++)
-			//{
-			//	Console.WriteLine(i);
-			//	Thread.Sleep(400);
-			//}
 
 			if (consoleAllocated)
 			{
@@ -59,9 +64,9 @@ public partial class App : Application
 		}
 		else
 		{
+			// Open default GUI
 			base.OnStartup(e);
 		}
-
 	}
 
 	private Dictionary<string, string> ParseArgs(string[] args)
@@ -94,25 +99,65 @@ public partial class App : Application
 		return namedArgs;
 	}
 
-	private void Import(string importFolder)
+	private void Import(string importFolder, bool deleteSourceFiles)
 	{
-		Console.WriteLine($"Importing from {importFolder} ...");
+		AppSettings.ReadSettingsFromDisk();
+
+		Console.WriteLine($"Importing from {importFolder}");
+
+		List<FileItem> files = BackgroundAnalyzeImport.FindFiles(importFolder);
+
+		Console.WriteLine($"{files.Count} files found");
+
+		foreach (FileItem file in files)
+		{
+			if (file.Selected)
+			{
+				Console.WriteLine($"{(deleteSourceFiles ? "Moving" : "Copying")} {file.SourcePath} to {file.DestinationPath}");
+				try
+				{
+					if (!Directory.Exists(Path.GetDirectoryName(file.DestinationPath)))
+					{
+						Directory.CreateDirectory(Path.GetDirectoryName(file.DestinationPath));
+					}
+					if (deleteSourceFiles)
+					{
+						File.Move(file.SourcePath, file.DestinationPath);
+					}
+					else
+					{
+						File.Copy(file.SourcePath, file.DestinationPath);
+					}
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine($"Import failed: {e.Message}");
+				}
+			}
+			else
+			{
+				Console.WriteLine($"Ignoring {file.SourcePath} - {file.Status}");
+			}
+		}
+
 	}
 
 	private void PrintUsage()
 	{
-		string usage =
-$$"""
-Usage:
+		Console.WriteLine(
+			$$"""
+			Usage:
 
-{{Path.GetFileName(Environment.ProcessPath)}} [import-folder] [--no_gui] [-h | --help]
+			{{Path.GetFileName(Environment.ProcessPath)}} [IMPORT_DIRECTORY] [OPTIONS]
 
-import-folder  Folder to import from.
---no_gui       Run the import in the console.
--h --help      Shows this message.
-""";
+			IMPORT_DIRECTORY  Folder to import from.
 
-		Console.WriteLine(usage);
+			OPTIONS
+			-c --console      Run the application in the console.
+			-d --delete       Delete source files from the import direcory after import is complete.
+			-h --help         Shows this message.
+			"""
+		);
 	}
 
 }
