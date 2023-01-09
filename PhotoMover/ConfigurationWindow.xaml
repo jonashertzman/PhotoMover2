@@ -71,46 +71,56 @@
 				<!--  Workaround to not fuckup the cleartype rendering  -->
 				<Border BorderThickness="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 					<Border.Effect>
-						<DropShadowEffect BlurRadius="25" ShadowDepth="0" Opacity=".35" />
+						<DropShadowEffect BlurRadius="35" ShadowDepth="0" Opacity=".35" />
 					</Border.Effect>
 				</Border>
 				<Border BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-					<Grid>
+					<Grid Margin="5">
 
 						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-						<Label Grid.Row="0" Grid.ColumnSpan="2" Content="Supported date formats" Style="{StaticResource CommonTextLabel}" FontWeight="Bold" />
 
-						<ItemsControl Grid.Row="1" ItemsSource="{Binding DateFormats}" Grid.IsSharedSizeScope="True">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnOne" />
-											<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnTwo" />
-											<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnThree" />
-											<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnFour" />
-										</Grid.ColumnDefinitions>
+						<GroupBox Grid.Row="0" Margin="5" Padding="5" Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+							<GroupBox.Header>
+								<TextBlock Text="Supported date formats" FontWeight="Bold" />
+							</GroupBox.Header>
 
-										<TextBlock Grid.Column="0" Text="{Binding PlaceHolder}" Style="{StaticResource CommonTextblock}" />
-										<TextBlock Grid.Column="1" Text="{Binding Description}" Style="{StaticResource CommonTextblock}" />
-										<TextBlock Grid.Column="2" Text="{Binding Example}" Style="{StaticResource CommonTextblock}" />
-										<Button Grid.Column="3" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Margin="5" VerticalAlignment="Center" ToolTip="Append" Content="&#x2386;" BorderThickness="0" Click="ButtonAppendPlaceholder_Click" />
-									</Grid>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
+							<ItemsControl Grid.Row="1" ItemsSource="{Binding DateFormats}" Grid.IsSharedSizeScope="True">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnOne" />
+												<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnTwo" />
+												<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnThree" />
+												<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnFour" />
+											</Grid.ColumnDefinitions>
 
-						<StackPanel Grid.Row="2">
-							<TextBlock Text="Examples:" />
-							<TextBlock Text="*.jpg -&gt; c:\photos" />
-							<TextBlock Text="*.jpg -&gt; c:\photos\&lt;year&gt;\&lt;month&gt;\&lt;day&gt;" />
+											<TextBlock Grid.Column="0" Text="{Binding PlaceHolder}" Style="{StaticResource CommonTextblock}" />
+											<TextBlock Grid.Column="1" Text="{Binding Description}" Style="{StaticResource CommonTextblock}" />
+											<TextBlock Grid.Column="2" Text="{Binding Example}" Style="{StaticResource CommonTextblock}" />
+											<Button Grid.Column="3" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Margin="5" VerticalAlignment="Center" ToolTip="Append" BorderThickness="0" Click="ButtonAppendPlaceholder_Click">
+												<ContentPresenter Width="16" Height="16" ContentTemplate="{StaticResource InsertIcon}" />
+											</Button>
+										</Grid>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</GroupBox>
 
-						</StackPanel>
+						<GroupBox Grid.Row="1" Margin="5" Padding="5" Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+							<GroupBox.Header>
+								<TextBlock Text="Examples" FontWeight="Bold" />
+							</GroupBox.Header>
+							<StackPanel>
+								<TextBlock Text="*.jpg -&gt; c:\photos" Style="{StaticResource CommonTextblock}" />
+								<TextBlock Text="*.jpg -&gt; c:\photos\&lt;year&gt;\&lt;month&gt;\&lt;day&gt;" Style="{StaticResource CommonTextblock}" />
+
+							</StackPanel>
+						</GroupBox>
 
 					</Grid>
 				</Border>
