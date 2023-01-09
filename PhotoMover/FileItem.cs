@@ -26,7 +26,7 @@ public class FileItem : INotifyPropertyChanged
 
 	public override string ToString()
 	{
-		return $"{SourcePath} -> {DestinationPath}";
+		return Description;
 	}
 
 	#endregion
@@ -52,6 +52,11 @@ public class FileItem : INotifyPropertyChanged
 	{
 		get { return destinationPath; }
 		set { destinationPath = value; OnPropertyChanged(nameof(DestinationPath)); }
+	}
+
+	public string Description
+	{
+		get { return $"{SourcePath} -> {DestinationPath}"; }
 	}
 
 	string status;

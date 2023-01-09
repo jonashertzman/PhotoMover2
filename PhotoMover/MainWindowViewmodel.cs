@@ -112,7 +112,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 				{
 					s.Append("  |  ");
 				}
-				s.Append($"{c.Files} -> {c.DestinationFormat}");
+				s.Append(c.Description);
 			}
 
 			return s.ToString();

@@ -3,26 +3,16 @@ using System.Windows;
 
 namespace PhotoMover;
 
-static class Flags
-{
-	public static readonly string Help = "--help";
-	public static readonly string ShortHelp = "-h";
-	public static readonly string Console = "--console";
-	public static readonly string ShortConsole = "-c";
-	public static readonly string Delete = "--delete";
-	public static readonly string ShortDelete = "-d";
-}
 
 public partial class App : Application
 {
 
 	protected override void OnStartup(StartupEventArgs e)
 	{
-		bool showHelp = e.Args.Length > 0 && new[] { Flags.Help, Flags.ShortHelp }.Contains(e.Args[0]);
-		Dictionary<string, string> namedArgs = ParseArgs(e.Args);
+		CommandLineOptions commandLineOptions = new(e.Args);
 
 		// If command line arguments require console mode, we open a console window instead of the default GUI.
-		if (namedArgs.ContainsKey(Flags.Help) || namedArgs.ContainsKey(Flags.ShortHelp) || namedArgs.ContainsKey(Flags.Console) || namedArgs.ContainsKey(Flags.ShortConsole))
+		if (commandLineOptions.ShowHelp || commandLineOptions.RunInConsole)
 		{
 			bool consoleAllocated = false;
 
@@ -33,24 +23,13 @@ public partial class App : Application
 				consoleAllocated = WinApi.AllocConsole();
 			}
 
-			if (e.Args.Length > 0)
+			if (commandLineOptions.ShowHelp)
 			{
-				if (new[] { Flags.Help, Flags.ShortHelp }.Any(key => namedArgs.ContainsKey(key)))
-				{
-					PrintUsage();
-				}
-				else
-				{
-					if (Path.Exists(e.Args[0]))
-					{
-						bool deleteSourceFiles = namedArgs.ContainsKey(Flags.Delete) || namedArgs.ContainsKey(Flags.ShortDelete);
-						Import(e.Args[0], deleteSourceFiles);
-					}
-					else
-					{
-						Console.WriteLine($"Import folder {e.Args[0]} does not exist.");
-					}
-				}
+				PrintUsage();
+			}
+			else
+			{
+				Import(commandLineOptions);
 			}
 
 			if (consoleAllocated)
@@ -69,63 +48,51 @@ public partial class App : Application
 		}
 	}
 
-	private Dictionary<string, string> ParseArgs(string[] args)
-	{
-		Dictionary<string, string> namedArgs = new();
-
-		for (int i = 0; i < args.Length; i++)
-		{
-			string key = args[i];
-			string value = "";
-			if (key.StartsWith("--"))
-			{
-				if (args.Length > i + 1 && !args[i + 1].StartsWith("-"))
-				{
-					value = args[i + 1];
-					i++;
-				}
-				namedArgs.Add(key.ToLower(), value);
-			}
-			else if (key.StartsWith("-"))
-			{
-				foreach (char c in key[1..])
-				{
-					namedArgs.Add($"-{c}", "");
-				}
-
-			}
-		}
-
-		return namedArgs;
-	}
-
-	private void Import(string importFolder, bool deleteSourceFiles)
+	private void Import(CommandLineOptions options)
 	{
 		AppSettings.ReadSettingsFromDisk();
 
-		Console.WriteLine($"Importing from {importFolder}");
+		if (AppSettings.ImportConfigurations.Count == 0)
+		{
+			Console.WriteLine("No import configuration found, run the application in window mode to configure import.");
+			return;
+		}
 
-		List<FileItem> files = BackgroundAnalyzeImport.FindFiles(importFolder);
+		if (!Path.Exists(options.ImportPath))
+		{
+			Console.WriteLine($"Import folder {options.ImportPath} does not exist.");
+			return;
+		}
 
+		Console.WriteLine($"Importing from {options.ImportPath}");
+		foreach (var config in AppSettings.ImportConfigurations)
+		{
+			Console.WriteLine($"  {config.Description}");
+		}
+		Console.WriteLine();
+
+		List<FileItem> files = BackgroundAnalyzeImport.FindFiles(options.ImportPath);
 		Console.WriteLine($"{files.Count} files found");
 
 		foreach (FileItem file in files)
 		{
 			if (file.Selected)
 			{
-				Console.WriteLine($"{(deleteSourceFiles ? "Moving" : "Copying")} {file.SourcePath} to {file.DestinationPath}");
 				try
 				{
 					if (!Directory.Exists(Path.GetDirectoryName(file.DestinationPath)))
 					{
 						Directory.CreateDirectory(Path.GetDirectoryName(file.DestinationPath));
 					}
-					if (deleteSourceFiles)
+
+					if (options.DeleteSourceFiles)
 					{
+						Console.WriteLine($"Moving {file.Description}");
 						File.Move(file.SourcePath, file.DestinationPath);
 					}
 					else
 					{
+						Console.WriteLine($"Copying {file.Description}");
 						File.Copy(file.SourcePath, file.DestinationPath);
 					}
 				}
@@ -139,22 +106,22 @@ public partial class App : Application
 				Console.WriteLine($"Ignoring {file.SourcePath} - {file.Status}");
 			}
 		}
-
 	}
 
 	private void PrintUsage()
 	{
 		Console.WriteLine(
-			$$"""
+			$"""
+
 			Usage:
 
-			{{Path.GetFileName(Environment.ProcessPath)}} [IMPORT_DIRECTORY] [OPTIONS]
+			{Path.GetFileName(Environment.ProcessPath)} [IMPORT_DIRECTORY] [OPTIONS]
 
 			IMPORT_DIRECTORY  Folder to import from.
 
 			OPTIONS
 			-c --console      Run the application in the console.
-			-d --delete       Delete source files from the import direcory after import is complete.
+			-d --delete       Delete source files from the import direcory when importing.
 			-h --help         Shows this message.
 			"""
 		);

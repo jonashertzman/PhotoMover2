@@ -31,6 +31,11 @@ public class ImportConfiguration : INotifyPropertyChanged
 		set { destinationFormat = value; OnPropertyChanged(nameof(DestinationFormat)); OnPropertyChanged(nameof(Valid)); }
 	}
 
+	public string Description
+	{
+		get { return $"{Files} -> {DestinationFormat}"; }
+	}
+
 	public bool Valid
 	{
 		get
