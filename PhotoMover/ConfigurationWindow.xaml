@@ -64,6 +64,7 @@
 			<Button x:Name="ButtonOk" Content="OK" Style="{StaticResource CommonButton}" IsDefault="True" Click="ButtonOk_Click" />
 			<Button Content="Cancel" Style="{StaticResource CommonButton}" IsCancel="True" />
 			<Button x:Name="ButtonHelp" Content="Help" Style="{StaticResource CommonButton}" Click="ButtonHelp_Click" />
+			<!--<ContentPresenter Width="16" Height="16" ContentTemplate="{StaticResource InsertIcon}" />-->
 		</StackPanel>
 
 		<Popup Name="HelpPopup" Placement="Center" StaysOpen="False" AllowsTransparency="True">
@@ -102,7 +103,7 @@
 											<TextBlock Grid.Column="0" Text="{Binding PlaceHolder}" Style="{StaticResource CommonTextblock}" />
 											<TextBlock Grid.Column="1" Text="{Binding Description}" Style="{StaticResource CommonTextblock}" />
 											<TextBlock Grid.Column="2" Text="{Binding Example}" Style="{StaticResource CommonTextblock}" />
-											<Button Grid.Column="3" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Margin="5" VerticalAlignment="Center" ToolTip="Append" BorderThickness="0" Click="ButtonAppendPlaceholder_Click">
+											<Button Grid.Column="3" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Margin="5" VerticalAlignment="Center" ToolTip="Append" Background="Transparent" BorderThickness="0" Click="ButtonAppendPlaceholder_Click">
 												<ContentPresenter Width="16" Height="16" ContentTemplate="{StaticResource InsertIcon}" />
 											</Button>
 										</Grid>

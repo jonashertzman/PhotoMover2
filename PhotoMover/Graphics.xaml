@@ -406,8 +406,44 @@
 
 	<DataTemplate x:Key="InsertIcon">
 		<Viewbox>
-			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="0" Canvas.Top="0" Width="160" Height="160" Fill="#FF0078BF" />
+			<Canvas Width="16" Height="16" Background="White">
+				<Path Stroke="Black" StrokeThickness="1.3">
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure IsClosed="False" StartPoint="9,3">
+									<PathFigure.Segments>
+										<LineSegment Point="1,3" IsSmoothJoin="True" />
+										<LineSegment Point="1,15" IsSmoothJoin="True" />
+										<LineSegment Point="13,15" IsSmoothJoin="True" />
+										<LineSegment Point="13,6" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+				<Path StrokeThickness="1.3" Stroke="Black">
+					<Path.Data>
+						<GeometryGroup FillRule="Nonzero">
+							<LineGeometry StartPoint="15,1" EndPoint="6,10" />
+						</GeometryGroup>
+					</Path.Data>
+				</Path>
+				<Path Fill="Black">
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure IsClosed="True" StartPoint="6,5">
+									<PathFigure.Segments>
+										<LineSegment Point="4,12" />
+										<LineSegment Point="11,10" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
