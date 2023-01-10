@@ -64,6 +64,7 @@
 			<Button x:Name="ButtonOk" Content="OK" Style="{StaticResource CommonButton}" IsDefault="True" Click="ButtonOk_Click" />
 			<Button Content="Cancel" Style="{StaticResource CommonButton}" IsCancel="True" />
 			<Button x:Name="ButtonHelp" Content="Help" Style="{StaticResource CommonButton}" Click="ButtonHelp_Click" />
+			<!--<ContentPresenter Width="16" Height="16" ContentTemplate="{StaticResource InsertIcon}" />-->
 		</StackPanel>
 
 		<Popup Name="HelpPopup" Placement="Center" StaysOpen="False" AllowsTransparency="True">
@@ -71,38 +72,122 @@
 				<!--  Workaround to not fuckup the cleartype rendering  -->
 				<Border BorderThickness="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 					<Border.Effect>
-						<DropShadowEffect BlurRadius="25" ShadowDepth="0" Opacity=".35" />
+						<DropShadowEffect BlurRadius="35" ShadowDepth="0" Opacity=".35" />
 					</Border.Effect>
 				</Border>
 				<Border BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-					<Grid>
+					<Grid Margin="5">
 
 						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-						<Label Grid.Row="0" Grid.ColumnSpan="2" Content="Supported date formats" Style="{StaticResource CommonTextLabel}" FontWeight="Bold" />
+						<GroupBox Grid.Row="0" Margin="5" Padding="5" Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+							<GroupBox.Header>
+								<TextBlock Text="Supported date formats" FontWeight="Bold" />
+							</GroupBox.Header>
 
-						<ItemsControl Grid.Row="1" ItemsSource="{Binding DateFormats}" Grid.IsSharedSizeScope="True">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnOne" />
-											<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnTwo" />
-											<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnThree" />
-											<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnFour" />
-										</Grid.ColumnDefinitions>
+							<ItemsControl Grid.Row="1" ItemsSource="{Binding DateFormats}" Grid.IsSharedSizeScope="True">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnOne" />
+												<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnTwo" />
+												<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnThree" />
+												<ColumnDefinition Width="Auto" SharedSizeGroup="ColumnFour" />
+											</Grid.ColumnDefinitions>
 
-										<TextBlock Grid.Column="0" Text="{Binding PlaceHolder}" Style="{StaticResource CommonTextblock}" />
-										<TextBlock Grid.Column="1" Text="{Binding Description}" Style="{StaticResource CommonTextblock}" />
-										<TextBlock Grid.Column="2" Text="{Binding Example}" Style="{StaticResource CommonTextblock}" />
-										<Button Grid.Column="3" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Margin="5" VerticalAlignment="Center" ToolTip="Append" Content="&#x2386;" BorderThickness="0" Click="ButtonAppendPlaceholder_Click" />
-									</Grid>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
+											<TextBlock Grid.Column="0" Text="{Binding PlaceHolder}" Style="{StaticResource CommonTextblock}" />
+											<TextBlock Grid.Column="1" Text="{Binding Description}" Style="{StaticResource CommonTextblock}" />
+											<TextBlock Grid.Column="2" Text="{Binding Example}" Style="{StaticResource CommonTextblock}" />
+											<Button Grid.Column="3" Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}" Margin="5" VerticalAlignment="Center" ToolTip="Append" Background="Transparent" BorderThickness="0" Click="ButtonAppendPlaceholder_Click">
+												<ContentPresenter Width="16" Height="16" ContentTemplate="{StaticResource InsertIcon}" />
+											</Button>
+										</Grid>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</GroupBox>
+
+						<GroupBox Grid.Row="1" Margin="5" Padding="5" Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+							<GroupBox.Header>
+								<TextBlock Text="Destination Examples" FontWeight="Bold" />
+							</GroupBox.Header>
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="auto" />
+									<RowDefinition Height="auto" />
+									<RowDefinition Height="auto" />
+									<RowDefinition Height="auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="auto" />
+								</Grid.ColumnDefinitions>
+
+								<TextBlock Grid.Row="0" Grid.Column="0" Text="*.jpg -&gt; C:\Photos" Style="{StaticResource CommonTextblock}" />
+								<TreeView Grid.Row="1" Grid.Column="0" Margin="10,5,10,10" IsEnabled="False" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+									<TreeViewItem Header="C:" IsExpanded="True">
+										<TreeViewItem Header="Photos" IsExpanded="True">
+											<TreeViewItem Header="1.jpg" />
+											<TreeViewItem Header="2.jpg" />
+										</TreeViewItem>
+									</TreeViewItem>
+								</TreeView>
+
+
+								<TextBlock Grid.Row="0" Grid.Column="1" Text="*.jpg -&gt; C:\Photos\&lt;year&gt;-&lt;month&gt;-&lt;day&gt;" Style="{StaticResource CommonTextblock}" />
+								<TreeView Grid.Row="1" Grid.Column="1" Margin="6,5,10,10" BorderThickness="1" IsEnabled="False" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+									<TreeViewItem Header="C:" IsExpanded="True">
+										<TreeViewItem Header="Photos" IsExpanded="True">
+											<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.Yesterday}, Mode=OneWay}" IsExpanded="True">
+												<TreeViewItem Header="1.jpg" />
+											</TreeViewItem>
+											<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.Today}, Mode=OneWay}" IsExpanded="True">
+												<TreeViewItem Header="2.jpg" />
+											</TreeViewItem>
+										</TreeViewItem>
+									</TreeViewItem>
+								</TreeView>
+
+
+								<TextBlock Grid.Row="2" Grid.Column="1" Text="*.jpg -&gt; C:\Photos\&lt;year&gt;\&lt;month&gt;\&lt;day&gt;" Style="{StaticResource CommonTextblock}" />
+								<TreeView Grid.Row="3" Grid.Column="1" Margin="10,5,10,10" IsEnabled="False" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+									<TreeViewItem Header="C:" IsExpanded="True">
+										<TreeViewItem Header="Photos" IsExpanded="True">
+											<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.YearToday}, Mode=OneWay}" IsExpanded="True">
+												<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.MonthToday}, Mode=OneWay}" IsExpanded="True">
+													<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.DayYesterday}, Mode=OneWay}" IsExpanded="True">
+														<TreeViewItem Header="1.jpg" />
+													</TreeViewItem>
+													<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.DayToday}, Mode=OneWay}" IsExpanded="True">
+														<TreeViewItem Header="2.jpg" />
+													</TreeViewItem>
+												</TreeViewItem>
+											</TreeViewItem>
+										</TreeViewItem>
+									</TreeViewItem>
+								</TreeView>
+
+
+								<TextBlock Grid.Row="2" Grid.Column="0" Text="*.jpg -&gt; C:\Photos\&lt;long_month&gt; &lt;year&gt;" Style="{StaticResource CommonTextblock}" />
+								<TreeView Grid.Row="3" Grid.Column="0" Margin="10,5,10,10" IsEnabled="False" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+									<TreeViewItem Header="C:" IsExpanded="True">
+										<TreeViewItem Header="Photos" IsExpanded="True">
+											<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.PreviousMonthYear}, Mode=OneWay}" IsExpanded="True">
+												<TreeViewItem Header="1.jpg" />
+											</TreeViewItem>
+											<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.MonthYear}, Mode=OneWay}" IsExpanded="True">
+												<TreeViewItem Header="2.jpg" />
+											</TreeViewItem>
+										</TreeViewItem>
+									</TreeViewItem>
+								</TreeView>
+
+							</Grid>
+						</GroupBox>
 
 					</Grid>
 				</Border>
