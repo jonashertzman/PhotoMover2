@@ -72,7 +72,7 @@ public partial class App : Application
 		Console.WriteLine();
 
 		List<FileItem> files = BackgroundAnalyzeImport.FindFiles(options.ImportPath);
-		Console.WriteLine($"{files.Count} files found");
+		Console.WriteLine($"{files.Count} files found in import directory");
 
 		foreach (FileItem file in files)
 		{
@@ -121,7 +121,7 @@ public partial class App : Application
 
 			OPTIONS
 			-c --console      Run the application in the console.
-			-d --delete       Delete source files from the import direcory when importing.
+			-d --delete       Delete source files from the import directory when importing.
 			-h --help         Shows this message.
 			"""
 		);
