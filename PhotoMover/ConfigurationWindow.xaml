@@ -83,7 +83,6 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
-
 						<GroupBox Grid.Row="0" Margin="5" Padding="5" Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
 							<GroupBox.Header>
 								<TextBlock Text="Supported date formats" FontWeight="Bold" />
@@ -116,11 +115,61 @@
 							<GroupBox.Header>
 								<TextBlock Text="Examples" FontWeight="Bold" />
 							</GroupBox.Header>
-							<StackPanel>
-								<TextBlock Text="*.jpg -&gt; c:\photos" Style="{StaticResource CommonTextblock}" />
-								<TextBlock Text="*.jpg -&gt; c:\photos\&lt;year&gt;\&lt;month&gt;\&lt;day&gt;" Style="{StaticResource CommonTextblock}" />
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="auto" />
+									<RowDefinition Height="auto" />
+									<RowDefinition Height="auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="auto" />
+								</Grid.ColumnDefinitions>
 
-							</StackPanel>
+								<TextBlock Grid.Row="0" Text="*.jpg -&gt; C:\Photos" Style="{StaticResource CommonTextblock}" />
+								<TextBlock Grid.Column="1" Text="*.jpg -&gt; C:\Photos\&lt;year&gt;\&lt;month&gt;\&lt;day&gt;" Style="{StaticResource CommonTextblock}" />
+								<TextBlock Grid.Column="2" Text="*.jpg -&gt; C:\Photos\&lt;year&gt;-&lt;month&gt;-&lt;day&gt;" Style="{StaticResource CommonTextblock}" />
+
+								<TreeView Grid.Row="1" Margin="5" IsEnabled="False" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+									<TreeViewItem Header="C:" IsExpanded="True">
+										<TreeViewItem Header="Photos" IsExpanded="True">
+											<TreeViewItem Header="1.jpg" />
+											<TreeViewItem Header="2.jpg" />
+										</TreeViewItem>
+									</TreeViewItem>
+								</TreeView>
+
+								<TreeView Grid.Row="1" Grid.Column="1" Margin="5" IsEnabled="False" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+									<TreeViewItem Header="C:" IsExpanded="True">
+										<TreeViewItem Header="Photos" IsExpanded="True">
+											<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.YearToday}, Mode=OneWay}" IsExpanded="True">
+												<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.MonthToday}, Mode=OneWay}" IsExpanded="True">
+													<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.DayYesterday}, Mode=OneWay}" IsExpanded="True">
+														<TreeViewItem Header="1.jpg" />
+													</TreeViewItem>
+													<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.DayToday}, Mode=OneWay}" IsExpanded="True">
+														<TreeViewItem Header="2.jpg" />
+													</TreeViewItem>
+												</TreeViewItem>
+											</TreeViewItem>
+										</TreeViewItem>
+									</TreeViewItem>
+								</TreeView>
+
+								<TreeView Grid.Row="1" Grid.Column="2" Margin="5" BorderThickness="1" IsEnabled="False" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+									<TreeViewItem Header="C:" IsExpanded="True">
+										<TreeViewItem Header="Photos" IsExpanded="True">
+											<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.Yesterday}, Mode=OneWay, StringFormat='{}yyyy-MM-dd'}" IsExpanded="True">
+												<TreeViewItem Header="1.jpg" />
+											</TreeViewItem>
+											<TreeViewItem Header="{Binding Source={x:Static local:DateTimeHelper.Today}, Mode=OneWay, StringFormat='yyyy-MM-dd'}" IsExpanded="True">
+												<TreeViewItem Header="2.jpg" />
+											</TreeViewItem>
+										</TreeViewItem>
+									</TreeViewItem>
+								</TreeView>
+							</Grid>
 						</GroupBox>
 
 					</Grid>
