@@ -21,3 +21,12 @@ Download latest version **[HERE](https://jonashertzman.github.io/PhotoMover2/dow
 
 ![screen](docs/images/Screen3.png)  
 *Running the application in command line mode.*
+
+### Command Line Options
+PhotoMover.exe [IMPORT_DIRECTORY] [OPTIONS]
+
+| Option       | Description                                                   |
+| :----------- | :------------------------------------------------------------ |
+| -c --console | Run the application in console mode.                          |
+| -d --delete  | Delete source files from the import directory when importing. |
+| -h --help    | Show help.                                                    |
