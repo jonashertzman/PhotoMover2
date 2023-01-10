@@ -77,4 +77,16 @@ public static class DateTimeHelper
 		get { return string.Format("{0:dd}", DateTime.Now); }
 	}
 
+
+	public static string MonthYear
+	{
+		get { return string.Format("{0:MMMM yyyy}", DateTime.Now); }
+	}
+
+	public static string PreviousMonthYear
+	{
+		get { return string.Format("{0:MMMM yyyy}", DateTime.Now.AddMonths(-1)); }
+	}
+
+
 }
