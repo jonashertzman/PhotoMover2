@@ -1,7 +1,7 @@
 Photo Mover 2
-===========
+=============
 
-Organizes photos by exif data
+Organizes photos by exif data.
 
 ### Download
 Download latest version **[HERE](https://jonashertzman.github.io/PhotoMover2/download/PhotoMover.zip)**
