@@ -35,7 +35,7 @@ public partial class MainWindow : Window
 
 		if (ViewModel.IsAdministrator)
 		{
-			ViewModel.ShellExtentionsInstalled = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellexecutePath;
+			ViewModel.ShellExtensionsInstalled = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellexecutePath;
 		}
 
 		AddShellExtention.Checked += AddShellExtention_Checked;

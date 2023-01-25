@@ -8,6 +8,7 @@
 	Title="{Binding Title, FallbackValue='Photo Mover'}"
 	Width="800"
 	Height="450"
+	d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
@@ -62,7 +63,7 @@
 							<MenuItem Name="AddShellExtensionsMenuItem" Header="Exit" Command="local:Commands.Exit" />
 						</MenuItem>
 						<MenuItem Header="Tools">
-							<MenuItem Name="AddShellExtention" Header="Add Shell Extention" IsEnabled="{Binding IsAdministrator}" IsCheckable="True" IsChecked="{Binding ShellExtentionsInstalled}" />
+							<MenuItem Name="AddShellExtention" Header="Add Shell Extention" IsEnabled="{Binding IsAdministrator}" IsCheckable="True" IsChecked="{Binding ShellExtensionsInstalled}" />
 						</MenuItem>
 						<MenuItem Header="Help">
 							<MenuItem Header="About" Command="local:Commands.About" />

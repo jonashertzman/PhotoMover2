@@ -67,11 +67,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		get { return $"{Title} {Version} (Build {BuildNumber})"; }
 	}
 
-	private bool shellExtentionsInstalled;
-	public bool ShellExtentionsInstalled
+	private bool shellExtensionsInstalled;
+	public bool ShellExtensionsInstalled
 	{
-		get { return shellExtentionsInstalled; }
-		set { shellExtentionsInstalled = value; OnPropertyChanged(nameof(ShellExtentionsInstalled)); }
+		get { return shellExtensionsInstalled; }
+		set { shellExtensionsInstalled = value; OnPropertyChanged(nameof(ShellExtensionsInstalled)); }
 	}
 
 	bool guiFrozen = false;
