@@ -60,9 +60,11 @@
 			</StackPanel>
 		</StackPanel>
 		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-			<StackPanel Margin="10">
-				<Button HorizontalAlignment="Right" Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" />
-			</StackPanel>
+			<Border BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}"> 
+				<StackPanel Margin="10">
+					<Button HorizontalAlignment="Right" Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" />
+				</StackPanel>
+			</Border>
 		</StackPanel>
 	</Grid>
 </Window>

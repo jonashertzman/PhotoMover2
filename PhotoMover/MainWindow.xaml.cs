@@ -18,9 +18,9 @@ public partial class MainWindow : Window
 	MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
 
 	readonly string regPath = @"Folder\shell\photomover";
-	readonly string shellexecutePath = $"\"{new FileInfo(Process.GetCurrentProcess().MainModule.FileName)}\" \"%1\"";
+	readonly string shellExecutePath = $"\"{new FileInfo(Process.GetCurrentProcess().MainModule.FileName)}\" \"%1\"";
 
-	// Keep a reference to the import files datagrids scroll viewer so it can be scrolled even if the GUI is frozen
+	// Keep a reference to the import files data grids scroll viewer so it can be scrolled even if the GUI is frozen
 	ScrollViewer importFilesScrollViewer;
 
 	#endregion
@@ -35,11 +35,11 @@ public partial class MainWindow : Window
 
 		if (ViewModel.IsAdministrator)
 		{
-			ViewModel.ShellExtensionsInstalled = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellexecutePath;
+			ViewModel.ShellExtensionsInstalled = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellExecutePath;
 		}
 
-		AddShellExtention.Checked += AddShellExtention_Checked;
-		AddShellExtention.Unchecked += AddShellExtention_Unchecked;
+		AddShellExtention.Checked += AddShellExtension_Checked;
+		AddShellExtention.Unchecked += AddShellExtension_Unchecked;
 	}
 
 	#endregion
@@ -260,7 +260,7 @@ public partial class MainWindow : Window
 		ProgressLabel.Text = progress.Item2;
 	}
 
-	private void AddShellExtention_Checked(object sender, RoutedEventArgs e)
+	private void AddShellExtension_Checked(object sender, RoutedEventArgs e)
 	{
 		using (RegistryKey key = Registry.ClassesRoot.CreateSubKey(regPath))
 		{
@@ -268,11 +268,11 @@ public partial class MainWindow : Window
 		}
 		using (RegistryKey key = Registry.ClassesRoot.CreateSubKey(regPath + "\\command"))
 		{
-			key.SetValue(null, shellexecutePath);
+			key.SetValue(null, shellExecutePath);
 		}
 	}
 
-	private void AddShellExtention_Unchecked(object sender, RoutedEventArgs e)
+	private void AddShellExtension_Unchecked(object sender, RoutedEventArgs e)
 	{
 		Registry.ClassesRoot.DeleteSubKeyTree(regPath);
 	}

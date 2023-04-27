@@ -27,7 +27,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 	public string Version
 	{
-		get { return "2 - Beta 1"; }
+		get { return "2.0"; }
 	}
 
 	public string BuildNumber
