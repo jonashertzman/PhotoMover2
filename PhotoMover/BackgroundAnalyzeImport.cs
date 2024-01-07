@@ -13,11 +13,11 @@ public static class BackgroundAnalyzeImport
 	static bool abortPosted = false;
 	static DateTime lastStatusUpdateTime = DateTime.UtcNow;
 
-	static readonly List<FileItem> importResults = new List<FileItem>();
-	static readonly Dictionary<long, List<FileItem>> libraryFiles = new Dictionary<long, List<FileItem>>();
-	static readonly Dictionary<long, List<FileItem>> importedFiles = new Dictionary<long, List<FileItem>>();
+	static readonly List<FileItem> importResults = [];
+	static readonly Dictionary<long, List<FileItem>> libraryFiles = [];
+	static readonly Dictionary<long, List<FileItem>> importedFiles = [];
 
-	static readonly HashSet<string> importPaths = new HashSet<string>();
+	static readonly HashSet<string> importPaths = [];
 
 	#endregion
 
@@ -175,7 +175,7 @@ public static class BackgroundAnalyzeImport
 
 	private static List<FileItem> GetFilesInDirectory(string path, out int itemCount)
 	{
-		List<FileItem> items = new List<FileItem>();
+		List<FileItem> items = [];
 
 		SearchDirectory(path, items);
 		itemCount = items.Count;
@@ -220,7 +220,7 @@ public static class BackgroundAnalyzeImport
 	{
 		if (!collection.ContainsKey(newFile.Size))
 		{
-			collection.Add(newFile.Size, new List<FileItem>());
+			collection.Add(newFile.Size, []);
 		}
 		else
 		{
@@ -236,9 +236,9 @@ public static class BackgroundAnalyzeImport
 		collection[newFile.Size].Add(newFile);
 	}
 
-	private static void ReportProgress(float progress, string status, bool foreceUpdate = false)
+	private static void ReportProgress(float progress, string status, bool forceUpdate = false)
 	{
-		if (foreceUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 50)
+		if (forceUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 50)
 		{
 			progressHandler?.Report(new Tuple<float, string, List<FileItem>>(progress, status, importResults));
 

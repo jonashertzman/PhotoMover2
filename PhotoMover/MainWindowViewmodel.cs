@@ -119,7 +119,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		}
 	}
 
-	ObservableCollection<FileItem> importFiles = new ObservableCollection<FileItem>();
+	ObservableCollection<FileItem> importFiles = [];
 	public ObservableCollection<FileItem> ImportFiles
 	{
 		get { return importFiles; }

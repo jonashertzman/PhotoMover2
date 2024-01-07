@@ -60,7 +60,7 @@ public static class AppSettings
 		set { Settings.LastUpdateTime = value; }
 	}
 
-	public static ObservableCollection<DateFormat> DateFormats = new ObservableCollection<DateFormat>();
+	public static ObservableCollection<DateFormat> DateFormats = [];
 
 	public static ObservableCollection<ImportConfiguration> ImportConfigurations
 	{

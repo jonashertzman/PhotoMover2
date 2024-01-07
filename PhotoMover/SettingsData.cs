@@ -10,9 +10,9 @@ public class SettingsData
 
 	public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
 
-	public ObservableCollection<ImportConfiguration> ImportConfigurations { get; set; } = new ObservableCollection<ImportConfiguration>();
+	public ObservableCollection<ImportConfiguration> ImportConfigurations { get; set; } = [];
 
-	public ObservableCollection<LibraryRoot> LibraryRootDirectories { get; set; } = new ObservableCollection<LibraryRoot>();
+	public ObservableCollection<LibraryRoot> LibraryRootDirectories { get; set; } = [];
 
 	public double PositionLeft { get; set; }
 	public double PositionTop { get; set; }

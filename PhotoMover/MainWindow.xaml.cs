@@ -230,7 +230,7 @@ public partial class MainWindow : Window
 
 	private void ButtonCopy_Click(object sender, RoutedEventArgs e)
 	{
-		List<FileItem> filesToCopy = new List<FileItem>();
+		List<FileItem> filesToCopy = [];
 
 		foreach (FileItem f in ViewModel.ImportFiles)
 		{

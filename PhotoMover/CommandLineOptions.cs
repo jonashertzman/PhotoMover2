@@ -44,7 +44,7 @@ class CommandLineOptions
 
 	private Dictionary<string, string> ParseArgs(string[] args)
 	{
-		Dictionary<string, string> namedArgs = new();
+		Dictionary<string, string> namedArgs = [];
 
 		for (int i = 0; i < args.Length; i++)
 		{
@@ -52,14 +52,14 @@ class CommandLineOptions
 			string value = "";
 			if (key.StartsWith("--"))
 			{
-				if (args.Length > i + 1 && !args[i + 1].StartsWith("-"))
+				if (args.Length > i + 1 && !args[i + 1].StartsWith('-'))
 				{
 					value = args[i + 1];
 					i++;
 				}
 				namedArgs.Add(key.ToLower(), value);
 			}
-			else if (key.StartsWith("-"))
+			else if (key.StartsWith('-'))
 			{
 				foreach (char c in key[1..])
 				{
