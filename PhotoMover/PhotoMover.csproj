@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows7.0</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<RootNamespace>PhotoMover</RootNamespace>
 		<ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
@@ -11,7 +11,7 @@
 	</PropertyGroup>
 
 	<Target Name="PostPublish" AfterTargets="Publish">		
-		<Exec Command="..\UpdateVersion\bin\Release\net7.0\UpdateVersion" />
+		<Exec Command="..\UpdateVersion\bin\Release\net8.0\UpdateVersion" />
 	</Target>
 
 	<ItemGroup>
