@@ -40,6 +40,8 @@ public partial class MainWindow : Window
 
 		AddShellExtention.Checked += AddShellExtension_Checked;
 		AddShellExtention.Unchecked += AddShellExtension_Unchecked;
+
+		Log.OwnerWindow = this;
 	}
 
 	#endregion
@@ -104,6 +106,7 @@ public partial class MainWindow : Window
 			AppSettings.LastUpdateTime = DateTime.Now;
 		}
 	}
+
 	private ScrollViewer GetScrollViewer(UIElement element)
 	{
 		if (element == null) return null;

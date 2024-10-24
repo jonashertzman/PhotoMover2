@@ -11,13 +11,17 @@ public static class AppSettings
 
 	#region Members
 
-	private const string SETTINGS_DIRECTORY = "PhotoMover2";
-	private const string DEBUG_SETTINGS_FILE_NAME = "DebugSettings.xml";
+#if DEBUG
+	private const string SETTINGS_FILE_NAME = "DebugSettings.xml";
+#else
 	private const string SETTINGS_FILE_NAME = "Settings.xml";
+#endif
+
+	private static readonly string AppDataDirectory = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PhotoMover2");
+	public static readonly string SettingsPath = Path.Combine(AppDataDirectory, SETTINGS_FILE_NAME);
+	public static readonly string LogPath = Path.Combine(AppDataDirectory, "PhotoMover.log");
 
 	private static SettingsData Settings = new SettingsData();
-
-	private static readonly bool debugBuild = false;
 
 	#endregion
 
@@ -25,11 +29,6 @@ public static class AppSettings
 
 	static AppSettings()
 	{
-
-#if DEBUG
-		debugBuild = true;
-#endif
-
 		DateFormats.Add(new DateFormat("year", "yyyy", "Year"));
 		DateFormats.Add(new DateFormat("month", "MM", "Month number"));
 		DateFormats.Add(new DateFormat("short_month", "MMM", "Short month name"));
@@ -40,14 +39,6 @@ public static class AppSettings
 	#endregion
 
 	#region Properies
-
-	private static string SettingsFileName
-	{
-		get
-		{
-			return debugBuild ? DEBUG_SETTINGS_FILE_NAME : SETTINGS_FILE_NAME;
-		}
-	}
 
 	public static string Id
 	{
@@ -110,12 +101,11 @@ public static class AppSettings
 
 	internal static void ReadSettingsFromDisk()
 	{
-		string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SettingsFileName);
 		DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
 
-		if (File.Exists(settingsPath))
+		if (File.Exists(SettingsPath))
 		{
-			using var xmlReader = XmlReader.Create(settingsPath);
+			using var xmlReader = XmlReader.Create(SettingsPath);
 
 			try
 			{
@@ -127,27 +117,19 @@ public static class AppSettings
 			}
 		}
 
-		if (Settings == null)
-		{
-			Settings = new SettingsData();
-		}
+		Settings ??= new SettingsData();
 	}
 
 	internal static void WriteSettingsToDisk()
 	{
 		try
 		{
-			string settingsPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY);
-
 			DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
 			var xmlWriterSettings = new XmlWriterSettings { Indent = true, IndentChars = " " };
 
-			if (!Directory.Exists(settingsPath))
-			{
-				Directory.CreateDirectory(settingsPath);
-			}
+			Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath));
 
-			using var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SettingsFileName), xmlWriterSettings);
+			using var xmlWriter = XmlWriter.Create(SettingsPath, xmlWriterSettings);
 
 			xmlSerializer.WriteObject(xmlWriter, Settings);
 		}
